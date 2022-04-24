@@ -23,7 +23,7 @@ globals.basedir = __dirname;
 globals.views_dir = path.join(__dirname, "app", "views");
 globals.private_dir = path.join(__dirname, "private-files");
 const custom_env = require("./app/libs/application.enviroment");
-var env = new custom_env("staging").ENV();
+var env = new custom_env("production").ENV();
 globals.env = env;
 const logger = require("./app/libs/logger");
 

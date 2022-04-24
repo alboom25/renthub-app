@@ -5,7 +5,7 @@ const router = express.Router();
 const moment = require("moment");
 
 const users = require("../models/users").Users;
-const user = require("../models/users").User;
+const User = require("../models/users").User;
 const notifications = require("../models/users").Notifications;
 
 
@@ -107,7 +107,7 @@ router.post("/reset-password", function (req, res) {
                     res.errorEnd("Unable to reset password. Please try again later");
                 } else {
                     let user_code = await users.resetKeyEmail(req.body.reset_key);
-                    let nuser =  await new user(user_code);
+                    let nuser =  await new User(user_code);
                     nuser.password = hash;
                     nuser.password_reset_key = null;
                     let saved = await nuser.update();
@@ -132,7 +132,7 @@ router.post("/recover-password", async function (req, res) {
         let code = await users.emailOwner(req.body.useremail);
         if(code){
             var reset_key = uuid.v4();
-            let nuser = await new user(code);
+            let nuser = await new User(code);
             nuser.password_reset_key = reset_key;
             let u = await nuser.update();
             if(u){
@@ -145,7 +145,7 @@ router.post("/recover-password", async function (req, res) {
 router.post("/resend-confirmation", async function (req, res) {
     if (req.body.user) {
         var confirmation = uuid.v4();       
-        let nuser = await new user(req.body.user);
+        let nuser = await new User(req.body.user);
         nuser.email_confirmation_code = confirmation;
         let u = await nuser.update();
         if(u){
@@ -187,7 +187,7 @@ router.post("/register", function (req, res) {
                     referal_code: req.body.referal_code.toUpperCase(),
                 };
 
-                let nuser = await new user();
+                let nuser = await new User();
                 Object.assign(nuser, obj); 
 
                 let pass = await nuser.save();
@@ -212,8 +212,11 @@ router.post("/register", function (req, res) {
 
 router.post('/google-login', async function(req, res) {    
     let tk = parseJwt(req.body.token);
+    
     if(g_login_id == tk.aud){
-        let code = await users.emailOwner(tk.email);        
+        
+        let code = await users.emailOwner(tk.email);  
+           
         var device = helpers.browserName(req.headers['user-agent'])
         var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress||""; 
         ip = ip.replace("::ffff:",'');
@@ -225,8 +228,8 @@ router.post('/google-login', async function(req, res) {
         };
        
         if(code){
-            let user_object = await new user(code);    
-            login_info.user_code = user_object.user_code;    
+            let user_object = await new User(code);    
+            login_info.user_code = user_object.user_code;           
 
             if (!user_object.account_active) {
                 res.errorEnd("Sorry, your account is disabled. Please contact support for assistance");
@@ -260,7 +263,7 @@ router.post('/google-login', async function(req, res) {
                 password_set: 0
             };
 
-            let nuser = await new user();
+            let nuser = await new User();
             Object.assign(nuser, obj); 
 
             let pass = await nuser.save();
@@ -317,7 +320,7 @@ router.post("/login", async function (req, res) {
     } else {
         let user_code = await users.get_single(req.body.username);
         if(user_code){
-            let user_object = await new user(user_code);
+            let user_object = await new User(user_code);
             if (user_object.email_verified) {
                 bcrypt.compare(req.body.userpassword, user_object.password).then((is_match) => {
                     var device = helpers.browserName(req.headers['user-agent'])
