@@ -1,0 +1,986 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+	<div class="container-fluid">
+		<%- include('../shared/page-title') %>
+
+
+		<div class="d-flex flex-column-fluid">
+			<!--begin::Container-->
+			<div class="container">
+			   <%- include('../shared/property-common') %>
+               <div class="row">
+                <div class="col-12">
+                  <div class="panel">
+                    <div class="panel-header border-bottom p-2">
+                        <h4 class="card-title mt-2">Property Settings</h4>
+                    </div>
+                    <div class="panel-body">                       
+                        <div class="row">
+                            <div class='col-12'>                              
+                                <form id='frm_update_property' method='post' action='#'>
+                                    <div class="form-content">                                            
+                                        <h6 class='text-dark font-weight-bold'>a). Basics</h6>
+                                        <div class="form-group">
+                                           <label>Name/Title
+                                           <span class="text-danger">*</span></label>
+                                           <input name ='property_name' value='<%=property.property_name%>' type="text" class="form-control" placeholder="Enter Property Name/Title">                       
+                                        </div>
+                                        <div class="form-group">
+                                           <label for="property_description">Description 
+                                           <span class="text-danger">*</span></label>
+                                           <textarea name='property_description' class="form-control" id="property_description" rows="3" placeholder="Property Description"><%=property.property_description%></textarea>
+                                        </div>
+                                        <div class='row'>
+                                           <div class='col-lg-3 col-md-6 col-sm-12'>
+                                              <div class="form-group">
+                                                 <label for="property_type">Property Type
+                                                 <span class="text-danger">*</span></label>
+                                                 <select name='property_type' id='property_type' class="form-control custom-select"   tabindex="0">								  
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <div class='col-lg-3 col-md-6 col-sm-12'>
+                                              <div class="form-group">
+                                                 <label for="unit_types">Unit Types
+                                                 <span class="text-danger">*</span></label>
+                                                 <select name='unit_types' id='unit_types' class="form-control custom-select"  tabindex="0">								   
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <div class='col-lg-3 col-md-6 col-sm-12'>
+                                                <div class="form-group">
+                                                <label for="year_built">Year Built 
+                                                <span class="text-danger">*</span></label>
+                                                <select id='year_built' name='year_built' class="form-control custom-select">                               
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <div class='col-lg-3 col-md-6 col-sm-12'>
+                                                <div class="form-group">
+                                                   <label for="floors">No of Floors 
+                                                   <span class="text-danger">*</span></label>
+                                                   <select id='floors' name='floors' class="form-control custom-select">                                 
+                                                   </select>
+                                                </div>
+                                             </div>
+
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label>Options</label>
+                                            <div class="form-inline">
+                                               <div class="custom-control custom-checkbox mb-3 mr-3 ">
+                                                   <input type="checkbox" class="custom-control-input" id="has_cctv" name='has_cctv' value='<%=property.has_cctv%>' <% if(property.has_cctv){%>checked<%}%>>
+                                                   <label class="custom-control-label" for="has_cctv">CCTV Available</label>
+                                               </div>
+            
+                                               <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                   <input type="checkbox" class="custom-control-input" id="pet_friendly" name='pet_friendly' value='<%=property.pet_friendly%>' <% if(property.pet_friendly){%>checked<%}%>>
+                                                   <label class="custom-control-label" for="pet_friendly">Pets Allowed</label>
+                                               </div>
+            
+                                               <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                   <input type="checkbox" class="custom-control-input" id="has_garden" name='has_garden' value='<%=property.has_garden%>' <% if(property.has_garden){%>checked<%}%>>
+                                                   <label class="custom-control-label" for="has_garden">Has Garden</label>
+                                               </div>
+            
+                                               <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                   <input type="checkbox" class="custom-control-input" id="has_parking" name='has_parking' value='<%=property.has_parking%>' <% if(property.has_parking){%>checked<%}%>>
+                                                   <label class="custom-control-label" for="has_parking">Parking Available</label>
+                                               </div>
+            
+                                               <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                   <input type="checkbox" class="custom-control-input" id="has_swimming_pool" name='has_swimming_pool' value='<%=property.has_swimming_pool%>' <% if(property.has_swimming_pool){%>checked<%}%>>
+                                                   <label class="custom-control-label" for="has_swimming_pool">Has Swimming Pool</label>
+                                               </div>                                               
+
+                                               <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                    <input type="checkbox" class="custom-control-input" id="has_generator" name='has_generator' value='<%=property.has_generator%>' <% if(property.has_generator){%>checked<%}%>>
+                                                    <label class="custom-control-label" for="has_generator">Has Power Backup</label>
+                                                </div>
+
+                                                <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                    <input type="checkbox" class="custom-control-input" id="has_lift" name='has_lift' value='<%=property.has_lift%>'  <% if(property.has_lift){%>checked<%}%>>
+                                                    <label class="custom-control-label" for="has_lift">Lift Elevator</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                    <input type="checkbox" class="custom-control-input" id="has_door_man" name='has_door_man' value='<%=property.has_door_man%>'  <% if(property.has_door_man){%>checked<%}%>>
+                                                    <label class="custom-control-label" for="has_door_man">Has Doorman</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                    <input type="checkbox" class="custom-control-input" id="has_emergency_exit" name='has_emergency_exit' value='<%=property.has_emergency_exit%>'  <% if(property.has_emergency_exit){%>checked<%}%>>
+                                                    <label class="custom-control-label" for="has_emergency_exit">Has Emergency Exit</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                    <input type="checkbox" class="custom-control-input" id="has_fire_alarm" name='has_fire_alarm' value='<%=property.has_fire_alarm%>'  <% if(property.has_fire_alarm){%>checked<%}%>>
+                                                    <label class="custom-control-label" for="has_fire_alarm">Has Fire Alarm</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-3  mr-3">
+                                                    <input type="checkbox" class="custom-control-input" id="gated_community" name='gated_community' value='<%=property.gated_community%>'  <% if(property.gated_community){%>checked<%}%>>
+                                                    <label class="custom-control-label" for="gated_community">Has Fire Alarm</label>
+                                                </div>
+                                            </div>                       
+                                        </div>
+                                       
+                                        <hr class='dashed'>
+                                        <h6 class='text-dark font-weight-bold'>b). Location</h6>                     
+                                        <div class="row">
+                                           <div class="col-lg-4 col-md-12">
+                                               <div class="form-group">
+                                                   <label for="sel_counties">County
+                                                   <span class="text-danger">*</span></label>
+                                                   <select id='sel_counties' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0" onchange="getCountyAreas(this.value)">
+                                                      <option>--Select County--</option>
+                                                      <% for (var i = 0; i < counties.length ; i++) { %>
+                                                        <% if(property.county_id == counties[i].county_id) {%>
+                                                            <option value="<%= counties[i].county_id %>" selected='selected'><%= counties[i].county_name %></option>
+                                                        <%}else{%>
+                                                            <option value="<%= counties[i].county_id %>"><%= counties[i].county_name %></option>
+                                                        <%}%>								  
+                                                      <% } %>                           
+                                                   </select>
+                                                </div>
+                                           </div>
+                                           <div class="col-lg-4 col-md-12">
+                                               <div class="form-group">
+                                                   <label for="sel_areas">Area 
+                                                   <span class="text-danger">*</span></label>
+                                                   <select id='sel_areas' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0" onchange="getLocalities(this.value)">
+                                                      <option>--Select Area--</option>
+                                                   </select>
+                                                </div>
+                                           </div>
+                                           <div class="col-lg-4 col-md-12">
+                                               <div class="form-group">
+                                                   <label for="sel_locality">Locality 
+                                                   <span class="text-danger">*</span></label>
+                                                   <select id='sel_locality' name='locality_code' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0">
+                                                      <option>--Select Locality--</option>
+                                                   </select>
+                                                </div>
+                                           </div>
+                                         </div>
+                                        <div class="form-group mt-0">
+                                           <label for="street_address">Location Descripion
+                                           <span class="text-danger">*</span></label>
+                                           <input name='street_address' value='<%=property.street_address%>' type="text" class="form-control" id="street_address" placeholder="Street Address">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="w-100 border shadow p-2">
+                                                   <div id="map" class="w-100 " style="height:180px">
+       
+                                                   </div>
+                                                </div>                                        
+                                            </div>
+                                        </div>
+                                        <hr class='dashed'>
+                                        <h6 class='text-dark font-weight-bold'>c). Billing</h6>
+                                        <div class="form-group">
+                                           <label for="address">Billing Address</label>
+                                           <textarea name='address' class="form-control" id="address" rows="3" placeholder="Property Billing Address"><%=property.address%></textarea>
+                                        </div>                                        
+                                        <hr class='dashed'>
+                                        <h6 class='text-dark font-weight-bold'>d). Meters</h6>
+                                        <p class='text-mute'>Readable Meters</p>
+                                        <div class='row'>
+                                           <div class='col col-12'>
+                                               <button type="button" class="btn btn-light mb-2" data-toggle="modal" data-target="#readable_meters_modal">
+                                                   Add New Meter
+                                               </button>
+                                               <table id='tbl_readable_meters' class="table table-striped table-bordered no-footer dtr-inline collapsed">
+                                                   <thead>
+                                                      <tr>
+                                                         <th>Meter Name</th>
+                                                         <th>Rate</th>
+                                                         <th>Action(s)</th>
+                                                      </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                       <% 
+                                                       var mts = property.readable_meters;
+                                                       if(mts != null){
+                                                       for(var i=0; i< mts.length; i++){ %>
+                                                           <tr><td><%=mts[i]["Meter Name"] %></td><td class='text-right text-bold'><%=mts[i]["Rate"] %></td><td><button type="button" class="btn btn-sm btn-danger" onclick="deleteRow(this);">Delete</button></td></tr>
+                   
+                                                       <%}}%>
+                                                   </tbody>
+                                                </table>
+                                                <input type='hidden' name='readable_meters' id='readable_meters'/>
+                                           </div>
+                                        </div>
+                                        <hr class='dashed'>
+                                        <h6 class='text-dark font-weight-bold'>e). Notifications</h6>
+                                        <div clas='row'>
+                                            <div class="form-group">
+                                                <label clas='text-muted'>Receive notifications by</label>
+                                                <div class="form-inline">
+                                                   <div class="custom-control custom-checkbox custom-checkbox-warning mb-3 mr-3 ">
+                                                       <input type="checkbox" class="custom-control-input" id="email_notifications" name='email_notifications' value='<%=property.email_notifications%>' <% if(property.email_notifications){%>checked<%}%>>
+                                                       <label class="custom-control-label" for="email_notifications">Email</label>
+                                                   </div>
+                
+                                                   <div class="custom-control custom-checkbox custom-checkbox-warning mb-3  mr-3">
+                                                       <input type="checkbox" class="custom-control-input" id="sms_notifications" name='sms_notifications' value='<%=property.sms_notifications%>' <% if(property.sms_notifications){%>checked<%}%>>
+                                                       <label class="custom-control-label" for="sms_notifications">SMS</label>
+                                                   </div>                                          
+                                                </div>                       
+                                             </div>
+                                        </div> 
+                                        <h6 class='text-dark font-weight-bold'>f). Others</h6>
+                            <div class='row  mb-0'>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label>Property Value </label>
+                                        <input value="<%=property.property_value%>" type="number" class="form-control" name='property_value' maxlength='12'>
+                                    </div>
+                                </div>                               
+                                 <div class='col-lg-4 col-md-12'>
+                                    <div class="form-group">
+                                       <label>Payment Accounts 
+                                       </label>
+                                       <select name='property_accounts' class="form-control selectpicker-select" data-size="5" multiple data-live-search="true" tabindex="null" >
+                                        <% for (var i = 0; i < accounts_list.length ; i++) { %>
+                                            <option value="<%= accounts_list[i].account_id %>" ><%= accounts_list[i].account_name %> (<%= accounts_list[i].account_no %>)</option>
+                                        <%}%>
+                                       </select>
+                                    </div>
+                                 </div>
+                                
+                            </div>  
+                                   </div> 
+                                    <div class="border-top pt-2 mx-6 d-flex justify-content-between">                               
+                                        <div class="custom-control custom-checkbox custom-checkbox-success mb-3 mr-3 ">
+                                            <input type="checkbox" class="custom-control-input " id="is_active" name='is_active' value='<%=property.is_active%>' <% if(property.is_active){%>checked<%}%>>
+                                            <label class="custom-control-label" for="is_active">Is Active</label>
+                                        </div>
+                                       <button id='btn_update_property' type="submit" class="btn btn-success mr-2">Update Changes</button>                               
+                                    </div>
+                                 </form>  
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <div class="row" id='property-imges'>
+                    <div class="col-12">
+                        <div class="panel">
+                            <div class="panel-header border-bottom p-2">
+                                <h4 class="card-title mt-2">Images</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">                                                                                                  
+                                            <% if(property_images.length < 6){%>
+                                                <div class="col-lg-7">
+                                                    <h4 class="card-title">Property Pictures</h4>
+                                                    <p class="card-title-desc">You can add up to a maximum of 6 pictures</p>
+                                                </div>
+                                                <div class="col-lg-5 text-right" style="margin: auto;">	
+                                                    <label for="new_picture" class="btn btn-success small-block px-4 mt-2 mb-2 mr-2"> + Upload New</label>
+                                                    <input type="file" name="new_picture" id='new_picture' accept=".png, .jpg, .jpeg" hidden/>
+                                                </div>              
+                                            <%}else{%>
+                                                <div class="col-12"> 
+                                                    <div class="alert alert-warning" role="alert">
+                                                        You have attained the maximum number of pictures. Delete the existing pictures in order to add new
+                                                    </div>  
+                                                </div>                                                                                                        
+                                            <%}	%>                                       
+                                                                               
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <hr>
+                                        <div class="d-flex flex-wrap gallery"> 
+                                            <% for (var i = 0; i < property_images.length ; i++) { %>
+                                               <div class="d-flex flex-column gallery-item border img-popup" src="<%= base_url %>/public/properties/public-picture/<%= property_images[i].image_id %>" style="background-image: url('<%= base_url %>/public/properties/public-picture/<%= property_images[i].image_id %>')"  img-popup="true" alt="<%= property_images[i].image_id %>" title="<%= property_images[i].image_description %>">
+                                                  <p class='image-title mb-auto p-2'><%= property_images[i].image_description %></p>
+                                                  <div class="justify-content-center img-buttons hidden-buttons">
+                                                     <button class="set-default btn btn-light btn-sm mr-2">Set Default</button>
+                                                     <button class="change-caption btn btn-info btn-sm mr-2">Caption</button>
+                                                     <button class="delete-image btn btn-danger btn-sm">Delete</button>
+                                                  </div>
+                                                </div>                              
+                                            <%}%>                           
+                                        </div>                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>		  
+			 
+			</div>
+			<!--end::Container-->
+		 </div>
+								</div>
+								<!-- container-fluid -->
+                                <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+
+                            <!-- payment method Modal-->
+<div class="modal fade" id="payment_method_modal" data-backdrop="static" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Payment Method</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+					<label for="payment_mode">Payment Mode <span class='text-danger'>*</span></label>
+								<input class='form-control' type='text' id='payment_mode' placeholder="Payment Mode i.e. MPESA"/>
+				 </div>
+				 <div class="form-group">
+					<label for="payment_instructions">Payment Instructions</label>
+					<textarea id='payment_instructions' class="form-control" rows="3" placeholder="Payment Instructions i.e Paybill No, Acc No"></textarea>
+				 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id='btn_add_payment_method' type="button" class="btn btn-success">Add Method</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- readable meters Modal-->
+<div class="modal fade" id="readable_meters_modal" data-backdrop="static" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Readable Meter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+					<label for="readable_meter_name">Meter Name <span class='text-danger'>*</span></label>
+								<input class='form-control' type='text' id='readable_meter_name' placeholder="Name i.e. Water, Gas, Electricity"/>
+				 </div>
+				 <div class="form-group">
+					<label for="readable_meter_rate">Cost per Unit <span class='text-danger'>*</span></label>
+					<input class='form-control' type='number' id='readable_meter_rate' placeholder="Cost ie Kes 60"/>
+				 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id='btn_add_readable_meter' type="button" class="btn btn-success">Add Meter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="crop-image-modal" class="modal " role="dialog">
+    <div class="modal-dialog ">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Crop Image</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <i class='bx bx-x text-weight-bold' ></i>
+            </button>
+          </div>
+          <div class="modal-body">
+             <div class="row">
+                <div class="col-lg-12 text-center">
+                   <div id="cropped-profile-image" ></div>
+                </div>
+             </div>
+          </div>
+          <div class="modal-footer">
+             <button id='image-cropped-button' class="btn btn-success">Set Default</button>
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <div id="upload-image-modal" class="modal" role="dialog">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Upload Image</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <i class='bx bx-x text-weight-bold' ></i>
+            </button>
+          </div>
+          <div class="modal-body">
+             <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center border p-2 shadow">
+                        <img alt="" id="img_to_upload" style="width: auto; height:auto; max-height: 300px; max-width: 100%;"/>
+                    
+                    </div>
+                 
+                   <div class="form-group mt-1">
+                    <label for="image-description">Description</label>
+                    <textarea maxlength="255" class="form-control" rows="3" id="image-description"></textarea>
+                </div>
+                </div>
+             </div>
+          </div>
+          <div class="modal-footer">
+             <button id='upload-image-button' class="btn btn-success">Upload</button>
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>
+       </div>
+    </div>
+ </div>
+
+
+
+<script> 
+
+
+
+   
+      $(document).ready(function() {
+          var accs = "<%=property.property_accounts.split(',')%>";         
+        $.each(accs.split(","), function(i,e){
+            $("select[name='property_accounts'] option[value='" + e + "']").prop("selected", true);
+        });
+
+        $('.selectpicker-select').selectpicker();
+            getCountyAreas('<%=property.county_id%>');
+            
+        $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+        
+
+        window.onload=function(){window.jQuery||window.location.reload()};
+		var btn = '<button type="button" class="btn btn-sm btn-danger" onclick="deleteRow(this);">Delete</button>';
+                
+          $("#btn_update_property").click(function(e){
+              e.preventDefault();              
+              $("#frm_update_property").submit();
+
+          });
+
+		  $("#btn_add_readable_meter").click(function(e){
+			  var meter_name = $("#readable_meter_name").val();
+			  var meter_rate = $("#readable_meter_rate").val();
+			  if(meter_name === undefined || meter_name =='' || parseFloat(meter_rate) <= 0){
+				showAppNotification('warning', "Please provide correct values");
+			  }else{			
+				  var row = '<tr><td>'+ meter_name +'</td><td class="text-right text-bold">'+meter_rate+'</td><td>'+btn +'</td></tr>';
+				  $("#tbl_readable_meters tbody").append(row);
+				  $("#readable_meters_modal").modal('hide');
+				  $("#readable_meter_name").val('');
+				  $("#readable_meter_rate").val('');
+			  }
+
+		  });
+
+        fillYears();
+   	    fillFloors();
+   
+   	    loadPropertyTypes();
+        loadUnitTypes();
+       
+        $("#frm_update_property").validate({
+                  rules: {                   
+                      property_name:{
+                          required: true,
+                          minlength:3,
+                          maxlength: 50
+   
+                      },
+                      property_description:{
+                          required: true ,
+                          minlength:3,
+                          maxlength: 255                      
+                      },
+                      locality_code:{
+                          required: true,
+                          number:true
+                      },
+                      street_address:{
+                          required: true,
+                          minlength:6,
+                          maxlength: 180
+                      },
+                      property_type:{
+                          required: true
+                      },
+                      unit_types:{
+                          required: true
+                      },
+                      year_built:{
+                          required: true
+                      },
+                      floors: {
+                          required: true
+                      }
+                  },
+                  messages: {
+                      property_name:{
+                          required: "Please provide the name of the property",
+                          minlength:"Property name should be between 3-50 characters",
+                          maxlength: "Property name should be between 3-50 characters"
+   
+                      },
+                      property_description:{
+                          required: "Please provide a brief description",
+                          minlength:"Property description should be between 3-50 characters",
+                          maxlength: "Property description should be between 3-255 characters"                      
+                      },
+                      locality_code:{
+                          required: "Please select county, area, and locality",
+                          number:"Please select county, area, and locality"
+                      },
+                      street_address:{
+                          required: "Location description is required",
+                          minlength:"Location description should be between 3-180 characters",
+                          maxlength: "Location description should be between 3-180 characters"
+                      },
+                      property_type:{
+                          required: "Select a property type from the list"
+                      },
+                      unit_types:{
+                          required: "Select a property unit types from the list"
+                      },
+                      year_built:{
+                          required: "Select the year of built from the list"
+                      },
+                      floors: {
+                          required: "Select the number of floors from the list"
+                      }
+                  }
+          });
+
+    $("#frm_update_property").on("submit", function(e) {      
+          e.preventDefault();
+         var mts = $("#tbl_readable_meters").tableToJSON({
+		columns: new Array(0, 1),
+	    });
+
+	$("#readable_meters").val(JSON.stringify(mts));
+
+          var isvalid = $("#frm_update_property").valid();
+          if (isvalid) {
+           
+              $('#btn_update_property').html('Please wait..');
+              $("#btn_update_property").attr("disabled", true);
+               var data = new myFormData($(this)); 
+                      
+              $.ajax({
+                  type: "POST",
+                  async: true,  
+                  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                  url: "<%= base_url %>/admin/properties/<%=property.property_code%>/settings",
+                  data: data,
+                  success: function(data) {                     
+					resetUpdateButton();                  
+                      if (data.Status == 200) {                       
+						showAppNotification('success', data.Message);                      
+                      } else {
+                         
+                      showAppNotification('warning', data.Message);
+                      }
+                  },
+                  error: function(err) {                      
+					resetUpdateButton();
+                      showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                  }
+              });
+          }
+		  });
+	
+          var property_map = L.map('map').setView([<%= property.latitude %>, <%= property.longitude %>], 14.2, {dragging:false});
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+}).addTo(property_map);
+
+L.marker([<%= property.latitude %>, <%= property.longitude %>]).addTo(property_map)
+    .bindPopup('<%= property.property_name %>')
+    .openPopup();
+
+    $("[img-popup]").click(function(e) {   
+            if($(e.target).hasClass('img-popup')){
+                intitImagePopup(e.currentTarget)
+            }            
+        });
+        
+$image_crop = $("#cropped-profile-image").croppie({
+        enableExif: !0,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: "square"
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+
+
+});
+   
+	  function deleteRow(row){
+		row.closest("tr").remove();
+		  }
+
+   function loadPropertyTypes(){
+   	var options = [];   
+   	for(var i = 0; i < prop_types.length; i++){
+   		if('<%= property.property_type%>' == prop_types[i]){
+   			options.push('<option selected="selected" value="',
+   			prop_types[i], '">',
+   			prop_types[i], '</option>');
+   		}else{
+   			options.push('<option value="',
+   			prop_types[i], '">',
+   			prop_types[i], '</option>');
+   		}
+   		$("#property_type").html(options.join(''));
+   	}
+   }
+   
+   function loadUnitTypes(){
+   	var options = [];   
+   	for(var i = 0; i < unit_types.length; i++){
+   		if('<%= property.unit_types%>' == unit_types[i]){
+   			options.push('<option selected="selected" value="',
+   			unit_types[i], '">',
+   			unit_types[i], '</option>');
+   		}else{
+   			options.push('<option value="',
+   			unit_types[i], '">',
+   			unit_types[i], '</option>');
+   		}
+   		$("#unit_types").html(options.join(''));
+   	}
+   }
+   
+     	  
+		  function resetUpdateButton(){
+			$('#btn_update_property').html('Update Changes');
+                      $("#btn_update_property").attr("disabled", false);
+		  }
+          
+         
+      function fillYears(){
+          var y = new Date().getFullYear();
+          var x = y-20; 
+          var options = [];     
+          while(x<y){
+   		x++; 
+   		if('<%= property.year_built%>' == x){
+   			options.push('<option selected="selected" value="',
+                              x, '">',
+                               x, '</option>');
+   		}else{
+   			options.push('<option value="',
+                              x, '">',
+                               x, '</option>');
+   		}          
+              
+          }
+          $("#year_built").html(options.join(''));
+      }
+   
+      function fillFloors(){
+          var y = 30;
+          var x = 0; 
+          var options = [];     
+          while(x<y){
+   		x++;    
+   		if('<%= property.floors%>' == x){
+   			options.push('<option selected="selected" value="',
+                              x, '">',
+                               x, '</option>');
+   		}else{
+   			options.push('<option value="',
+                              x, '">',
+                               x, '</option>');
+   		}       
+             
+          }
+          $("#floors").html(options.join(''));
+      }
+   
+     function getCountyAreas(id){ 
+           $.ajax({
+                   type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                   url: "<%= base_url %>/areas",
+                   data: 'county_id=' + id,
+                   success: function(data) {                  
+                       if (data.data) {                       
+   					 var result = data.data;
+   					
+                           var options = [];
+                           options.push("<option>--Select Area--</option>");
+                           for (var i = 0; i < result.length; i++) {
+   						 if('<%= property.constituency_id %>' == result[i].id){
+   							options.push('<option selected="selected" value="',
+   							result[i].id, '">',
+   							result[i].name, '</option>');
+   						 }else{
+   							options.push('<option value="',
+   							result[i].id, '">',
+   							result[i].name, '</option>');
+   						 }                             
+						   }
+						  
+                           $("#sel_areas").html(options.join(''));                                            
+                       }else{
+                           var options = [];
+                           options.push("<option>Select Area</option>");
+                           $("#sel_areas").html(options.join(''));
+                          
+                       }
+                       getLocalities($("#sel_areas").val());
+                       $('.selectpicker-select').selectpicker('refresh');                    
+                   },
+                   error: function(err) {
+                       $('.selectpicker-select').selectpicker('refresh');
+                       $("#sel_areas").val($("#sel_areas option:first").val());
+                       showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                   }
+               });  
+       }
+     
+      function getLocalities(id){  
+           if(id==null) {
+               var options = [];
+               options.push('<option>--Select Locality--</option>');
+               $("#sel_locality").html(options.join(''));
+               $('.selectpicker-select').selectpicker('refresh'); 
+               return;
+           }
+           $.ajax({
+                   type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                   url: "<%= base_url %>/areas/localities",
+                   data: 'area_id=' + id,
+                   success: function(data) {     
+                      // alert(JSON.stringify(data))             
+                       if (data.data) {                       
+                           var result = data.data;
+                           var options = [];
+                           options.push('<option>--Select Locality--</option>');
+                           for (var i = 0; i < result.length; i++) {
+   						 if('<%=property.constituency_id%>'== result[i].id){
+   							options.push('<option selected="selected" value="',
+   							result[i].id, '">',
+   							result[i].name, '</option>');
+   						 }else{
+   							options.push('<option value="',
+   							result[i].id, '">',
+   							result[i].name, '</option>');
+   						 }
+                               
+                           }
+                           $("#sel_locality").html(options.join(''));
+                           $('.selectpicker-select').selectpicker('refresh');                       
+                       }else{
+                           var options = [];
+                           options.push('<option>Select Locality</option>');
+                           $("#sel_locality").html(options.join(''));
+                           $('.selectpicker-select').selectpicker('refresh');
+                       }
+                   },
+                   error: function(err) {
+                       showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                   }
+               });  
+       }
+
+
+       $(document).on('click', '.set-default', function(e) {
+    
+    var img = $(this).parent().parent().attr("src");  
+   
+    $image_crop.croppie('bind', {
+        url: img       
+    });
+    $("#crop-image-modal").modal("show");
+});
+
+$(".delete-image").on("click", function(e) {
+	var img = $(this).parent().parent();
+	var parent = $(this).parent().parent();
+		 sharpAlert({
+        title: 'Confirm?',
+        text: "Are you sure you want to delete this picture?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        confirmButtonClass:"btn btn-success mr-2 btn-swal",
+        cancelButtonText: 'No',
+        cancelButtonClass:"btn btn-danger mr-2 btn-swal",
+       
+        buttonsStyling: false
+},(passed)=>{
+  if (passed) {
+    $.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/admin/properties/<%=property.property_code %>/delete-image",
+		data: "image_id="+parent.attr("alt"),
+		success: function(data) {
+			if (data.Status == 200) {
+				showAppNotification("success", data.Message);
+				parent.remove();
+			} else {
+				showAppNotification("warning", data.Message);
+			}
+		},
+		error: function(err) {
+			showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');		
+		},
+  });
+  
+    
+  } 
+});
+});
+
+$("#new_picture").on("change", function() {
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(this.files[0]);
+        reader.onload = function(event) {
+            // blob stuff
+            var blob = new Blob([event.target.result]); // create blob...
+            window.URL = window.URL || window.webkitURL;
+            var blobURL = window.URL.createObjectURL(blob); // and get it's URL
+            // helper Image object
+            var image = new Image();
+            image.src = blobURL;
+            //preview.appendChild(image); // preview commented out, I am using the canvas instead
+            image.onload = function() {
+                // have to wait till it's loaded
+                var resized = resizeImage(image); // send it to canvas
+                $('#img_to_upload').attr('src', resized);
+                $("#upload-image-modal").modal("show");
+                $("#image-description").focus();
+            };
+        };
+    }
+});
+
+$("#upload-image-button").on("click", function(e) {
+    var img_data = $('#img_to_upload').attr('src');
+    var a = img_data,
+        s = a.split(";"),
+        t = s[1].split(",")[1];
+    var data = {
+        'image_data': t,
+        "description": $("#image-description").val()
+    };
+    $("#upload-image-modal").modal("hide");
+    $.ajax({
+        type: "POST",
+        async: true,
+        credentials: 'same-origin',
+        headers: {
+            'CSRF-Token': csrf_token
+        },
+       url: "<%= base_url %>/admin/properties/<%=property.property_code %>/upload-image",
+        data: data,
+        success: function(data) {
+            if (data.Status == 200) {
+				$("#image-description").val("");
+                showAppNotification("success", data.Message);
+                loadPage(window.location.href, false);               
+                $('html, body').animate({
+                    scrollTop: ($('#property-imges').offset().top)
+                }, 2000);
+            } else {
+                $("#upload-image-modal").modal("show");
+                showAppNotification("warning", data.Message);
+            }
+        },
+        error: function(err) {
+            $("#upload-image-modal").modal("show");
+            showAppNotification("danger", "Unable to process your request");
+        },
+    });
+});
+
+
+$("#image-cropped-button").on("click", function(e) {
+            $image_crop.croppie("result", {
+                type: "base64",
+                format: "jpeg",
+                size: {
+                    width: 200,
+                    height: 200
+                }
+            }).then(function(e) {
+                $("#crop-image-modal").modal("hide");
+                var a = e,
+                    s = a.split(";"),
+                    t = s[1].split(",")[1];
+					var data = {
+        'image_data': t,
+        "description": $("#image-description").val()
+    };
+					$.ajax({
+        type: "POST",
+        async: true,
+        credentials: 'same-origin',
+        headers: {
+            'CSRF-Token': csrf_token
+        },
+       url: "<%= base_url %>/admin/properties/<%=property.property_code %>/set-display-picture",
+        data: data,
+        success: function(data) {
+            if (data.Status == 200) {
+				$('img[alt="<%=property.property_code %>"]').attr("src",e)
+                showAppNotification("success", data.Message);               
+            } else {
+                showAppNotification("warning", data.Message);
+            }
+        },
+        error: function(err) {
+            showAppNotification("danger", "Unable to process your request");
+        },
+    });
+            })
+        });
+
+
+function resizeImage(img) {
+    var max_width = 800;
+    var max_height = 800;
+    var canvas = document.createElement('canvas');
+    var width = img.width;
+    var height = img.height;
+    // calculate the width and height, constraining the proportions
+    if (width > height) {
+        if (width > max_width) {
+            //height *= max_width / width;
+            height = Math.round(height *= max_width / width);
+            width = max_width;
+        }
+    } else {
+        if (height > max_height) {
+            //width *= max_height / height;
+            width = Math.round(width *= max_height / height);
+            height = max_height;
+        }
+    }
+    // resize the canvas and draw the image data into it
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);    
+    return canvas.toDataURL("image/jpeg", 0.7);
+}
+
+     
+</script>
+<% if(!load_chunk){%> </body></html> <%}%>

@@ -1,0 +1,68 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+  <div style="height:calc(100vh - 160px)">
+    <div class='d-flex align-items-center justify-content-center'>
+        <div class="error-template " style='position: absolute; top: 50%; transform: translate(0, -50%);'>
+            <h4>Choose your working property</h4>
+            <form id='frm-choose-property' action='#' method='post'>
+                <div class='row'>
+                   <div class='col-12'>
+                    <select class="form-control selectpicker-select" name="property_code" required>                        
+                        <% for (var i = 0; i < property_list.length ; i++) { %>
+                            <option value="<%= property_list[i].property_code %>" ><%= property_list[i].property_name %></option>
+                        <%}%>
+                    </select>  
+                   </div>
+                   <div class='col-12 mt-2'>
+                        <button type="submit" class="btn btn-success btn-block">Choose</button>
+                   </div>
+                </div>
+            </form>            
+        </div>      
+    </div>
+ </div>
+     
+                        
+                         <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+     
+       <script>
+           window.onload=function(){window.jQuery||window.location.reload()};
+           $(document).ready(function(){
+                $('.selectpicker-select').selectpicker(); 
+           });
+
+           $("#frm-choose-property").submit(function(e){
+        e.preventDefault();
+        var data = new myFormData($(this));
+        $.ajax({
+                  type: "POST",
+                  async: true,  
+                  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                  url: "<%= base_url %>/manage/working-property",
+                  data: data,
+                  success: function(data) {
+                    if (data.Status == 200) {   
+                        window.location.replace('<%=dest%>');
+						                      
+                    } else {                         
+                        showAppNotification('warning', data.Message);
+                    }
+                  },
+                  error: function(err) {                      
+					resetSaveButton();
+                      showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                  }
+              });
+          
+      
+        
+    });
+
+       </script>
+                         <% if(!load_chunk){%> </body></html> <%}%>
+ 
+ 
+                         

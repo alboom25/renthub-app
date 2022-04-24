@@ -1,0 +1,187 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+			<div class="container-fluid">
+                <%- include('../shared/page-title') %>
+                
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="text-center mb-5">
+                            <h4>Choose your Package</h4>
+                            <p class="text-muted">Choose one of the packages from the list below to begin. We are ready to assist if you need more guidance.</p>
+                        
+                            <h5>Choose Payment Plan</h5>
+                            <div class="btn-group btn-group-toggle mt-2 mt-xl-0" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input type="radio" name="payment_plan" value="monthly" checked=""> Monthly
+                                </label>
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="payment_plan" value="quarterly"> Quarterly
+                                </label>
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="payment_plan" value="semi_annually"> Semi-Annually
+                                </label>
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="payment_plan" value="annually"> Annually
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row' id="subs_packages">
+
+                    <% 
+                   
+                    var max=0;for(var i=0;i<subs.length;i++){if(subs[i].subscriptions>max){max=subs[i].subscriptions}}             
+
+                    for (var i = 0; i < subs.length ; i++) { %>                      
+                        <div class="col-xl-4 col-md-6 package-entry" data-recursive="<%= subs[i].recursive%>" data-packagerate="<%= subs[i].package_rate%>">
+                            <div class="card plan-box"> 
+                                <div class="card-body p-4">
+                                    <% if(subs[i].subscriptions == max && max > 0) {%>
+                                        <div class="ribbon bg-success">POPULAR</div>
+                                    <%}%>
+                                    
+                                    <div class="media">
+                                        <div class="media-body">                                           
+                                            <h5><%= subs[i].package_name %></h5>
+                                            <% if(subs[i].recursive == 1){ %>
+                                            <p class="text-muted billing-title">Billed Monthly</p>
+                                            <%}else{%>
+                                            <p class="text-muted">Available Once</p> 
+                                            <%}%>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="py-4 text-center">
+                                        <% if(subs[i].recursive == 1){ %>
+                                            <h2 class="package-rate-label"><sup><small>Kes</small></sup> <%= subs[i].package_rate %>/ <span class="font-size-13">Per month</span></h2>
+                                        <%}else{%>                                              
+                                            <h2 class="package-rate-label"> Free <span class="font-size-13">For One Month</span></h2>
+                                        <%}%>                                       
+                                    </div>
+                                  <div class="text-center bg-soft-info p-2">
+                                    Package features
+                                  </div>
+                                    <div class="plan-features mt-4">   
+                                        <p style="display:none"><i class="bx bx-checkbox-square text-primary mr-2"></i><span class="saved-amount"></span></p>                                     
+                                        <p><i class="bx bx-checkbox-square text-primary mr-2"></i><%= subs[i].maximum_properties %> Maximum Properties</p>
+                                        <p><i class="bx bx-checkbox-square text-primary mr-2"></i><%= subs[i].maximum_units %> Maximum Units</p>
+                                        <p><i class="bx bx-checkbox-square text-primary mr-2"></i><%= subs[i].free_sms_units %> Free SMS</p>                                                   
+                                        <p><i class="bx bx-checkbox-square text-primary mr-2"></i>Unlimited Support</p>
+                                        <p><i class="bx bx-checkbox-square text-primary mr-2"></i>Add Kes 10,000.00/= for branded SMS</p>
+                                        <p><i class="bx bx-checkbox-square text-primary mr-2"></i>Free MPESA Intergration</p>
+                                        <p><i class="bx bx-checkbox-square text-primary mr-2"></i>Upgrade Anytime</p> 
+                                    </div>
+                                    <div class="p-1">
+                                        <button type="button" onclick="subscribe('<%= subs[i].package_id %>')" class="btn btn-block <%= subs[i].display_class %>">Get Started</button>
+                                    </div>
+                                </div>                              
+                            </div>
+                        </div>
+                    <% } %>  
+                </div>			
+			</div>
+			<!-- container-fluid -->
+            <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+
+
+
+<script>
+window.onload=function(){window.jQuery||window.location.reload()};
+var payment_plan="";
+$(document).ready(function(){
+    $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+
+    
+    $("input[name='payment_plan']").on("change",function(e){
+        var val = $(this).val();
+        payment_plan  = val;
+        var package_entries = $("#subs_packages");
+        switch(val){
+            case 'monthly':
+                $('.billing-title').html('Billed Monthly');              
+                package_entries.find('.package-entry').each(function () {     
+                    var new_rates =  $(this).data('packagerate');
+                    if($(this).data('recursive')){
+                        package_entries.show();                       
+                        $(this).find('.package-rate-label').html(`<sup><small>Kes</small></sup> ${new_rates}/ <span class="font-size-13">Per month</span>`);
+                    }else{
+                        package_entries.show();
+                        $(this).find('.package-rate-label').html(`Free <span class="font-size-13">For One Month</span>`);                       
+                    }
+                    $(this).find('.saved-amount').parent().hide();
+
+                });                  
+                break;
+            case 'quarterly':
+                $('.billing-title').html('Billed Quarterly');
+                package_entries.find('.package-entry').each(function () {     
+                    var init_rates =  $(this).data('packagerate') * 3;
+                    var new_rates = init_rates - (0.12 * init_rates);
+                    if($(this).data('recursive')){
+                        package_entries.show();                       
+                        $(this).find('.package-rate-label').html(`<sup><small>Kes</small></sup> ${new_rates}/ <span class="font-size-13">Per Quarter</span>`);
+                    }else{
+                        package_entries.show();
+                        $(this).find('.package-rate-label').html(`Free <span class="font-size-13">For One Month</span>`);                       
+                    }
+                    $(this).find('.saved-amount').html(`Save Kes ${init_rates - new_rates }`)
+                    $(this).find('.saved-amount').parent().show();
+
+                });    
+                break;
+            case 'semi_annually':
+                $('.billing-title').html('Billed Semi Annually');
+                package_entries.find('.package-entry').each(function () {     
+                    var init_rates =  $(this).data('packagerate') * 6;
+                    var new_rates = init_rates - (0.14 * init_rates);
+                    if($(this).data('recursive')){
+                        package_entries.show();                       
+                        $(this).find('.package-rate-label').html(`<sup><small>Kes</small></sup> ${new_rates}/ <span class="font-size-13">Per Semi Annual</span>`);
+                    }else{
+                        package_entries.show();
+                        $(this).find('.package-rate-label').html(`Free <span class="font-size-13">For One Month</span>`);                       
+                    }
+                    $(this).find('.saved-amount').html(`Save Kes ${init_rates - new_rates }`)
+                    $(this).find('.saved-amount').parent().show();
+                });    
+                break;
+            case 'annually':
+                $('.billing-title').html('Billed Annually');
+                package_entries.find('.package-entry').each(function () {     
+                    var init_rates =  $(this).data('packagerate') * 12;
+                    var new_rates = init_rates - (0.18 * init_rates);
+                    if($(this).data('recursive')){
+                        package_entries.show();                       
+                        $(this).find('.package-rate-label').html(`<sup><small>Kes</small></sup> ${new_rates}/ <span class="font-size-13">Per Annual</span>`);
+                    }else{
+                        package_entries.show();
+                        $(this).find('.package-rate-label').html(`Free <span class="font-size-13">For One Month</span>`);                       
+                    }
+                    $(this).find('.saved-amount').html(`Save Kes ${init_rates - new_rates }`)
+                    $(this).find('.saved-amount').parent().show();
+
+                });    
+                break;
+        }
+    });
+    
+    $(".plan-box").hover(
+        function () {
+               $(this).addClass("shadow-lg");
+         },
+         function () {
+               $(this).removeClass("shadow-lg");
+         }
+      );
+});
+    function subscribe(package_id){
+        loadPage(`<%= base_url %>/system/subscriptions/subscribe/${package_id}?plan=${payment_plan}`, true);      
+    }
+
+</script>
+<% if(!load_chunk){%> </body></html> <%}%>

@@ -1,0 +1,337 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+<%}%>
+<div class="container-fluid">
+	<%- include('../shared/page-title') %>
+	<div class="d-flex flex-column-fluid">
+	   <!--begin::Container-->
+	   <div class="container">
+		  <%- include('../shared/property-common') %>
+			<div class="row">
+			<div class="col-12">
+			  <div class="panel">				
+				<div class="panel-body">
+					<div class='row'>
+						<div class='col-lg-7'>
+						   <h4 class="card-title">Tenants</h4>
+						   <p class="card-title-desc"> Manage tenants associated with this property.</p>
+						</div>
+						<div class='col-lg-5 text-right' style="margin:auto;">
+						   <button  class="btn btn-warning small-block px-4 mt-0 mb-3 mr-2 " data-toggle="modal" data-target="#mdl_send_sms" >SMS Broadcast</button>								  
+						   <a href="<%= base_url %>/manage/tenants/new" class="btn btn-info small-block px-4 mt-0 mb-3 mr-2  dynamic-link"  >+ Add New Tenant</a>
+						</div>
+					 </div>
+					 <div class="row">
+						<div class='col-12'>
+							<hr>
+							<table id='tbl_property_tenants' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+							   <thead>
+								  <tr>
+									 <th></th>
+									 <th>First Name</th>
+									 <th>Last Name</th>
+									 <th>Gender</th>
+									 <th>Phone No</th>
+									 <th>ID No</th>
+									 <th>Unit(s)</th>
+								  </tr>
+							   </thead>
+							</table>
+						 </div>
+					 </div>
+				</div>
+			  </div>
+			</div>
+			</div>		 
+	   </div>
+	   <!--end::Container-->
+	</div>
+ </div>
+ <!-- container-fluid -->
+ <!-- send reminers-->
+ <div id="mdl_send_sms" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-dialog-centered ">
+	   <!-- Modal content-->
+	   <div class="modal-content">
+		  <div class="modal-header">
+			 <h5 class="modal-title">Send Broadcast SMS</h5>
+			 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			 <i class='bx bx-x'></i>
+			 </button>
+		  </div>
+		  <form id="frm_sms_broadcast" method="post" action ="#">
+			 <div class="modal-body">
+				<div class="row">
+				   <div class="col-lg-12">
+					  <label for="tenancy_floor" class="col-sm-12 col-form-label">Tenant Floor</label>
+					  <select name="tenancy_floor" id="tenancy_floor" class="selectpicker-select form-control" multiple="multiple"  multiple data-actions-box="true" data-done-button="true" tabindex="0" >				
+					  </select>
+				   </div>
+				</div>
+				<hr class="dashed">
+				<div class="row">
+				   <div class="col-lg-6 col-sm-12">
+					  <label>SMS Template</label>
+					  <textarea id="sms_template" name="sms_template" class="form-control" rows="6">Dear {first_name}, SMS Message here from {property_name} - {unit_name}</textarea>
+				   </div>
+				   <div class="col-lg-6 col-sm-12">
+					  <p><label>Field Values -</label> <span class="text-muted"> Click to insert</span></p>
+					  <button type="button" data-sms="{first_name}" onclick="insertField(this)" class=" btn btn-light btn-sm mr-1 mb-2">First Name</button>
+					  <button type="button" data-sms="{last_name}" onclick="insertField(this)" class=" btn btn-light btn-sm mr-1 mb-2">Last Name</button>
+					  <button type="button" data-sms="{email_address}" onclick="insertField(this)" class=" btn btn-light btn-sm mr-1 mb-2">Email Address</button>				
+					  <button type="button" data-sms="{property_name}" onclick="insertField(this)" class=" btn btn-light btn-sm mr-1 mb-2">Property Name</button>
+					  <button type="button" data-sms="{unit_name}" onclick="insertField(this)" class=" btn btn-light btn-sm mr-1 mb-2">Unit Name</button>			
+				   </div>
+				</div>
+			 </div>
+			 <div class="modal-footer">     
+				<button id="btn_send_sms" type="submit" class="btn btn-success">Send Now</button>      
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			 </div>
+		  </form>
+	   </div>
+	</div>
+ </div>	
+
+	   <% if(!load_chunk){%> </div>	<%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+	
+	<script >
+window.onload=function(){window.jQuery||window.location.reload()};
+
+
+	   loadFloors();
+		$(document).ready(function() {  
+			
+			
+            	$('.selectpicker-select').selectpicker();
+        	
+		
+		   $('.image-popup').magnificPopup(
+			   {type:"image",
+			   closeOnContentClick:!0,
+			   closeBtnInside:!1,
+			   fixedContentPos:!0,
+			   mainClass:"mfp-no-margins mfp-with-zoom",			
+		   
+			   image:{verticalFit:!0,titleSrc:function(e){return e.el.attr('img-title')}},
+			   zoom:{
+				   enabled:!0,
+				   duration:300
+			   },
+			   gallery:{
+				   enabled:true
+			   }});
+
+	  
+		$("#frm_sms_broadcast").validate({
+		  rules:{
+			sms_template: {
+			  required: true,
+			  maxlength: 320
+			}
+		  },
+		  messages:{
+			sms_template: {
+			  required: "No SMS template defined",
+			  maxlength: "SMS message limited to 320 characters"
+			}
+		  }
+	   
+		}); 
+	 
+	   $("#tbl_property_tenants").SetEditable({
+		   columnsEd: "1,2,4,5",
+		   onEdit: function(columnsEd) {
+			   rowEdited(columnsEd);
+		   },
+		   onDelete: function(columnsEd) {
+			   rowDeleted(columnsEd);
+		   },
+	   });
+	   
+	   
+	   $("#tbl_property_tenants").DataTable({
+		  responsive: !0,
+		  searchDelay: 500,
+		 processing: !0,
+         serverSide: true,
+		  order: [],
+		  ajax: {
+			url:
+			  "<%= base_url %>/manage/tenants",
+			type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		  },
+		  columns: [
+			{
+			  data: null,
+			  render: function (data, type, row) {
+				var img =
+				  '<img onclick="intitImagePopup(this)" class="rounded-circle avatar-sm img img-popup" src="<%=base_url%>/manage/tenants/image/' +
+				  data.tenant_id +
+				  '" title="'+ data.first_name + ' '+ data.last_name +'" /> ';
+				return ' <div class="symbol symbol-50 symbol-sm flex-shrink-0">' + img +' </div>';
+			  },
+			},
+			{
+			  data: "first_name",
+			},
+			{
+			  data: "last_name",
+			},
+			{
+			  data: "gender",
+			},
+			{
+			  data: "phone_number",
+			},      
+			{
+			  data: "id_number",
+			},     
+			{
+			  data: null,
+			  render: function (data, type, row) {         
+				var btn =
+							   '<a class="btn btn-success btn-sm mb-2 mr-2 ml-2 dynamic-link" href="<%= base_url %>/manage/leases/new?tenant_id=' +
+							   data.tenant_id.toString() +
+							   '">Add Lease</a>';
+				if (data.units) {
+				   btn ="";
+				 var unts = data.units.split(",");
+				 for(var i=0; i< unts.length; i++){
+				   btn +='<span class="badge badge-custom badge-info mb-1 mr-1 ml-1">'+ unts[i] +'</span>';
+				 }
+				  //btn = data.units;
+				}
+				return "<div class='d-flex flex-wrap'>" + btn + "</div>";
+			  },
+			},
+			{
+			  data: null,
+			  responsivePriority: -1,
+			  render: function (data, type, row) {         
+				return  actionData(data);
+			  },
+			},
+		  ],
+		
+		 
+		});
+
+		
+	   
+		$("#frm_sms_broadcast").submit(function(e){
+		e.preventDefault();
+		var valid = $("#frm_sms_broadcast").valid();
+		if(valid){
+		  $('#btn_send_sms').html('Please wait..');
+			  $("#btn_send_sms").attr("disabled", true);
+			   var data = new myFormData($(this));
+			  $.ajax({
+				  type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+				  url: "<%= base_url %>/manage/tenants/send-broadscast-sms",
+				  data: data,
+				  success: function(data) {
+					  $('#btn_send_sms').html('Send Now');
+					  $("#btn_send_sms").attr("disabled", false);
+					  if (data.Status == 200) {
+						$("#mdl_send_sms").modal("hide");                    
+						showAppNotification('success', data.Message);
+					  } else {
+						  showAppNotification('warning', data.Message);
+					  }
+				  },
+				  error: function(err) {
+					$('#btn_send_sms').html('Send Now');
+					  $("#btn_send_sms").attr("disabled", false);
+					  showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+				  }
+			  });
+		  
+		}
+	   
+	   });
+	   
+	   
+	   
+	   });
+	   
+	   function actionData(data) {
+	   var btns = '<a class="dropdown-item dynamic-link" href="<%= base_url %>/manage/tenants/edit/' +
+						   data.tenant_id +
+						   '">Edit Tenant - '+ data.first_name +'</a><a class="dropdown-item dynamic-link" href="<%= base_url %>/manage/tenants/view/' +
+						   data.tenant_id +
+						   '" >Detailed Information</a>';
+			
+		  
+			return row_begin + btns + edit_links + row_end;
+		  }
+	   
+	   function rowDeleted(columnsEd) {
+	   var ind = columnsEd[0]._DT_RowIndex;
+	   var unit_label = columnsEd[0].childNodes[0].innerHTML;
+	   var data = $("#tbl_property_tenants").DataTable().row(ind).data();
+	   var dt = {tenant_id: data.tenant_id};
+	   $.ajax({
+		   type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		   url: "<%= base_url %>/manage/tenants/delete",
+		   data: dt,
+		   success: function(data) {
+			   $("#tbl_property_tenants").DataTable().ajax.reload();
+			   if (data.Status == 200) {
+				   showAppNotification("success", data.Message);
+			   } else {
+				   showAppNotification("warning", data.Message);
+			   }
+		   },
+		   error: function(err) {
+			   showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+			   $("#tbl_property_tenants").DataTable().ajax.reload();
+		   },
+	   });
+	   }
+	   
+	   function rowEdited(columnsEd) {
+	   var ind = columnsEd[0]._DT_RowIndex;
+		 var first_name = columnsEd[0].childNodes[1].innerHTML;
+		 var last_name = columnsEd[0].childNodes[2].innerHTML; 
+		 var phone_number = columnsEd[0].childNodes[4].innerHTML;
+		 var id_number = columnsEd[0].childNodes[5].innerHTML;
+	   var data = $("#tbl_property_tenants").DataTable().row(ind).data();
+		 var dt = {tenant_id: data.tenant_id, first_name:first_name ,phone_number:phone_number,id_number:id_number ,last_name:last_name};
+	   $.ajax({
+		   type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		   url: "<%= base_url %>/manage/tenants/update-quick",
+		   data: dt,
+		   success: function(data) {
+			   if (data.Status != 200) {
+				   showAppNotification("warning", data.Message);
+				   $("#tbl_property_tenants").DataTable().ajax.reload();
+			   }
+		   },
+		   error: function(err) {
+			   showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+			   $("#tbl_property_tenants").DataTable().ajax.reload();
+		   },
+	   });
+	   }
+		
+	   
+	   function loadFloors() {
+		  var y = parseInt("<%=property.floors %>");
+		  var x = 0;
+	   var options = [];	
+		  while (x < y) {      
+			  options.push('<option selected="selected" value="'+ x + '">'+ floorToLabel(x)+ '</option>');
+			  x++;
+		  }
+		  $("#tenancy_floor").html(options.join(''));
+	   }
+	</script>
+	<% if(!load_chunk){%> </body></html> <%}%>

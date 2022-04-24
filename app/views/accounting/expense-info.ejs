@@ -1,0 +1,177 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+			<div class="container-fluid">
+				<%- include('../shared/page-title') %>
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container">
+							<%- include('../shared/property-common') %>
+                                <div class="row">
+                                <div class="col-12">
+                                  <div class="panel  panel-default">                                   
+                                    <div class="panel-body">
+                                        <h4 class="card-title">Expense Information</h4>
+                                        <div class="row">
+                                            <div class='col-12'>
+                                                <hr>
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Title
+                                                            </th>
+                                                            <td>
+                                                                <%= expense_info.expense_title %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Description
+                                                            </th>
+                                                            <td>
+                                                                <%= expense_info.expense_description %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Created On
+                                                            </th>
+                                                            <td>
+                                                                <%= expense_info.created_on %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Created By
+                                                            </th>
+                                                            <td>
+                                                                <%= expense_info.created_by %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Total Amount
+                                                            </th>
+                                                            <td>
+                                                                <%= expense_info.expense_amount %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Paid Amount
+                                                            </th>
+                                                            <td>
+                                                                <%= expense_info.paid_amount %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="col">
+                                                                Status
+                                                            </th>
+                                                            <td>
+                                                                <% if(expense_info.is_cancelled){ %>
+                                                                    <span class="badge badge-danger">Cancelled</span>
+                                                                <% } else { %>
+                                                                    <% if(expense_info.paid_amount<expense_info.expense_amount){ %>
+                                                                        <span class="badge badge-warning">Uncleared</span>
+                                                                    <% }else{%>
+                                                                        <span class="badge badge-success">Cleared</span>
+                                                                    <% } %>                                                
+                                                                <% } %>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="panel  panel-default">                                   
+                                    <div class="panel-body">
+                                        <h4 class="card-title">Expense Items</h4> 
+                                        <div class="row">
+                                            <div class='col-12'>                                              
+                                                <div class="table-responsive">
+                                                    <table id='tbl_expenses' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Description</th>
+                                                                <th  class="text-right">Amount</th>                                                             																	
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% for (var i = 0; i < items.length; i++) { %>
+                                                                <tr>
+                                                                    <td><%= i+1 %></td>
+                                                                    <td><%= items[i].description %></td>
+                                                                    <td class="text-right"><%= items[i].amount %></td>
+                                                                </tr>
+
+                                                            <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="panel  panel-default">                                   
+                                    <div class="panel-body">
+                                        <h4 class="card-title">Payments</h4> 
+                                        <div class="row">
+                                            <div class='col-12'>                                              
+                                                <div class="table-responsive">
+                                                    <table id='tbl_expenses' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Date/Time</th>
+                                                                <th  class="text-right">Amount</th>   
+                                                                <th>Method</th>  
+                                                                <th>Reference</th>                                                         																	
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% for (var i = 0; i < payments.length; i++) { %>
+                                                                <tr>
+                                                                    <td><%= i+1 %></td>
+                                                                    <td><%= payments[i].payment_date %></td>
+                                                                    <td class="text-right"><%= payments[i].amount %></td>
+                                                                    <td><%= payments[i].payment_method %></td>
+                                                                    <td><%= payments[i].reference %></td>
+                                                                </tr>
+
+                                                            <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+						</div>
+						<!--end::Container-->
+					</div>
+			</div>
+			<!-- container-fluid -->
+           
+			<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+            
+
+				
+				
+				<script>
+
+window.onload=function(){window.jQuery||window.location.reload()};
+			
+				</script>
+	<% if(!load_chunk){%> </body></html> <%}%>

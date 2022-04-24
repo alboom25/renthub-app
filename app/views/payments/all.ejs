@@ -1,0 +1,75 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+
+			<div class="container-fluid">
+				<%- include('../shared/page-title') %>
+				<div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="tbl_payments" class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Pay Date</th>
+                                            <th>Amount</th>
+                                            <th>Method</th>
+                                            <th>Paid By</th>
+                                            <th>Reference</th>
+                                            <th>Invoice #</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<!-- container-fluid -->
+<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+			
+<script>
+    window.onload=function(){window.jQuery||window.location.reload()};
+$(document).ready(function(e){
+    $("#tbl_payments").DataTable({
+            responsive: !0,
+            searchDelay: 500,
+            processing: !0,
+            serverSide: true,
+            "order": [],
+            ajax: {
+                url: "<%= base_url %>/system/payments?action=get-all",
+                type: "POST",
+                async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+            },
+            columns: [{
+                data: "payment_date"
+                
+            }, {
+                data: "paid_amount",
+                className: "text-md-left, text-lg-right",
+                render: function(data, type, row){
+                    return formatMoney(row.paid_amount);
+                }
+               
+            }, {
+                data: "payment_method"
+            }, {
+                data: "paid_by"
+            }, {
+                data:"payment_ref"
+            }, {
+               data: 'invoice_id',
+                render: function(data, type, row) {
+                    return "<a class='dynamic-link' href='<%=base_url %>/system/invoices/" + row.invoice_id + "'>" + data.invoice_id + "</a>";
+                }
+            }
+            ]
+        });
+    
+});
+</script>
+  
+<% if(!load_chunk){%> </body></html> <%}%>

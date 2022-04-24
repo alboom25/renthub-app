@@ -1,0 +1,1708 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+  
+  <div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+       <div class="col-12">
+          <div class="page-title-box d-flex align-items-center justify-content-between">
+             <h4 id="page-title" class="mb-0 font-size-18"><%=page_title%></h4>
+             <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                   <li class="breadcrumb-item"><a class='dynamic-link' href="<%= base_url %>">Home</a></li>
+                   <li class="breadcrumb-item"><a class='dynamic-link' href="<%=base_url %>/agent/properties/<%=property.property_code%>?dest=units">Units</a></li>
+                   <li class="breadcrumb-item active"><%=sub_header%></li>
+                </ol>
+             </div>
+          </div>
+       </div>
+       <div class='col-12'>
+       </div>
+    </div>
+    <!-- end page title -->
+    <div class="row">
+       <div class="col-xl-4">       
+          <!-- end card -->
+          <div class="card">
+             <div class="card-body">
+               <div class="mb-2 mr-2">
+                  <img id="unit-display-picture" onclick="intitImagePopup(this)" class='rounded avatar-lg' alt="" title="<%=unit_info.unit_name%>" src="<%= base_url %>/public/units/display-picture/<%= unit_info.unit_code %>" />
+                   
+                 </div>
+                <h4 class="card-title mb-4">Room/Unit -  <%=unit_info.unit_name%></h4>
+                <%- unit_info.ratings_message %>
+                <div class="mt-2 mb-2">                   
+                    <a class="btn btn-warning  btn-sm mt-1 dynamic-link" href="<%= base_url %>/agent/properties/edit-unit/<%= unit_info.unit_code %>?property=<%=property.property_code%>">Edit Unit</a>
+
+                    <button type="button" class="btn btn-danger  btn-sm mt-1" onclick="deleteUnit('<%= unit_info.unit_code %>')" >Delete</button>
+                 </div>
+                <div class="table-responsive">
+                   <table class="table mb-0" style="width:100%">
+                      <tbody>                        
+                         <tr>
+                            <th scope="row">Rent Amount:</th>
+                            <td><%=unit_info.rent_amount%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Unit Type:</th>
+                            <td><%=unit_info.unit_type%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Floor:</th>
+                            <td><%=unit_info.floor%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Garages:</th>
+                            <td><%=unit_info.garages%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Bedrooms:</th>
+                            <td><%=unit_info.bedrooms%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Bathrooms:</th>
+                            <td><%=unit_info.bathrooms%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Water Source:</th>
+                            <td><%=unit_info.water_source%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Floor Type:</th>
+                            <td><%=unit_info.floor_type%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Furnishing:</th>
+                            <td><%=unit_info.furnishing%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Current Tenant:</th>
+                            <td>
+                                <% if(unit_info.occupied){%>
+                                   
+                                    <a class="btn btn-light btn-sm dynamic-link " href="<%= base_url %>/manage/tenants/view/<%= unit_info.tenant_id %>"><%=unit_info.tenant_name%></a>
+                                 <%}else{%>
+                                    <a class="btn btn-success btn-sm dynamic-link " href="<%= base_url %>/manage/leases/new?unit_code=<%= unit_info.unit_code %>">Add Lease</a>
+                                 <%}%>
+                            </td>
+                         </tr>
+                      </tbody>
+                   </table>
+                   
+                </div>
+                <div class="mt-2 button-items">
+                    <p class="text-muted ml-3 mb-0">Features</p>
+                    <% if(unit_info.internet_available){%>
+                        <button class="text-muted btn btn-sm"><i class="bx bx-wifi font-size-16 align-middle text-primary mr-1"></i> Internet/Wifi</button>
+                    <%}%>
+                    <% if(unit_info.tv_cable_available){%>
+                        <button class="text-muted btn btn-sm"><i class="bx bx-tv font-size-16 align-middle text-primary mr-1"></i> Tv Cable</button>
+                    <%}%>
+                    <% if(unit_info.has_balcony){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bx-chair font-size-16 align-middle text-primary mr-1"></i> Balcony</button>
+                    <%}%>
+                    <% if(unit_info.has_balcony){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bxs-tree font-size-16 align-middle text-primary mr-1"></i> Garden</button>
+                    <%}%>
+                    <% if(unit_info.pet_friendly){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bxl-baidu font-size-16 align-middle text-primary mr-1"></i> Pets</button>
+                    <%}%>
+                    <% if(unit_info.has_closet){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bx-closet font-size-16 align-middle text-primary mr-1"></i> Closet</button>
+                    <%}%>
+                    <% if(unit_info.has_laundry_room){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bxs-washer font-size-16 align-middle text-primary mr-1"></i> Laundry Room</button>
+                    <%}%>
+                   
+                   
+                </div>
+             </div>
+          </div>
+            
+       </div>
+       <div class="col-xl-8">
+          <div class="row">
+             <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                   <div class="card-body">
+                      <div class="media">
+                         <div class="media-body">
+                            <p class="text-muted font-weight-medium">Total Revenue</p>
+                            <h4 id="lbl-total-revenue" class="mb-0">0.00</h4>
+                         </div>
+                         <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-warning">
+                            <span class="avatar-title bg-success">
+                            <i class="bx bx-check-circle font-size-24"></i>
+                            </span>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>            
+             <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                   <div class="card-body">
+                      <div class="media">
+                         <div class="media-body">
+                            <p class="text-muted font-weight-medium">Unpaid Amount</p>
+                            <h4 id="lbl-unpaid-amount" class="mb-0">0.00</h4>
+                         </div>
+                         <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                            <span class="avatar-title bg-danger">                                        
+                            <i class='bx bxs-file font-size-24'></i>
+                            </span>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="col-md-4">
+              <div class="card mini-stats-wid">
+                 <div class="card-body">
+                    <div class="media">
+                       <div class="media-body">
+                          <p class="text-muted font-weight-medium">Work Orders</p>
+                          <h4 id="lbl-work-orders" class="mb-0">0</h4>
+                       </div>
+                       <div class="avatar-sm align-self-center mini-stat-icon rounded-circle ">
+                          <span class="avatar-title bg-warning">
+                          <i class="bx bx-hourglass font-size-24"></i>
+                          </span>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+          </div>
+            <!-- end card -->
+            <% if(property.manage_images){ %>
+              <div class="card">
+                <div class="card-body">
+                   <h4 class="card-title">Images</h4>
+                   <div class="row ">
+                      <div class='col-12'>
+                       <div class="text-left">
+                          <% if(unit_info.unit_images.length < 6){%>
+                              <label for="new_picture" class="btn btn-success small-block mt-2"> + Upload New</label>
+                              <input type="file" name="new_picture" id='new_picture' accept=".png, .jpg, .jpeg" hidden/>  
+                              <p class="text-muted">You can add up to a maximum of 5 pictures</p>  
+                          <%}else{%>
+                              <div class="alert alert-warning" role="alert">
+                                  You have attained the maximum number of pictures. Delete the existing pictures in order to add new
+                              </div>                                               
+                          <%}	%>								
+            
+                     </div>
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="col-12">
+                         <div class="d-flex flex-wrap gallery"> 
+                            <% for (var i = 0; i < unit_info.unit_images.length ; i++) { %>
+                               <div alt="<%= unit_info.unit_images[i].image_id %>" class="d-flex flex-column gallery-item border img-popup" src="<%= base_url %>/public/units/public-picture/<%= unit_info.unit_images[i].image_id %>" style="background-image: url('<%= base_url %>/public/units/public-picture/<%= unit_info.unit_images[i].image_id %>')"  img-popup="true" title="<%= unit_info.unit_images[i].image_description %>">
+                                  <p class='image-title mb-auto p-2'><%= unit_info.unit_images[i].image_description %></p>
+                                  <div class="justify-content-center img-buttons hidden-buttons">
+                                     <button class="set-default btn btn-light btn-sm mr-2">Set Default</button>
+                                     <button class="change-caption btn btn-info btn-sm mr-2">Caption</button>
+                                     <button class="delete-image btn btn-danger btn-sm">Delete</button>
+                                  </div>
+                                </div>                              
+                            <%}%>                           
+                          </div>
+                      </div>
+                   </div>
+                      
+                </div>
+             </div>
+            <% } %>
+            
+            <!-- end card -->     
+
+         
+       </div>
+    </div>
+       
+
+
+<div class="row">
+  <div class="col">
+        
+    <div class="card">
+      <div class="card-body">               
+           <h5>Reviews :</h5>
+           <div id="customer-reviews"> </div>                  
+           
+           <div class="d-flex justify-content-center mt-2">
+             <button id="load-more-reviews" class="btn btn-light" type="button">Load More...</button>
+           <div>
+      
+      </div>
+  </div>
+</div>
+
+</div>
+  </div>
+</div>
+    
+        
+ 
+      
+         
+       
+    <!-- end row -->
+  </div>
+  <!-- container-fluid -->
+    <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+  
+  <!-- uppload image -->
+  <div id="upload-image-modal" class="modal" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload Image</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class='bx bx-x text-weight-bold' ></i>
+        </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+               <div class="d-flex justify-content-center border p-2 shadow">
+                  <img alt="" id="img_to_upload" style="width: auto; height:auto; max-height: 300px; max-width: 100%;"/>
+               
+               </div>
+             
+               <div class="form-group mt-1">
+               <label for="image-description">Description</label>
+               <textarea maxlength="255" class="form-control" rows="3" id="image-description"></textarea>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id='upload-image-button' class="btn btn-success">Upload</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+   </div>
+ </div>
+  <!-- edit invoice modal -->
+  <div id="mdl_edit_invoice" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+       <!-- Modal content-->
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 id='edit_invoice_title' class="modal-title">Edit Invoice</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+             </button>
+          </div>
+          <div id='edit_invoice_body' class="modal-body">
+             <div class="row mb-10">
+                <div class="col-12">
+                   <p class="text-dark font-weight-bold">Particulars</p>
+                   <table id="tbl_invoice_particulars" class="table  hover table-sm">
+                      <thead>
+                         <tr>
+                            <th>Particular</th>
+                            <th>Amount</th>
+                         </tr>
+                      </thead>
+                      <tbody> </tbody>
+                   </table>
+                   <input type="hidden" id="edit_invoice_id"/>              
+                   <button type="button" id="add_particular" class="btn btn-light mt-0">Add New Row</button> 
+                </div>
+             </div>
+             <div class="modal-footer d-flex bg-light mt-3">
+                <h4 id="bill_total">Total Kes 0.00</h4>
+             </div>
+          </div>
+          <div class="modal-footer">           
+             <button id="btn_update_changes" type="button" class="btn btn-success">Update Changes</button>
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+       </div>
+    </div>
+  </div>
+  <!-- add payment modal -->
+  <div id="mdl_add_payment" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+       <!-- Modal content-->
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 id='add_payment_title' class="modal-title">Add Payment</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+             </button>
+          </div>
+          <form id="frm_add_payment" method='post' action ='#'>
+             <div class="modal-body">
+                <input type="hidden" name="bill_id" id = "payment_bill_id"/>
+                <div class="form-group row mb-4">
+                   <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
+                   <div class="col-sm-9">             
+                      <input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control" required/>					
+                   </div>
+                </div>
+                <div class="form-group row mb-4">
+                   <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
+                   <div class="col-sm-9">
+                      <select name="payment_method" class="form-control custom-select" id ="payment_payment_method">
+                         <option value="Cash">Cash</option>
+                         <option value="M-PESA">M-PESA</option>
+                         <option value="Card Swipe">Card Swipe</option>
+                         <option value="Bank Deposit">Bank Deposit</option>
+                         <option value="Bank Transfer">Bank Transfer</option>
+                         <option value="Cheque">Cheque</option>
+                         <option value="Other">Other</option>
+                      </select>
+                   </div>
+                </div>
+
+                <div class="form-group row mb-4">
+                  <label for="payment_payment_method" class="col-sm-3 col-form-label">Account<span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                      <select name='target_account' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null" required >
+                          <% for (var i = 0; i < property.accounts_list.length ; i++) { %>
+                              <option value="<%= property.accounts_list[i].account_id %>" ><%= property.accounts_list[i].account_name %> (<%= property.accounts_list[i].account_no %>)</option>
+                          <%}%>
+                      </select>
+                  </div>
+               </div>
+               
+                <div class="form-group row mb-4">
+                   <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
+                   <div class="col-sm-9">             
+                      <input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
+                   </div>
+                </div>
+                <div class="form-group row mb-4">
+                   <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
+                   <div class="col-sm-9">             
+                      <input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
+                   </div>
+                </div>
+                <div class="form-group row">
+                   <label for="payment_payment_by" class="col-sm-3 col-form-label">Paid By</label>
+                   <div class="col-sm-9">             
+                      <input id='payment_payment_by' type="text" name="payment_by" class="form-control" autocomplete="off"/>          
+                   </div>
+                </div>
+             </div>
+             <div class="modal-footer">    
+                <button id='btn_add_payment' type="submit" class="btn btn-success">Add Payment</button>       
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+             </div>
+          </form>
+       </div>
+    </div>
+  </div>
+   <!-- preview invoice -->
+  <div id="mdl_preview_invoice" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+       <!-- Modal content-->
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 id='preview_invoice_title' class="modal-title">Invoice Details</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+             </button>
+          </div>
+          <div id='preview_invoice_body' class="modal-body">
+          </div>
+          <div class="modal-footer">           
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <div id="crop-image-modal" class="modal " role="dialog">
+    <div class="modal-dialog ">
+       <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title">Crop Image</h5>
+                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <i class='bx bx-x text-weight-bold' ></i>
+                              </button>
+        </div>
+        <div class="modal-body">
+         <div class="row">
+          <div class="col-lg-12 text-center">
+             <div id="cropped-profile-image" ></div>
+          </div>
+         </div>
+        </div>
+        <div class="modal-footer">
+         <button id='image-cropped-button' class="btn btn-success">Set Default</button>
+         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+       </div>
+    </div>
+   </div>
+
+    <!-- preview tenancy modal -->
+<div id="mdl_preview_tenancy" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+     <!-- Modal content-->
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title">Tenancy Preview</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <i class='bx bx-x'></i>
+           </button>
+        </div>
+        <div id='preview_tenancy_body' class="modal-body">
+          
+        </div>
+        <div class="modal-footer"> 
+           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+     </div>
+  </div>
+</div>
+
+ <!-- terminate tenancy modal -->
+<div id="mdl_terminate_tenancy" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     <!-- Modal content-->
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title">Tenancy Termination (ROOM NO, FLOOR)</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <i class='bx bx-x'></i>
+           </button>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer"> 
+          
+        </div>
+     </div>
+  </div>
+</div>
+
+   <!-- edit tenancy modal -->
+   <div id="mdl_edit_lease" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+       <!-- Modal content-->
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Edit Lease (ROOM NO, FLOOR)</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+             </button>
+          </div>
+          <div class="modal-body">
+             <form id="frm_edit_lease">
+                <div class='row ml-2'>
+                   <div class="form-group col-sm-12 col-lg-6">
+                     <label>Monthly Rent <span class="text-danger">*</span></label>
+                     <input name='monthly_rent' id='monthly_rent' type="number" class="form-control"> 
+                   </div>
+                   <div class="form-group col-sm-12 col-lg-6">
+                     <label>Payment Deadline Date <span class="text-danger">*</span></label>
+                     <select name='payment_date' id='payment_date' class="form-control custom-select"> </select>
+                   </div>
+                </div>
+                <div class="row ml-2 mt-2">
+                   <div class='col'>
+                     <p class='text-dark font-weight-bold'>Fixed Monthly Bills (Recurring)</p>
+                     <table id='tbl_other_bills' class="table table-bordered table-hover">
+                       <thead>
+                         <tr>
+                            <th>Bill Name</th>
+                            <th>Amount</th>
+                         </tr>
+                       </thead>
+                       <tbody> </tbody>
+                     </table>
+                     <input type='hidden' name='unit_fixed_bills' id='unit_fixed_bills'>
+                     <input type='hidden' name='edit_lease_id' id='edit_lease_id'>
+                     <button type="button" id='add_other_bill' class="btn btn-light">Add New Row</button> 
+                   </div>
+                </div>
+             </form>
+            
+          </div>
+          <div class="modal-footer"> 
+            
+          </div>
+       </div>
+    </div>
+  </div>
+ 
+
+  
+  
+   
+  
+  
+  
+  <script>
+window.onload=function(){window.jQuery||window.location.reload()};
+  $(document).ready(function(e){
+    $('.selectpicker-select').selectpicker();
+
+    $image_crop = $("#cropped-profile-image").croppie({
+        enableExif: !0,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: "square"
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+
+    $("#tbl_invoice_particulars").SetEditable({
+                  columnsEd: "0, 1",   
+                  onEdit: function() {computeBill()},
+                  onDelete:  function() {computeBill()},
+                 $addButton: $("#add_particular"),
+              });
+
+   $("[img-popup]").click(function(e) {
+   
+   if($(e.target).hasClass('img-popup')){
+       intitImagePopup(e.currentTarget)
+   }
+  
+});
+
+$("#tbl_rent_history").DataTable({
+      responsive: !0,
+      searchDelay: 500,
+     processing: !0,
+         serverSide: true,
+      order: [],
+      ajax: {
+        url:"<%= base_url %>/manage/units/rent-history",
+        type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        data:{
+          "unit_code":"<%=unit_info.unit_code%>"
+        }
+      },
+      columns: [    
+        {
+          data: null,
+          render: function(data, type, row) {
+             return formatMoney(data.rent_amount);
+          }
+         
+        },
+        {
+          data: "effective_from"
+         
+        },
+        {
+          data: null,
+          render: function(data, type, row){
+              if(data.effective_to === null){
+               return "<span class='badge badge-success'>Current</span>";         
+              }else{
+               return data.effective_to;
+                
+              }
+          },
+        }
+      ],
+    });
+   
+        
+           
+      $("#tbl_leases").DataTable({
+      responsive: !0,
+      searchDelay: 500,
+     processing: !0,
+         serverSide: true,
+      order: [],
+      ajax: {
+        url:
+          "<%= base_url %>/manage/units/leases-history",
+        type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        data:{
+          "unit_code":"<%=unit_info.unit_code%>"
+        }
+      },
+      columns: [    
+        {
+          data: "lease_date"
+         
+        },
+        {
+          data: "expiry_date"
+         
+        },
+        {
+          data: null,
+          render: function(data, type, row){
+              if(data.is_active){
+                if(data.expiry_date===null){
+                  return "<span class='badge badge-success'>Active</span>";
+                }else{
+                  return "<span class='badge badge-warning'>Expiring Soon</span>";
+                }                 
+              }else{
+                return "<span class='badge badge-danger'>Expired</span>";
+              }
+          },
+        },
+        {
+          data: null,
+          render: function(data, type, row) {
+             return '<a class="text-info dynamic-link" href="<%= base_url %>/manage/tenants/view/' +
+						   data.tenant_id +
+						   '" >' + data.tenant_name + '</a>';
+          }       
+        },
+        {
+          data: "bills_payment_date",
+        }, 
+        {
+          data: null,
+          responsivePriority: -1,
+          render: function(data, type, row){  
+             return tenancyData(data);          
+          }
+        }     
+          
+       
+      ],
+    });
+   
+  
+    $("#tbl_invoices").DataTable({
+      responsive: !0,
+      searchDelay: 500,
+     processing: !0,
+         serverSide: true,
+      order: [],
+      ajax: {
+        url:
+          "<%= base_url %>/manage/units/tenant-invoices",
+        type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        data:{
+          "unit_code":"<%=unit_info.unit_code%>"
+        }
+      },
+      columns: [    
+        {
+          data: "bill_date"
+         
+        },
+        {
+          data: "bill_code"
+         
+        },
+        {
+          data: null,
+          render: function(data, type, row) {
+            return '<a class="text-info dynamic-link" href="<%= base_url %>/manage/tenants/view/' +
+						   data.tenant_id +
+						   '" >' + data.tenant_name + '</a>';
+          }
+         
+        },
+        {
+          data: null,
+          className:"text-md-left, text-lg-right",
+          render: function(data, type, row){
+              return formatMoney(data.total_amount);
+          }
+         
+        },
+        {
+          data: null,
+          className:"text-md-left, text-lg-right",
+          render: function(data, type, row){
+            var bal = data.total_amount - data.paid_amount;
+            if(bal==data.total_amount && data.total_amount>0){
+              return '<span class="text-danger">'+ formatMoney(bal)+'</span>';
+            }else if(bal>0){
+              return '<span class="text-warning">'+ formatMoney(bal)+'</span>';
+            }else{
+              return '<span class="text-muted">'+ formatMoney(bal)+'</span>';
+            }    
+          }
+        }, 
+        {
+            data: null,
+            render: function(data, row, type) {
+              var bal = data.total_amount - data.paid_amount;
+              if(data.is_cancelled) {
+                return '<span class="badge badge-danger">Cancelled</span>';
+              } else if(bal == data.total_amount && data.total_amount>0) {
+                return '<span class="badge badge-warning">Uncleared</span>';
+              } else if(bal >0 ) {
+                return '<span class="badge badge-warning">Uncleared</span>';
+              } else {
+                return '<span class="badge badge-success">Cleared</span>';
+              }
+            }
+          },
+        {
+            data: null,
+            responsivePriority: -1,
+            render: function(data, type, row){
+                return actionData(data);
+            }
+        }     
+          
+       
+      ],
+    });
+  
+    $("#tbl_payments").DataTable({
+      responsive: !0,
+      searchDelay: 500,
+     processing: !0,
+         serverSide: true,
+      order: [],
+      ajax: {
+        url:
+          "<%= base_url %>/manage/units/tenant-payments",
+        type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        data:{
+          "unit_code":"<%=unit_info.unit_code%>"
+        }
+      },
+      columns: [    
+        {
+          data: "payment_date"
+         
+        },
+        {
+          data: "bill_code"
+         
+        },
+        {
+          data: "payment_method"
+         
+        },
+        {
+          data: "payment_ref"
+         
+        },
+        
+        {
+          data: null,
+          className:"text-md-left, text-lg-right ",
+          render: function(data, type, row){
+              return formatMoney(data.payment_amount);
+          }
+         
+        },  
+        {
+			data: null,
+			render: function(data, type, row) {
+				var rp = '<span class="badge badge-soft-success">Completed</span>';
+				if(data.is_cancelled) {
+					rp = '<a class=" btn badge badge-soft-danger" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="a'+data.payment_id+'" href="#a'+data.payment_id+'" >Cancelled</a><div id="a'+data.payment_id+'" class="collapse mt-2 text-wrap alert alert-danger"><b>Reasons:</b> '+data.cancel_reasons +'</div>';
+					
+				}
+				return rp;				
+			},
+		},    
+        {
+            data: null,
+            responsivePriority: -1,
+            render: function(data, type, row){
+              return paymentData(data);
+            }
+        }     
+          
+       
+      ],
+    });
+  
+    loadBalances();
+    loadReviews(0);
+
+  $("#frm_add_payment").on("submit", function(e) {
+          e.preventDefault();
+           var isvalid = $("#frm_add_payment").valid();
+           if (isvalid) {
+          $('#btn_add_payment').html('Please wait..');
+          $("#btn_add_payment").attr("disabled", true);
+           var data = new myFormData($(this));
+          $.ajax({
+              type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+              url: "<%= base_url %>/accounting/tenant-invoices/add-payment",
+              data: data,
+              success: function(data) {
+                  $('#btn_add_payment').html('Add Payment');
+                  $("#btn_add_payment").attr("disabled", false);
+                  if (data.Status == 200) {
+                    $("#mdl_add_payment").modal("hide");
+                    $("#tbl_invoices").DataTable().ajax.reload();
+                    $("#tbl_payments").DataTable().ajax.reload();
+                    loadBalances();
+                    showAppNotification('success', data.Message);
+                  } else {
+                      showAppNotification('warning', data.Message);
+                  }
+              },
+              error: function(err) {
+                  $('#btn_add_payment').html('Add Payment');
+                  $("#btn_add_payment").attr("disabled", false);
+                  showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+              }
+          });
+      
+        }
+  });
+      
+  $("#btn_update_changes").click(function(e){
+    e.preventDefault();
+    var pats = $("#tbl_invoice_particulars").tableToJSON({
+          columns: new Array(0, 1),
+    });	
+    var obj ={
+      bill_particulars: pats,
+      bill_id: $("#edit_invoice_id").val()
+    }
+    $.ajax({
+          type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+          url: "<%= base_url %>/accounting/tenant-invoices/update-invoice",
+          data: obj,        
+          success: function(data) {
+           
+            if (data.Status == 200) {
+              $("#mdl_edit_invoice").modal("hide")
+              showAppNotification("success", data.Message);
+              $("#tbl_invoices").DataTable().ajax.reload();
+              loadBalances();
+            } else {
+              showAppNotification("warning", data.Message);
+            }
+          },
+          error: function(err) {           
+           showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+          }
+        });
+    
+  
+  });
+  
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $($.fn.dataTable.tables(true)).DataTable()
+           .columns.adjust()
+           .responsive.recalc();
+  });  
+
+  });
+  
+  $(".delete-image").on("click", function(e) {
+   
+	var parent = $(this).parent().parent();
+  
+		 sharpAlert({
+  title: 'Confirm?',
+  text: "Are you sure you want to delete this picture?",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Yes',
+  confirmButtonClass:"btn btn-success mr-2 btn-swal",
+  cancelButtonText: 'No',
+  cancelButtonClass:"btn btn-danger mr-2 btn-swal",
+ 
+  buttonsStyling: false
+},(passed)=>{
+  if (passed) {
+    $.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/manage/units/delete-image",
+		data: "image_id="+parent.attr("alt"),
+		success: function(data) {
+			if (data.Status == 200) {
+				showAppNotification("success", data.Message);
+            loadPage(window.location.href, false);
+				//parent.remove();
+			} else {
+				showAppNotification("warning", data.Message);
+			}
+		},
+		error: function(err) {
+         alert(JSON.stringify(err))
+			showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');		
+		},
+  });
+  
+    
+  } 
+});
+});
+
+$("#new_picture").on("change", function() {
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(this.files[0]);
+        reader.onload = function(event) {
+            // blob stuff
+            var blob = new Blob([event.target.result]); // create blob...
+            window.URL = window.URL || window.webkitURL;
+            var blobURL = window.URL.createObjectURL(blob); // and get it's URL
+            // helper Image object
+            var image = new Image();
+            image.src = blobURL;
+            //preview.appendChild(image); // preview commented out, I am using the canvas instead
+            image.onload = function() {
+                // have to wait till it's loaded
+                var resized = resizeImage(image); // send it to canvas
+                $('#img_to_upload').attr('src', resized);
+                $("#upload-image-modal").modal("show");
+                $("#image-description").focus();
+            };
+        };
+    }
+});
+
+$("#upload-image-button").on("click", function(e) {
+    var img_data = $('#img_to_upload').attr('src');
+    var a = img_data,
+        s = a.split(";"),
+        t = s[1].split(",")[1];
+    var data = {
+       'unit_code': "<%= unit_info.unit_code %>",
+        'image_data': t,
+        "description": $("#image-description").val()
+    };
+    $("#upload-image-modal").modal("hide");
+    $.ajax({
+        type: "POST",
+        async: true,
+        credentials: 'same-origin',
+        headers: {
+            'CSRF-Token': csrf_token
+        },
+       url: "<%= base_url %>/manage/units/upload-image",
+        data: data,
+        success: function(data) {
+            if (data.Status == 200) {
+				$("#image-description").val("");
+                showAppNotification("success", data.Message);
+                loadPage(window.location.href, false);
+            } else {
+                showAppNotification("warning", data.Message);
+            }
+        },
+        error: function(err) {
+            showAppNotification("danger", "Unable to process your request");
+        },
+    });
+});
+
+function paymentData(data){
+  var btns = '';
+      if(data.is_cancelled) {
+        btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewInvoice("' + data.bill_id + '")\'>Preview Bill</a>';
+      } else {
+		btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewInvoice("' + data.bill_id + '")\'>Preview Bill</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'cancelPayment("' + data.payment_id + '")\'>Cancel Payment</a>';
+      }
+      return row_begin + btns + row_end;
+}
+
+function loadReviews(start_point){
+ 
+  $("#load-more-reviews").html(" <i class='bx bx-loader-circle bx-spin' ></i> Loading...");
+  $("#load-more-reviews").attr("disabled", true);
+  $.ajax({
+              type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+              url: "<%= base_url %>/public/units/reviews",
+              data: {"start":start_point, "unit_code":"<%=unit_info.unit_code%>"},
+              success: function(data) {
+                $("#load-more-reviews").attr("disabled", false);
+                $("#load-more-reviews").html("Load More...");
+             
+                if(data.data){ 
+                  if(data.data.length>0){
+                    if(data.data.length < 10){
+                      $("#load-more-reviews").parent().remove();
+                    }   
+                    var rev = data.data;
+                    for (var i = 0; i < rev.length; i++) {
+                      var review = '<div id="'+ rev[i].rating_id +'" class="media py-3 border-bottom">';
+                        if(rev[i].user_code === null){
+                          review +='<div class="avatar-xs mr-3"> <span class="avatar-title bg-soft-danger text-danger rounded-circle font-size-16"> A </span> </div>';
+                        }else{
+                          review +=' <img src="<%= base_url %>/public/users/profile-image/' + rev[i].user_code +'" class="avatar-xs mr-3 rounded-circle" alt="">';
+                        }
+                        
+                        review +='<div class="media-body "><div class="d-flex justify-content-between"> <h5 class="font-size-15">'+ rev[i].customer_name +'</h5>';
+                          if(rev[i].verified_tenant){
+                            review +='<span class=" btn-sm text-success"><i class="bx bx-check-double" ></i> Verified Tenant</span> '
+                          }
+                          review+= '</div><p class="text-muted">'+ starRatings(rev[i].user_rating) + '</p><p class="text-muted blockquote font-size-14">'+ rev[i].user_comments + '</p> <div class="text-muted font-size-12"><i class="bx bx-calendar text-primary mr-1"></i>'+ rev[i].rating_date +'</div> </div> </div>';                       
+                        $("#customer-reviews").append(review);
+                    }
+                  
+                  }  else{
+                    $("#load-more-reviews").parent().remove();
+                  }
+                          
+                   
+                }else{
+                  $("#load-more-reviews").parent().remove();
+                }                           
+              },
+              error: function(err) {  
+                $("#load-more-reviews").attr("disabled", false);
+                $("#load-more-reviews").html("Load More...");       
+               //alert(JSON.stringify(err))                
+               //showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+              }
+          });
+}
+
+$("#load-more-reviews").on('click', function(e){
+  var last = $("#customer-reviews").children().last();
+  loadReviews(last[0].id) 
+});
+
+
+
+
+
+$(".set-default").on("click", function(e){
+ 
+	var parent = $(this).parent().parent();
+  
+   
+   $image_crop.croppie('bind', {
+       url: parent.attr("src")       
+   });
+   $("#crop-image-modal").modal("show");
+})
+ 
+$("#image-cropped-button").on("click", function(e) {
+            $image_crop.croppie("result", {
+                type: "base64",
+                format: "jpeg",
+                size: {
+                    width: 200,
+                    height: 200
+                }
+            }).then(function(e) {
+                $("#crop-image-modal").modal("hide");
+                var a = e,
+                    s = a.split(";"),
+                    t = s[1].split(",")[1];
+					var data = {
+            'unit_code':"<%= unit_info.unit_code %>",
+        'image_data': t       
+    };
+					$.ajax({
+        type: "POST",
+        async: true,
+        credentials: 'same-origin',
+        headers: {
+            'CSRF-Token': csrf_token
+        },
+       url: "<%= base_url %>/manage/units/set-display-picture",
+        data: data,
+        success: function(data) {
+            if (data.Status == 200) {
+				        $('#unit-display-picture').attr("src",e)
+                showAppNotification("success", data.Message);               
+            } else {
+                showAppNotification("warning", data.Message);
+            }
+        },
+        error: function(err) {
+            showAppNotification("danger", "Unable to process your request");
+        },
+    });
+            })
+        });
+
+
+function loadBalances(){
+    
+    $.ajax({
+              type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+              url: "<%= base_url %>/manage/units/unit-balances",
+              data: {"unit_code":"<%=unit_info.unit_code%>"},
+              success: function(data) {               
+                  if(data.data){
+                      $("#lbl-total-revenue").html(formatMoney(data.data.total_revenue));
+                      $("#lbl-unpaid-amount").html(formatMoney(data.data.unpaid_amount));
+                      $("#lbl-work-orders").html(data.data.work_orders); 
+                     
+                  }                  
+              },
+              error: function(err) {         
+               //alert(JSON.stringify(err))                
+               //showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+              }
+          });
+      
+  }
+  
+function resizeImage(img) {
+    var max_width = 800;
+    var max_height = 800;
+    var canvas = document.createElement('canvas');
+    var width = img.width;
+    var height = img.height;
+    // calculate the width and height, constraining the proportions
+    if (width > height) {
+        if (width > max_width) {
+            //height *= max_width / width;
+            height = Math.round(height *= max_width / width);
+            width = max_width;
+        }
+    } else {
+        if (height > max_height) {
+            //width *= max_height / height;
+            width = Math.round(width *= max_height / height);
+            height = max_height;
+        }
+    }
+    // resize the canvas and draw the image data into it
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);    
+    return canvas.toDataURL("image/jpeg", 0.7);
+}
+  
+  function actionData(data) {
+        var bal = data.total_amount - data.paid_amount;
+        var btns = '';
+        if(data.is_cancelled) {
+          btns = `<a class="dropdown-item" href="javascript:void(0)" onclick='previewInvoice("${data.bill_id}")'>Preview</a><a class="dropdown-item" href="javascript:void(0)" onclick='downloadPdfInvoice("<%=base_url %>/accounting/tenant-invoices/download-invoice/${data.bill_id}")'>Download</a>`;
+        } else {
+          if(bal > 0) {
+            if(data.paid_amount > 0) {
+              btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewInvoice("' + data.bill_id + '")\'>Preview</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'downloadPdfInvoice("<%=base_url %>/accounting/tenant-invoices/download-invoice/' + data.bill_id + '")\'>Download</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'cancelInvoice("' + data.bill_id + '")\'>Cancel</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'editInvoice("' + data.bill_id + '")\'>Edit</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'addPayment("' + data.bill_id + '")\'>Add Payment</a>';
+            } else {
+              btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewInvoice("' + data.bill_id + '")\'>Preview</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'downloadPdfInvoice("<%=base_url %>/accounting/tenant-invoices/download-invoice/' + data.bill_id + '")\'>Download</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'cancelInvoice("' + data.bill_id + '")\'>Cancel</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'editInvoice("' + data.bill_id + '")\'>Edit</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'addPayment("' + data.bill_id + '")\'>Add Payment</a><a class="dropdown-item text-danger" href="javascript:void(0)" onclick=\'deleteInvoice("' + data.bill_id + '")\'>Delete</a>';
+            }
+          } else {
+            btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewInvoice("' + data.bill_id + '")\'>Preview</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'downloadPdfInvoice("<%=base_url %>/accounting/tenant-invoices/download-invoice/' + data.bill_id + '")\'>Download</a>';
+          }
+        }
+        return row_begin + btns + row_end;
+      }
+  
+      function previewInvoice(id) {
+        $("#preview_invoice_body").html(loading_div);
+        $("#mdl_preview_invoice .modal-footer").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+        $("#mdl_preview_invoice").modal('show');
+        $.ajax({
+          type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+          url: "<%= base_url %>/accounting/tenant-invoices/invoice-info",
+          data: 'bill_id=' + id,
+          success: function(data) {
+            if(data.data) {
+              var part1 = invoiceData(data.data);           
+              $("#preview_invoice_body").html(part1);
+              $("#mdl_preview_invoice .modal-footer").html('<button type="button" class="btn btn-success" onclick="downloadPdfInvoice(\'<%=base_url %>/accounting/tenant-invoices/download-invoice/' + data.data.bill_id + '\')">Download</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            } else {
+              var resp = '<div class="alert alert-warning fade show"><divclass="alert-text">' + data.Message + '</div></div>';
+              $("#preview_invoice_body").html(resp);
+            }
+          },
+          error: function(err) {
+            var resp = '<div class="alert alert-danger fade show"><divclass="alert-text">An error occured while getting invoice details! Please try again.</div></div>';
+            $("#preview_invoice_body").html(resp);
+          }
+        });
+      }
+  
+         
+      function cancelInvoice(id) {
+  sharpAlert({
+    title: 'Confirm?',
+    text: "Are you sure you want to cancel this invoice?",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    confirmButtonClass:"btn btn-success mr-2 btn-swal",
+    cancelButtonText: 'No',
+    cancelButtonClass:"btn btn-danger mr-2 btn-swal",
+   
+    buttonsStyling: false
+  },(passed)=>{
+    if (passed) {
+      $.ajax({
+          type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+          url: "<%= base_url %>/accounting/tenant-invoices/cancel",
+          data: "invoice_id="+id,
+          success: function(data) {
+              $("#tbl_invoices").DataTable().ajax.reload();
+        loadBalances();
+              if (data.Status == 200) {
+                  showAppNotification("success", data.Message);
+              } else {
+                  showAppNotification("warning", data.Message);
+              }
+          },
+          error: function(err) {
+              showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');		
+          },
+    });
+    
+      
+    } 
+  });
+        
+      }
+      
+      function editInvoice(id) {
+        $("#tbl_invoice_particulars tbody").html('');
+        $("#edit_invoice_title").html('Edit Invoice (Loading...)');
+        $("#btn_update_changes").attr("disabled", true);
+        $("#add_particular").attr("disabled", true);
+       
+        $("#mdl_edit_invoice").modal('show');
+       
+        $.ajax({
+          type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+          url: "<%= base_url %>/accounting/tenant-invoices/invoice-info",
+          data: 'bill_id=' + id,
+          success: function(data) {
+            if(data.data) {
+              var invoice_info = data.data;
+              $("#btn_update_changes").attr("disabled", false);
+              $("#add_particular").attr("disabled", false); 
+              $("#edit_invoice_id").val(invoice_info.bill_id);
+              $("#edit_invoice_title").html('Edit Invoice (' + invoice_info.bill_code +")");
+  
+              var bills = JSON.parse(invoice_info.bills_breakdown);
+              var total =0;
+              for(var i = 0; i < bills.length; i++) {
+                var row = '<tr><td>' + bills[i].bill_name + '</td><td class="text-right">' + bills[i].bill_amount + '</td>' + colEdicHtml +'</tr>';
+                $("#tbl_invoice_particulars tbody").append(row);
+                total += bills[i].bill_amount;
+              }
+           
+              $("#bill_total").html("Total " + formatMoney(total));
+            } else {
+              $("#mdl_edit_invoice").modal('hide');
+              showAppNotification('warning', data.Message);
+            }
+          },
+          error: function(err) {
+            $("#mdl_edit_invoice").modal('hide');
+            showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+          }
+        });
+      }
+  
+      function computeBill() {
+      
+      var deps = $("#tbl_invoice_particulars").tableToJSON({
+          columns: new Array(0, 1),
+    });	
+      var total = 0;
+      
+      for(var i = 0; i < deps.length; i++) {			
+              var t = parseInt(deps[i]["Amount"]) || 0;
+        total +=t;
+        
+              
+      }
+      $("#bill_total").html("Total " + formatMoney(total));
+      
+  
+  }
+         
+      function deleteInvoice(id) {
+        sharpAlert({
+    title: 'Confirm?',
+    text: "Are you sure you want to delete this invoice?",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    confirmButtonClass:"btn btn-success mr-2 btn-swal",
+    cancelButtonText: 'No',
+    cancelButtonClass:"btn btn-danger mr-2 btn-swal",
+   
+    buttonsStyling: false
+  },(passed)=>{
+    if (passed) {
+      $.ajax({
+          type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+          url: "<%= base_url %>/accounting/tenant-invoices/delete",
+          data: "invoice_id="+id,
+          success: function(data) {     
+              $("#tbl_invoices").DataTable().ajax.reload();
+        loadBalances();
+              if (data.Status == 200) {
+                  showAppNotification("success", data.Message);
+              } else {
+                  showAppNotification("warning", data.Message);
+              }
+          },
+          error: function(err) {          
+              showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');		
+          },
+    });
+    
+      
+    } 
+  })
+      }
+      
+      function addPayment(id) {
+        $.ajax({
+          type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+          url: "<%= base_url %>/accounting/tenant-invoices/invoice-info",
+          data: 'bill_id=' + id,
+          success: function(data) {
+            if(data.data) {
+              var invoice_info = data.data;
+              
+              var balance  = invoice_info.total_amount - invoice_info.paid_amount;
+              if(balance>0){
+                $("#frm_add_payment").trigger('reset');
+                setTodayDate();
+                $("#payment_bill_id").val(id);
+                $("#add_payment_title").html("Add Payment (" + invoice_info.bill_code +")");
+                $("#payment_payment_amount").val(balance);
+                $("#payment_payment_by").val(invoice_info.first_name + " "  + invoice_info.last_name);
+                $("#mdl_add_payment").modal("show");
+  
+              }else{
+                showAppNotification('warning', "This invoice has already been paid up");
+              }
+            
+            } else {
+              showAppNotification('warning', data.Message);
+            }
+          },
+          error: function(err) {
+            showAppNotification('warning', 'An error occured while getting invoice details! Please try again.');
+          }
+        });
+    }
+    
+    function setTodayDate(){
+      $('#payment_payment_date').val(todaysDate());
+        }
+  
+     
+   
+  function deleteUnit(id){
+   sharpAlert({
+          title: 'Confirm?',
+          text: "Are you sure you want to delete this unit/room?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          confirmButtonClass: "btn btn-success mr-2 btn-swal",
+          cancelButtonText: 'No',
+          cancelButtonClass: "btn btn-danger mr-2 btn-swal",
+         
+          buttonsStyling: false
+      },(passed)=>{
+          if(passed) {
+            $.ajax({
+		type: "POST",
+        async: true, 
+		credentials: 'same-origin',
+		headers: {
+			'CSRF-Token': csrf_token
+		},
+		url: "<%= base_url %>/agent/properties/delete-unit",
+		data: {'unit_code':id, property:'<%=property.property_code %>'},
+		success: function(data) {
+			
+			if(data.Status == 200) {
+        showAppNotification("success", data.Message);
+				loadPage("<%=base_url %>/agent/properties/<%=property.property_code%>?dest=units", false)
+			} else {
+				showAppNotification("warning", data.Message);
+			}
+		},
+		error: function(err) {
+			showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+			
+		},
+	});
+
+         }
+      });
+  }
+      
+  function tenancyData(data){
+   var btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewTenancy("' + data.lease_id + '")\'>Preview Tenancy</a>';
+   if(data.is_active){
+      btns +='<a onclick="editTenancy(\''+ data.lease_id +'\')" class="dropdown-item text-info" href="javascript:void(0);">Edit Tenancy</a>';
+      btns +='<a onclick="terminateTenancy(\''+ data.lease_id +'\')" class="dropdown-item text-warning" href="javascript:void(0);">Terminate Tenancy</a>';  
+   }
+   return row_begin + btns + row_end;
+}
+
+function editTenancy(id){
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/manage/leases/get-single",
+        data: {id:id},        
+        success: function(data) {         
+          if (data.Status == 200) {
+           var data = data.Message;
+           if(data.expiry_date===null){
+            
+            $("#tbl_other_bills tbody").html('');
+          
+				var bills = JSON.parse(data.fixed_monthly_bills);
+				for(var i = 0; i < bills.length; i++) {
+					var row = "<tr><td>" + bills[i]["Bill Name"] + "</td><td class='text-right'>" + bills[i]["Amount"] + "</td>" + colEdicHtml +"</tr>";
+					$("#tbl_other_bills tbody").append(row);
+				}
+
+            initDates(data.bills_payment_date);
+            $("#monthly_rent").val(data.monthly_rent);
+            $("#mdl_edit_lease .modal-title").html('Edit Lease ('+ data.unit_name +', '+ floorToLabel(data.floor) +')');
+            $("#mdl_edit_lease .modal-footer").html('<button type="button" onclick="saveLeaseEdits()" class="btn btn-success" ">Save Changes</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            $("#edit_lease_id").val(id);
+
+            $("#mdl_edit_lease").modal("show");
+
+           }else{
+              showAppNotification('warning',"Cannot edit this lease. Already terminated!")
+           }
+          } else {
+           showAppNotification('warning', data.Message);
+          }
+        },
+        error: function(err) {        
+         showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+        }
+      });
+   }
+
+   function initDates(current_date) {
+	var y = 31;
+	var x = 0;
+	var options = [];
+	while(x < y) {
+		x++;
+		var val = '<option value="' + x + '">' + x + "</option>";
+		if(x == current_date) {
+			var val = '<option  selected="selected" value="' + x + '">' + x + "</option>";
+		}
+		options.push(val);
+	}
+	$("#payment_date").html(options.join(""));
+}
+
+function saveLeaseEdits(){
+   $("#mdl_edit_lease").modal('hide');
+   var bills = $("#tbl_other_bills").tableToJSON({
+		columns: new Array(0, 1),
+	});
+   $("#unit_fixed_bills").val(JSON.stringify(bills));
+   var form_data = $("#frm_edit_lease").serialize();
+   $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/manage/leases/edit",
+        data: form_data,        
+        success: function(data) {         
+          if (data.Status == 200) {
+             showAppNotification("success", data.Message);
+             $("#tbl_leases").DataTable().ajax.reload();            
+          } else {
+            $("#mdl_edit_lease").modal('show');
+            showAppNotification('warning', data.Message);          
+          }
+        },
+        error: function(err) {       
+         $("#mdl_edit_lease").modal('show'); 
+          showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+        }
+      });
+   }
+    
+function terminateTenancy(id){
+      $("#mdl_terminate_tenancy .modal-body").html(loading_div);
+      $("#mdl_terminate_tenancy .modal-footer").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+      $("#mdl_terminate_tenancy .modal-title").html('Tenancy Termination');
+      $("#mdl_terminate_tenancy").modal("show");
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/manage/leases/get-single",
+        data: {id:id},        
+        success: function(data) {         
+          if (data.Status == 200) {
+             var data = data.Message;
+            $("#mdl_terminate_tenancy .modal-footer").html('<button type="button" onclick="proceedTermination()" class="btn btn-success" ">Proceed</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+
+            $("#mdl_terminate_tenancy .modal-title").html('Tenancy Termination ('+ data.unit_name +', '+ floorToLabel(data.floor) +')');
+          
+             var resp = '<div class="row"> <div class="col-12"> <form class="form-horizontal" action="#" method="post" id="frm_terminate_tenancy"> <div class="form-group row"> <label for="termination_date" class="col-md-5 col-form-label">Expected move out date</label> <div class="col-md-7"> <input type="date" class="form-control" id="termination_date" name="termination_date" required> </div> </div> <input type="hidden" name="lease_id" value="'+id+'"/> </form> <label for="form-label">Available deposit(s)</label> <table class="table border table-bordered mb-0"> <tbody>';
+               var deps = JSON.parse(data.deposists);
+               var deps_str ='';
+               for(var i = 0; i < deps.length; i++) {
+                  deps_str+='<tr> <th scrope="row">'+ deps[i]["Deposit Name"]+'</th> <td class="text-right">'+ formatMoney(deps[i]["Amount"])+'</td> </tr>';
+               }
+               resp +=deps_str;
+            resp +='</tbody> </table></div> </div>';
+            $("#mdl_terminate_tenancy .modal-body").html(resp);
+            var now = moment().format();
+            var day = ("0" + parseInt(data.bills_payment_date-1).toString()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var td = now.getFullYear()+"-"+(month)+"-"+(day);
+           
+            var xd = new Date(td);
+            if(now.getTime()>xd.getTime()){
+               var month = ("0" + (now.getMonth() + 2)).slice(-2);
+               var td = now.getFullYear()+"-"+(month)+"-"+(day);               
+            }
+            $("#termination_date").val(td)
+            
+          } else {
+            var resp = '<div class="alert alert-warning fade show"><divclass="alert-text">' + data.Message + '</div></div>';
+            $("#preview_tenancy_body").html(resp);
+          }
+        },
+        error: function(err) {        
+          var resp = '<div class="alert alert-danger fade show"><divclass="alert-text">An error occured while getting invoice details! Please try again.</div></div>';
+          $("#preview_tenancy_body").html(resp);
+        }
+      });
+   }
+
+   function proceedTermination(){
+      var form_data = $('#frm_terminate_tenancy').serialize(); 
+      $("#mdl_terminate_tenancy").modal('hide');
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/manage/leases/terminate",
+        data: form_data,        
+        success: function(data) {         
+          if (data.Status == 200) {
+             showAppNotification("success", data.Message);
+             $("#tbl_leases").DataTable().ajax.reload();
+             getPendingTerminations();
+          } else {
+            $("#mdl_terminate_tenancy").modal('show');
+            showAppNotification('warning', data.Message);          
+          }
+        },
+        error: function(err) {       
+         $("#mdl_terminate_tenancy").modal('show'); 
+          showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+        }
+      });
+   }
+
+	
+	function previewTenancy(id){
+      $("#preview_tenancy_body").html(loading_div);
+      $("#mdl_preview_tenancy").modal("show");
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/manage/leases/get-single",
+        data: {id:id},        
+        success: function(data) {         
+          if (data.Status == 200) {
+             var resp = leaseData(data.Message);
+            $("#preview_tenancy_body").html(resp);
+          } else {
+            var resp = '<div class="alert alert-warning fade show"><divclass="alert-text">' + data.Message + '</div></div>';
+            $("#preview_tenancy_body").html(resp);
+          }
+        },
+        error: function(err) {        
+          var resp = '<div class="alert alert-danger fade show"><divclass="alert-text">An error occured while getting invoice details! Please try again.</div></div>';
+          $("#preview_tenancy_body").html(resp);
+        }
+      });
+   }
+
+   function leaseData(data){    
+      var str= '<div class="row"> <div class="col-12"> <div class="table-responsive"> <table class="table table-hover border mb-0"> <tbody> <tr> <th scope="row">Unit/Room:</th> <td>'+ data.unit_name +', '+ floorToLabel(data.floor) +'</td> </tr> <tr> <th scope="row">Lease Date:</th> <td>'+ data.lease_date +'</td> </tr><tr> <th scope="row">Expiry Date:</th> <td>';
+         if(data.expiry_date ==null){
+            str+="<span class='badge badge-success'>Active</span>";
+         }else{
+            str +=data.expiry_date;
+         }
+         str +='</td> </tr> <tr> <th scope="row">Tenant Name:</th> <td><a class="dynamic-link text-info" href="<%= base_url %>/manage/tenants/view/'+ data.tenant_id+'">'+ data.tenant_name +'</a></td> </tr> <tr> <th scope="row">Leased By:</th> <td>'+ data.leased_by +'</td> </tr> <tr> <th scope="row">Monthly Rent:</th> <td>'+ formatMoney(data.monthly_rent) +'</td> </tr> <tr> <th scope="row">Deposits</th> <td> <table class="table table-sm table-borderless mb-0"> <tbody>';
+      var deps = JSON.parse(data.deposists);
+      var deps_str ='';
+      for(var i = 0; i < deps.length; i++) {
+         deps_str+='<tr> <td>'+ deps[i]["Deposit Name"]+':</td> <td class="text-right">'+ formatMoney(deps[i]["Amount"])+'</td> </tr>';
+      }
+      str +=deps_str;
+         
+      str +=  '</tbody> </table> </td> </tr> <tr> <th scope="row">Fixed Monthly Bills:</th> <td> <table class="table table-sm table-borderless mb-0"> <tbody>';
+
+      var fixed_bills = JSON.parse(data.fixed_monthly_bills);
+      var fs_str ='';
+      for(var i = 0; i < fixed_bills.length; i++) {
+         fs_str +='<tr> <td>'+ fixed_bills[i]["Bill Name"]+':</td> <td class="text-right">'+ formatMoney(fixed_bills[i]["Amount"])+'</td> </tr>';
+      }
+      str +=fs_str;
+
+      str +='</tbody> </table> </td> </tr> <tr> <th scope="row">Payments Date:</th> <td>'+ data.bills_payment_date +'</td> </tr> <tr> <th scope="row">Lease Agreement:</th> <td>';
+         if(data.lease_agreement_path !==null){
+            str +='<a onclick="downloadLeaseFile(\''+ data.lease_agreement_path +'\')" href="javascript: void(0);" class="btn btn-sm btn-light btn-rounded text-dark font-weight-medium">'
+            if(data.file_extension==".pdf"){
+               str +='<i class="bx bxs-file-pdf font-size-24 align-middle text-success mr-2"></i>';              
+            }else{
+               str+='<i class="bx bxs-image-alt font-size-24 align-middle text-success mr-2"></i>';
+            }
+            str+= data.lease_agreement_path  + '</a>';
+         }
+        str+='</td> </tr> </tbody> </table> </div> </div> </div>';
+      return str;
+   }
+
+   function downloadLeaseFile(filename){     
+    showAppNotification("info", "Your request has been generated. This can take few seconds.");
+    fetch("<%= base_url %>/manage/leases/lease-file/"+filename)
+         .then(resp => resp.blob())
+         .then(blob => { 
+            if(blob.type=="text/html; charset=utf-8" || blob.type=="text/html" || blob.type==""){
+               showAppNotification("danger", "Unable to generate the file. Please refresh and try again");
+            }else{
+               const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.style.display = "none";
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                showAppNotification("success", "Lease agreement file has been generated");
+            }
+           
+        })
+        .catch(() => {
+            showAppNotification("warning", "Unable to generate file. Please try again!");
+        });
+   }
+
+  </script>
+  <% if(!load_chunk){%> </body></html> <%}%>

@@ -1,0 +1,548 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+			<div class="container-fluid">
+				<%- include('../shared/page-title') %>
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container">
+							<%- include('../shared/property-common') %>
+							<div class="row">
+								<div class="col-12">
+									<div class="panel panel-default">										
+										<div class="panel-body">
+											<div class='row'>
+												<div class="col-lg-7">
+													<h4 class="card-title">Payments</h4>
+													<p class="card-title-desc">Manage all payment made to this property</p>
+												</div>
+												<div class="col-lg-5 text-right" style="margin: auto;">														
+													<button type='button' onclick='addPayment()' class="btn btn-info small-block px-4 mt-2 mb-2">+ Add New Payment</button> 
+												</div>												
+											</div>
+											<div class="row">
+												<div class='col-12'>
+													<hr>
+													<div class="table-responsive">
+														<table id='tbl_payments' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+															<thead>
+																<tr>
+																	<th>Date</th>
+																	<th>Payment</th>
+																	<th class="text-right">Amount</th>
+																	<th>Bill</th>						
+																	<th>Paid By</th>
+																	<th>Type</th>
+																	<th>Status</th>
+																	<th>Actions</th>
+																</tr>
+															</thead>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--end::Container-->
+					</div>
+			</div>
+			<!-- container-fluid -->
+
+			<div id="cancel-payment-modal" class="modal" role="dialog">
+				<div class="modal-dialog">
+				   <div class="modal-content">
+					  <div class="modal-header">
+						 <h5 class="modal-title">Cancel Payment</h5>
+						 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<i class='bx bx-x text-weight-bold' ></i>
+						</button>
+					  </div>
+					  <div class="modal-body">
+						 <div class="row">
+							<div class="col-12">
+									<input type="hidden" id="cancel-payment-id"/>
+							   <div class="form-group mt-1">
+								<label for="image-description">Cancel Reasons</label>
+								<textarea maxlength="255" class="form-control" rows="3" id="cancel-reasons"></textarea>
+							</div>
+							</div>
+						 </div>
+					  </div>
+					  <div class="modal-footer">
+						 <button id='cancel-payment-button' class="btn btn-success">Proceed</button>
+						 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					  </div>
+				   </div>
+				</div>
+			 </div>
+
+			<!-- preview invoice -->
+			<div id="mdl_preview_invoice" class="modal fade" role="dialog">
+			   <div class="modal-dialog modal-lg modal-dialog-scrollable">
+				  <!-- Modal content-->
+				  <div class="modal-content">          
+					 <div class="modal-header">
+					   <h5 id='preview_invoice_title' class="modal-title">Invoice Details</h5>
+					   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<i class='bx bx-x'></i>
+					   </button>
+				   </div>
+					 <div id='preview_invoice_body' class="modal-body">
+					 
+					 </div>
+					 <div class="modal-footer">           
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					 </div>
+				  </div>
+			   </div>
+			</div>
+
+			  
+              <!-- add payment modal -->
+<div id="mdl_add_payment" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-dialog-centered">
+	   <!-- Modal content-->
+	   <div class="modal-content">          
+		  <div class="modal-header">
+			<h5 id='add_payment_title' class="modal-title">Add Payment</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			 <i class='bx bx-x'></i>
+			</button>
+		</div>
+		<form id="frm_add_payment" method='post' action ='#'>
+		  <div class="modal-body">	
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 col-form-label">Tenant <span class="text-danger">*</span></label>				
+				<div class="col-sm-9">             
+					<select onchange="fetchInvoices(this.value)" name='tenant_id' id='tenant_id' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0" required></select>
+				</div>
+			 </div>
+
+			<div class="form-group row mb-2">
+				<label for="payment_payment_date" class="col-sm-3 col-form-label">Invoice # </label>
+				<div class="col-sm-9">          
+					<select name='bill_id' onchange="fetchInvoice(this.value)" id='bill_id' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0"></select>
+				</div>
+			</div>
+
+			<div class="form-group row mb-2">
+			  <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
+			  <div class="col-sm-9">             
+				<input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control"/>					
+			  </div>
+			</div>
+			<div class="form-group row mb-2">
+			  <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
+			  <div class="col-sm-9">
+				<select name="payment_method" class="form-control" id ="payment_payment_method">
+				  <option value="Cash">Cash</option>
+				  <option value="M-PESA">M-PESA</option>
+				  <option value="Card Swipe">Card Swipe</option>
+				  <option value="Bank Deposit">Bank Deposit</option>
+				  <option value="Bank Transfer">Bank Transfer</option>
+				  <option value="Cheque">Cheque</option>
+				  <option value="Other">Other</option>
+				</select>
+			  </div>
+			</div>
+
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 col-form-label">Account<span class="text-danger">*</span></label>
+				<div class="col-sm-9">
+					<select name='target_account' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null" required >
+						<% for (var i = 0; i < property.accounts_list.length ; i++) { %>
+							<option value="<%= property.accounts_list[i].account_id %>" ><%= property.accounts_list[i].account_name %> (<%= property.accounts_list[i].account_no %>)</option>
+						<%}%>
+					</select>
+				</div>
+			  </div>
+  
+			<div class="form-group row mb-2">
+			  <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
+			  <div class="col-sm-9">             
+				<input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
+			  </div>
+			</div>
+  
+			<div class="form-group row mb-2">
+			  <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
+			  <div class="col-sm-9">             
+				<input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
+			  </div>
+			</div>
+  
+			<div class="form-group row mb-0">
+			  <label for="payment_payment_by" class="col-sm-3 col-form-label">Paid By</label>
+			  <div class="col-sm-9">             
+				<input id='payment_payment_by' type="text" name="payment_by" class="form-control" autocomplete="off"/>          
+			  </div>
+			</div>
+				   
+		  </div>
+		  <div class="modal-footer">    
+			<button id='btn_add_payment' type="submit" class="btn btn-success">Add Payment</button>       
+			 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+		  </div>
+		</form>
+	   </div>
+	</div>
+  </div>
+
+			<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>				
+				<script>
+					window.onload=function(){window.jQuery||window.location.reload()};
+
+
+	function setTodayDate(){
+		var today = todaysDate();    
+      	$('#payment_payment_date').val(today);
+    }
+
+	function addPayment(){
+		$('#frm_add_payment').trigger('reset');
+		$("#mdl_add_payment").modal("show");
+		getAllTenants();
+	}
+
+	function getAllTenants() {
+	$.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/manage/tenants/brief",
+		data: "",
+		success: function(data) {
+			if(data.data.length > 0) {
+				var tenants = data.data;
+				var y = tenants.length;
+				var x = 0;
+				var options = [];
+				while(x < y) {
+					var val = '<option value="' + tenants[x].tenant_id + '">' + tenants[x].tenant_name + "</option>";
+					
+					options.push(val);
+					x++;
+				}			
+				$("#tenant_id").html(options.join(""));				
+				$(".selectpicker-select").selectpicker("refresh");	
+				fetchInvoices($("#tenant_id").val())		
+			}
+		},
+		error: function(err) {
+			showAppNotification("danger", "An error has occured. Unable to list tenants");
+		},
+	});
+}
+
+function fetchInvoices(id){
+	$.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/accounting/tenant-invoices/list",
+        data: {tenant_id:id},
+        success: function(data) {
+          if(data.Status == 200) { 
+			  let dt = data.Message;
+			  if(dt.length>0){
+				var y = dt.length;
+				var x = 0;
+				var options = [];
+				while(x < y) {
+					var val = `<option value="${dt[x].bill_id}">${dt[x].unit_name}, ${monthNames[dt[x].bill_month - 1]} ${dt[x].bill_year} (${formatMoney(dt[x].balance)}) </option>`;					
+					options.push(val);
+					x++;
+				}			
+				$("#bill_id").html(options.join(""));				
+				$(".selectpicker-select").selectpicker("refresh");
+			  }else{
+				showAppNotification('warning', "No unpaid invoices found for this tenant.");
+			}			
+          }else{
+			showAppNotification('warning', data.Message);
+		  }
+        }
+      });
+    }
+
+	function fetchInvoice(id){
+		$.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/accounting/tenant-invoices/invoice-info",
+        data: 'bill_id=' + id,
+        success: function(data) {
+          if(data.data) {    
+			  const bal = data.data.total_amount-data.data.paid_amount; 
+			  if(bal>0){
+				$("#payment_payment_by").val(data.data.first_name + " " + data.data.last_name);
+			$("#payment_payment_amount").val();
+			  }else{
+				showAppNotification('warning', "This invoice has been paid up already.");
+			  }
+           
+			
+          }
+        }
+      });
+    }
+
+$(document).ready(function() {
+	setTodayDate();
+	
+  
+  $("#frm_add_payment").validate({
+    rules:{ 		
+      payment_date:{
+        required: true,
+        date:true
+      },
+      payment_method:{
+        required: true
+      },
+      payment_amount:{
+        required: true,
+        number: true,
+        min: 10
+      },
+      payment_ref :{
+        maxlength: 255
+      },
+      payment_by:{
+        maxlength: 255
+      }
+
+    },
+    messages:{ 		
+      payment_date:{
+        required: "Please click to select payment date",
+        date:"Invalid date value"
+      },
+      payment_method:{
+        required: "Invalid payment method"
+      },
+      payment_amount:{
+        required: "Please enter the paid amount",
+        number: "Please enter the paid amount",
+        min: "Amount should be greater than 10"
+      },
+      payment_ref :{
+        maxlength: "Maximum length required is 255 characters"
+      },
+      payment_by:{
+        maxlength: "Maximum length required is 255 characters"
+      }
+
+    }
+
+
+  });
+
+
+
+	$("#tbl_payments").DataTable({
+		responsive: !0,
+		searchDelay: 500,
+		processing: !0,
+		serverSide: true,
+		order: [],
+		ajax: {
+			url: "<%= base_url %>/accounting/tenant-payments",
+			type: "POST",
+        	async: true, 
+			credentials: 'same-origin',
+			headers: {
+				'CSRF-Token': csrf_token
+			},
+		},
+		columns: [{
+			data: "payment_date",
+		}, {
+			data: 'payment_method',
+			render: function(data, type, row) {
+				return "<p class='mb-1 ml-2'><span class='font-weight-bold'>Method:</span> "+ row.payment_method +"</p><p class='text-muted mb-1 ml-2'><span class='font-weight-bold'>Ref: </span>"+ row.payment_ref +"</p>";
+			}
+        }, {
+			data: 'payment_amount',
+            className: "text-md-left, text-lg-right",
+			render: function(data, type, row){return formatMoney(row.payment_amount)}
+		},{
+			data:null,
+			render: function(data, type, row) {				
+				return "<p class='mb-1 ml-2'><span class='font-weight-bold'>Bill #:</span> "+ row.bill_code +"</p><p class='text-muted mb-1 ml-2'><span class='font-weight-bold'>Unit: </span><a class='dynamic-link' href='<%= base_url %>/manage/units/info/" + row.unit_code + "'>"+ row.unit_name + ', ' + floorToLabel(row.floor) +"</a></p>";
+			}
+		}, 
+		 {
+			data: "payment_by",
+        }
+		, {
+			data: 'manually_entered',
+            render: function(data, type, row) {
+                if(row.manually_entered){
+                    return '<span class="badge badge-soft-warning">Manual</span>';
+                }else{
+                    return '<span class="badge badge-soft-success">Auto</span>';
+                }
+            }
+        }
+		, {
+			data: 'is_cancelled',
+			render: function(data, type, row) {
+				var rp = '<span class="badge badge-soft-success">Completed</span>';
+				if(row.is_cancelled) {
+					rp = '<a class=" btn badge badge-soft-danger" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="a'+row.payment_id+'" href="#a'+row.payment_id+'" >Cancelled</a><div id="a'+row.payment_id+'" class="collapse mt-2 text-wrap alert alert-danger"><b>Cancelled By:</b> '+row.cancelled_by +'<br><b>On:</b> '+row.cancel_date+' <br><b>Reasons:</b> '+row.cancel_reasons +'</div>';
+					
+				}
+				return rp;
+			},
+			
+			
+		}, {
+			data: null,
+			responsivePriority: -1,
+			render: function(data, type, row) {				
+				return actionData(row);
+			},
+		},
+		
+	 ],
+	});
+});
+
+
+	function actionData(data) {     
+      var btns = '';
+      if(data.is_cancelled) {
+        btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewInvoice("' + data.bill_id + '")\'>Preview Bill</a>';
+      } else {
+		btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewInvoice("' + data.bill_id + '")\'>Preview Bill</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'cancelPayment("' + data.payment_id + '")\'>Cancel Payment</a>';
+      }
+      return row_begin + btns + row_end;
+    }	
+
+	function previewInvoice(id) {
+      $("#preview_invoice_body").html(loading_div);
+      $("#mdl_preview_invoice .modal-footer").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+      $("#mdl_preview_invoice").modal('show');
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/accounting/tenant-invoices/invoice-info",
+        data: 'bill_id=' + id,
+        success: function(data) {
+          if(data.data) {           
+            var part1 = invoiceData(data.data);
+            $("#preview_invoice_body").html(part1);
+            $("#mdl_preview_invoice .modal-footer").html(`<button type="button" class="btn btn-success" onclick="downloadPdfInvoice('<%=base_url %>/accounting/tenant-invoices/download-invoice/${data.data.bill_id}')">Download</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>`);
+          } else {
+            var resp = '<div class="alert alert-warning fade show"><divclass="alert-text">' + data.Message + '</div></div>';
+            $("#preview_invoice_body").html(resp);
+          }
+        },
+        error: function(err) {
+          var resp = '<div class="alert alert-danger fade show"><divclass="alert-text">An error occured while getting invoice details! Please try again.</div></div>';
+          $("#preview_invoice_body").html(resp);
+        }
+      });
+    }
+	
+	$("#cancel-payment-button").click(function(e){
+    var id=$("#cancel-payment-id").val();	
+    var reasons = $("#cancel-reasons").val();
+	
+    if(id && reasons.length > 3) {
+        $.ajax({
+            type: "POST",
+                async: true, 
+            credentials: 'same-origin',
+            headers: {
+                'CSRF-Token': csrf_token
+            },
+            url: "<%= base_url %>/accounting/tenant-payments/cancel",
+            data: {"id": id, "reasons":reasons},
+            success: function(data) {
+                if(data.Status == 200) {
+					$("#cancel-payment-modal").modal('hide');
+					showAppNotification("success", data.Message);                         
+					$("#tbl_payments").DataTable().ajax.reload();
+                } else {
+                    showAppNotification('warning', data.Message);
+                }
+            },
+            error: function(err) {				
+                showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+            },
+        });
+    }else{
+        $("#cancel-reasons").focus();
+        showAppNotification('warning', "Please provide cancel reasons");
+    }
+
+
+});
+
+$("#frm_add_payment").on("submit", function(e) {
+        e.preventDefault();
+         var isvalid = $("#frm_add_payment").valid();
+         if (isvalid) {
+        $('#btn_add_payment').html('Please wait..');
+        $("#btn_add_payment").attr("disabled", true);
+         var data = new myFormData($(this)); 
+        $.ajax({
+            type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+            url: "<%= base_url %>/accounting/tenant-payments/new",
+            data: data,
+            success: function(data) {
+                $('#btn_add_payment').html('Add Payment');
+                $("#btn_add_payment").attr("disabled", false);
+                if (data.Status == 200) {
+                  $("#mdl_add_payment").modal("hide");
+                  $("#tbl_payments").DataTable().ajax.reload();
+                  showAppNotification('success', data.Message);
+                } else {
+                    showAppNotification('warning', data.Message);
+                }
+            },
+            error: function(err) {
+                $('#btn_add_payment').html('Add Payment');
+                $("#btn_add_payment").attr("disabled", false);
+                showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+            }
+        });
+    
+      }
+});
+    
+
+function cancelPayment(id) {
+	
+	 sharpAlert({
+		title: 'Confirm?',
+		text: "Are you sure you want to cancel the payment?",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Yes',
+		confirmButtonClass: "btn btn-success mr-2 btn-swal",
+		cancelButtonText: 'No',
+		cancelButtonClass: "btn btn-danger mr-2 btn-swal",
+		reverseButtons: true,
+		buttonsStyling: false
+	},(passed)=>{
+		 if (passed) {
+			$("#cancel-payment-id").val(id);
+	$("#cancel-reasons").val("");
+	$("#cancel-payment-modal").modal('show');
+	$("#cancel-reasons").focus();
+		}
+	});
+}
+
+
+				
+				
+				</script>
+	<% if(!load_chunk){%> </body></html> <%}%>

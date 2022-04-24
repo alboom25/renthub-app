@@ -1,0 +1,29 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+  <div style="height:calc(100vh - 160px)">
+    <div class='d-flex align-items-center justify-content-center'>
+        <div class="error-template " style='position: absolute; top: 50%; transform: translate(0, -50%);'>
+            <h1>
+                Oops!</h1>
+             <h2 class='text-danger'>
+                No active property assigned</h2>
+            <div class="error-details">
+                Sorry, you do not have any assigned property. Please contact the landlord/property owner for help.
+            </div>           
+        </div>      
+    </div>
+ </div>
+     
+                        
+                         <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+     
+       <script>
+           window.onload=function(){window.jQuery||window.location.reload()};
+       </script>
+                         <% if(!load_chunk){%> </body></html> <%}%>
+ 
+ 
+                         

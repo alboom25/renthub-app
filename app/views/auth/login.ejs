@@ -1,0 +1,274 @@
+<%- include( '../shared/page-header') %>
+	</head>
+
+	<body class="accounts-body">
+		<script src="https://accounts.google.com/gsi/client" async defer></script>
+		<div class="account-pages my-5 pt-sm-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-8 col-lg-6 col-xl-5">
+						<div class="card shadow-lg">
+							<div class="bg-soft-info">
+								<div class="row">
+									<div class="col-12">
+										<div class="p-4">
+											<h5>Welcome Back !</h5>
+											<p>Sign in to continue to Rent Hub.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-body pt-0">
+								<div>
+									<div class="avatar-md profile-user-wid mb-2">
+										<div class="avatar-title rounded-circle bg-light"> <a href="<%= base_url %>">
+												<img src="<%= base_url %>/assets/images/favicon.png" alt="" class="rounded-circle" height="34" width="34">
+											</a> 
+										</div>
+									</div>
+								</div>
+								<div class="p-2">
+									<div id="login-result"></div>
+									<form id="user-login-form" class="form-horizontal" action="#" method="post">
+										<div class="form-group">
+											<label for="username">Username/Phone/Email <span class="text-danger">*</span></label>
+											<input type='text' class="form-control" name="username" id="username" placeholder="Enter Email/Phone" autocomplete="off" required>
+										</div>
+										<div class="form-group">
+											<label for="userpassword">Password <span class="text-danger">*</span></label>
+											<input type="password" class="form-control" name="userpassword" id="userpassword" placeholder="Enter password" autocomplete="off" required>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="custom-control custom-checkbox custom-checkbox-info">
+													<input name='remember_me' value='1' type="checkbox" class="custom-control-input" id="remember_me">
+													<label class="custom-control-label" for="remember_me">Remember me</label>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="text-md-right mt-3 mt-md-0"><a href="<%= base_url %>/auth/recover-password" class="text-muted">Forgot password?</a>
+												</div>
+											</div>
+										</div>
+										<div class="mt-2">
+											<button id="login-button" class="btn btn-info btn-block" type="submit">Log In</button>
+										</div>
+									</form>
+									<div class="mt-3 text-center">
+										<div>
+											<p>Don't have an account? <a href="<%= base_url %>/auth/register" class="font-weight-medium text-info">Create a New Account</a>
+											</p>
+										</div>
+										<h6>-OR-</h6>
+										<div id="g_id_onload"
+											data-client_id="<%=g_login_id %>"
+											data-callback="googleSignIn"
+											data-auto_select="true">
+										</div>
+	
+    									<div class="g_id_signin" data-type="standard"></div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="<%= base_url %>/assets/js/jquery.min.js?v=010101"></script>
+		<script>
+			function formDeserialize(form_id, data) {    
+    let keys = Object.keys(data);    
+
+    let inputs = [];
+    $("#" + form_id).each(function () {      
+        inputs = $(this).find(':input');
+    });
+
+    for (let i = 0; i < inputs.length; i++) {
+        let iname = inputs[i].name;
+        let $elem = inputs[i];
+        if (keys.includes(iname)) {
+            switch (inputs[i].type) {
+                case 'date':
+                    $elem.value = timestampToDate(new Date(data[iname]));
+                    break;
+                case 'checkbox':
+                    if (data[iname]) {
+                        $elem.checked = true;
+                        $elem.value=1;
+                    }else{
+                        $elem.checked = false;  
+                    }
+                    break;
+                case 'select-one':
+                    $elem.value = data[iname];
+                    if ($elem.className.includes('selectpicker-select')) {
+                        $(".selectpicker-select").selectpicker("refresh");
+                    }
+                    break;
+                case 'radio':                  
+                    $(`#${form_id} input[name="${$elem.name}"][value="${data[iname]}"]`).prop('checked', true);
+                    break;
+                default:
+                    $elem.value = data[iname];
+            }
+
+        }
+    }
+}
+
+function myFormData(form) {
+    let data = {};
+    $(form).find('input, textarea, select').each(function(x, field) {        
+        if (field.name) {
+            if(field.multiple){
+                if(field.value){
+                    data[field.name]= $(form).find('select[name="' + field.name + '"]').val().join(',');
+                }else{
+                    data[field.name] = null;
+                }
+            }else{
+                if(field.type=='radio'){                    
+                    data[field.name] =  $(form).find('input[type="radio"][name="' + field.name + '"]:checked').val();
+                }else{
+                    data[field.name] = field.value;
+                }                
+            }
+        }
+    });
+    return data
+}
+
+
+
+			var csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+			let dest = getDestination();		
+
+		function googleSignIn(scope){
+			$.ajax({
+				type: "POST",
+        		async: true, 
+				credentials: 'same-origin',
+				headers: {
+					'CSRF-Token': csrf_token
+				},
+				url: "<%= base_url %>/auth/google-login",
+				data: {token:scope.credential, dest:dest},
+				success: function(e) {
+					if(200 == e.Status) {
+						$("#login-button").removeClass("btn-info");
+						$("#login-button").addClass("btn-success");
+						$("#login-button").html("Redirecting..");
+						window.location.replace(e.Message)				
+					} else {
+						showFailedMessage(e.Message)
+					}
+				},
+				error: function(e) {
+					showFailedMessage("An error has occurred. Please try again later")
+				}
+			});
+		}
+
+		function getDestination() {
+			let name = 'r';
+			name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+			var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+			var results = regex.exec(location.search);
+			return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+		};
+						
+		function showFailedMessage(e) {
+			$("#login-button").html("Log In");
+			var s = "<div class='alert alert-warning alert-dismissible mb-2' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><strong>Failed!</strong> " + e + " </div>";
+			$("#login-result").html(s), $("#login-button").attr("disabled", !1)
+		}
+
+		function resendConfirmation(code) {			
+			$.ajax({
+				type: "POST",
+        async: true, 
+				credentials: 'same-origin',
+				headers: {
+					'CSRF-Token': csrf_token
+				},
+				url: "<%= base_url %>/auth/resend-confirmation",
+				data: "user=" + code,
+				success: function(e) {
+					if(200 == e.Status) {
+						var s = "<div class='alert alert-success alert-dismissible mb-2' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><strong>Success!</strong> " + e.Message + " </div>";
+						$("#login-result").html(s);						
+					} else {
+						showFailedMessage(e.Message)
+					}
+				},
+				error: function(e) {
+					showFailedMessage("Please try again later")
+				}
+			})
+		}
+		$(document).ready(function() {
+			$.getScriptCached('https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js', function() {
+				$("#user-login-form").validate({
+					rules: {
+						username: {
+							required: !0
+						},
+						userpassword: {
+							required: !0
+						}
+					},
+					messages: {
+						username: {
+							required: "Please enter your registered email or phone"
+						},
+						userpassword: {
+							required: "Please provide your password"
+						}
+					}
+				});
+			});
+			
+		});
+		
+		$("#user-login-form").on("submit", function(e) {
+				e.preventDefault();
+				var s = $("#user-login-form").valid();
+				if(s) {
+					$("#login-button").html("Please wait.."), $("#login-button").attr("disabled", !0);
+					var data = new myFormData($(this));
+					data.dest = dest;
+					$.ajax({
+						type: "POST",
+        				async: true, 
+						credentials: 'same-origin',
+						headers: {
+							'CSRF-Token': csrf_token
+						},
+						url: "<%= base_url %>/auth/login",
+						data: data,
+						success: function(data) { 
+							if(data.Status == 200){
+								$("#login-button").removeClass("btn-info");
+								$("#login-button").addClass("btn-success");
+								$("#login-button").html("Redirecting..");
+								window.location.replace(data.Message)
+							}else{
+								showFailedMessage(data.Message)
+							}         
+                                
+                 },
+                 error: function(err) {                    
+					showFailedMessage("Please try again later");                    
+                 }
+						
+					});
+				}
+			});
+		
+		</script>
+	</body>
+
+	</html>

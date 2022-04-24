@@ -1,0 +1,516 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+    <div class="container-fluid">
+        <%- include('../shared/page-title') %>
+        <div class='row'>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-title-desc">Make changes to your account</p>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#profile" role="tab" aria-selected="false">
+                                    <span class="d-block d-sm-none"><i class='bx bxs-cog'></i></span>
+                                    <span class="d-none d-sm-block">Profile</span> 
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#account" role="tab" aria-selected="true">
+                                    <span class="d-block d-sm-none"><i class='bx bxs-user' ></i></span>
+                                    <span class="d-none d-sm-block">Account</span> 
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#security" role="tab" aria-selected="false">
+                                    <span class="d-block d-sm-none"><i class='bx bxs-lock-alt' ></i></span>
+                                    <span class="d-none d-sm-block">Change Password</span>   
+                                </a>
+                            </li>                           
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content p-3 text-muted">
+                            <div class="tab-pane active" id="profile" role="tabpanel"> 
+                                <div class=''>
+                                    <h4 class="card-title">Personal Information</h4>
+                                    <p class="text-muted mb-0">Fill the fields with the required information then update to make changes</p>
+                                    <p class="text-danger mt-0">&ast; You can only change primary details once in 30 days! &ast;</p>
+                                    <div class="form-group row">
+                                        <label for="account_profile_image" class="col-md-3 col-form-label text-lg-right text-left">Profile Picture</label>
+                                        <div class="col-md-9">
+                                            <div id='d-flex flex-column'>
+                                                <div class='p-2'>                                                   
+                                                    <% if(user_profile.avatar_path.startsWith('http')){  %>
+                                                        <img onclick="intitImagePopup(this)" id='account_profile_image' class="rounded avatar-lg" src="<%= user_profile.avatar_path%>"
+                                                        alt="">
+                                                    <%}else{%>
+                                                     <img onclick="intitImagePopup(this)" id='account_profile_image' class="rounded avatar-lg" src="<%= base_url %>/public/users/profile-image/<%= user_profile .user_code%>"
+                                                     alt="">
+                                                     <%}%> 
+
+                                                </div>                                                
+                                                <div class="p-2 btn-group" role="group">
+                                                    <label for="profile_picture" class="btn btn-light btn-sm w-xs"> Upload</label>
+                                                    <label id='reset-account-image-file' class="btn btn-danger btn-sm w-xs">Reset</label>
+                                                </div>
+                                                <input type="file" name="profile_picture" id='profile_picture' accept=".png, .jpg, .jpeg" hidden/>
+                                                
+                                            </div>
+                                        </div>                                      
+                                    </div>
+
+                                    <form id='frm_profile_edits' action='#' method='post'>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">First Name <span class='text-danger'>*</span></label>
+                                            <div class="col-md-9">
+                                               <input name='first_name' class="form-control" type="text" value="<%= user_profile .first_name %>" />
+                                            </div>
+                                        </div>                                       
+                                        
+                                         <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Last Name <span class='text-danger'>*</span></label>
+                                            <div class="col-md-9">
+                                               <input name='last_name' class="form-control" type="text" value="<%= user_profile .last_name %>" />
+                                            </div>
+                                         </div>
+                                         <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Other Names</label>
+                                            <div class="col-md-9">
+                                               <input name='other_names' class="form-control" type="text" value="<%= user_profile .other_names %>" />                       
+                                            </div>
+                                         </div>
+                                         <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Company Name</label>
+                                            <div class="col-md-9">
+                                               <input name='company_name' class="form-control" type="text" value="<%= user_profile .company_name %>" />
+                                               <span class="form-text text-muted">If you want to be addressed as a company. Leave blank to use your full names.</span>
+                                            </div>
+                                         </div>
+                                         <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Contact Address <span class='text-danger'>*</span></label>
+                                            <div class="col-md-9">
+                                               <textarea name='address' class="form-control" rows="3"><%= user_profile .address %></textarea>
+                                            </div>
+                                         </div>        
+                                    </form>
+                                    
+                                    <div class="d-flex flex-row-reverse mt-10">
+                                        <button id='btn_profile_edits' type="button" class="btn btn-success small-block">
+                                            <i class="bx bx-check-double font-size-16 align-middle mr-2"></i> Update Profile
+                                        </button>                                                              
+                                    </div>
+
+                                </div>                               
+                            </div>
+
+                            <div class="tab-pane " id="account" role="tabpanel">
+                                <div class=''>
+                                    <h4 class="card-title">Account Information</h4>
+                                    <p class="card-title-desc">Fill the fields with the required information to update your account details</p>
+                                       
+                                    <form id='frm_account_edits' method='post' action='#'>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Username <span class='text-danger'>*</span></label>
+                                            <div class="col-md-9">
+                                               <input name='username' class="form-control" type="text" value="<%= user_profile .username %>"/>
+                                            </div>
+                                         </div>
+                                         <div class="form-group row ">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Email Address</label>
+                                            <div class="col-md-9 input-group">
+                                               <input  class="form-control btn btn-light text-left" type="text" value="<%= user_profile .email_address %>" disabled/>
+                                               
+                                            </div>
+                                         </div>
+                                         <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Phone No</label>
+                                            <div class="col-md-9 input-group">
+                                            <% if(user_profile.phone_number){%>                                               
+                                                    <input  class="form-control" type="text" value="<%= user_profile .phone_number %>" autocomplete="off" maxlength="12" disabled/>
+                                                    
+                                                <% if(user_profile.phone_verified){%>
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text btn" onclick="linkPhone()">Change Number</span>
+                                                    </span> 
+                                                <%}else{%>
+                                                    <span class="input-group-append">
+                                                        <button type="button" class="input-group-text btn btn-warning" onclick="verifyPhoneOtp()">Verify Number</button>
+                                                        <button type="button" class="input-group-text btn" onclick="linkPhone()">Change Number</button>
+                                                    </span> 
+                                                <%}%>
+                                                
+                                            <%}else{%>
+                                                <button type="button" class="btn btn-warning" onclick="linkPhone()">Link Phone</button>
+                                            <%}%>   
+                                        </div>                                         
+                                         </div>
+                                    </form>
+
+                                    <div class="d-flex flex-row-reverse mt-10">
+                                        <button id='btn_account_edits' type="button" class="btn btn-success small-block">
+                                            <i class="bx bx-check-double font-size-16 align-middle mr-2"></i> Update Account
+                                        </button>                                                              
+                                    </div>
+                                    
+                                </div>  
+                            </div>
+                            <div class="tab-pane" id="security" role="tabpanel">
+                                <div class=''>
+                                    <h4 class="card-title">Change Password</h4>
+                                    <p class="card-title-desc">Provide your current password and the new password to change</p>
+                                    
+                                    <form id='frm_password_edits' method='post' action='#'>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Current Password <span class='text-danger'>*</span></label>
+                                            <div class="col-md-9">
+                                               <input class="form-control " type="password" name='old_password' placeholder="Current password"  autocomplete="off" required maxlength="20"/>                         
+                                            </div>
+                                         </div>
+                                         <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">New Password <span class='text-danger'>*</span></label>
+                                            <div class="col-md-9">
+                                               <input class="form-control" type="password" name='new_password' id='new_user_password' placeholder="New password" autocomplete="off"required maxlength="20" />
+                                            </div>
+                                         </div>
+                                         <div class="form-group row">
+                                            <label class="col-form-label col-md-3 text-lg-right text-left">Verify Password <span class='text-danger'>*</span></label>
+                                            <div class="col-md-9">
+                                               <input class="form-control" type="password" name='confirm_password' placeholder="Verify password"  autocomplete="off" required maxlength="20"/>
+                                            </div>
+                                         </div>  
+                                    </form>
+                                    <div class="d-flex flex-row-reverse mt-10">
+                                        <button id='btn_password_edits' type="button" class="btn btn-success small-block">
+                                            <i class="bx bx-check-double font-size-16 align-middle mr-2"></i> Change Password
+                                        </button>                                                              
+                                    </div>
+
+                                </div>                               
+                                
+                            </div>                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div> 
+
+    <div id="crop-profile-image-modal" class="modal" role="dialog">
+        <div class="modal-dialog">
+           <div class="modal-content">
+              <div class="modal-header">
+                 <h5 class="modal-title">Crop Image</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x text-weight-bold' ></i>
+                </button>
+              </div>
+              <div class="modal-body">
+                 <div class="row">
+                    <div class="col-lg-12 text-center">
+                       <div id="cropped-profile-image" ></div>
+                    </div>
+                 </div>
+              </div>
+              <div class="modal-footer">
+                 <button id='profile-image-cropped-button' class="btn btn-success">Done Cropping</button>
+                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              </div>
+           </div>
+        </div>
+     </div>
+
+<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+
+
+
+<script>
+    window.onload=function(){window.jQuery||window.location.reload()};
+function reset_password_submit_button() {
+    $("#btn_password_edits").attr("disabled", !1), $("#btn_password_edits").removeClass("spinner spinner-darker-primary spinner-left mr-3"), $("#btn_password_edits").html('<i class="bx bx-check-double font-size-16 align-middle mr-2"></i> Change Password')
+}
+
+function reset_account_submit_button() {
+    $("#btn_account_edits").attr("disabled", !1), $("#btn_account_edits").removeClass("spinner spinner-darker-primary spinner-left mr-3"), $("#btn_account_edits").html('<i class="bx bx-check-double font-size-16 align-middle mr-2"></i> Update Account')
+}
+
+function reset_profile_submit_button() {
+    $("#btn_profile_edits").attr("disabled", !1), $("#btn_profile_edits").removeClass("spinner spinner-darker-primary spinner-left mr-3"), $("#btn_profile_edits").html('<i class="bx bx-check-double font-size-16 align-middle mr-2"></i> Update Profile')
+}
+$(document).ready(function() {
+    
+        jQuery.validator.addMethod("alphanumeric", function(e, a) {
+            return this.optional(a) || /^[a-z0-9_ ]+$/.test(e)
+        }), $("#frm_profile_edits").validate({
+            rules: {
+                first_name: {
+                    required: !0,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                last_name: {
+                    required: !0,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                other_names: {
+                    minlength: 3,
+                    maxlength: 20
+                },
+                company_name: {
+                    minlength: 3,
+                    maxlength: 30
+                },
+                address: {
+                    minlength: 3,
+                    maxlength: 255
+                }
+            },
+            messages: {
+                first_name: {
+                    required: "You must provide your first name",
+                    minlength: "Fisrt name must have at least 3 characters",
+                    maxlength: "Fisrt name should have a maximum of 20 characters"
+                },
+                last_name: {
+                    required: "You must provide your last name",
+                    minlength: "Last name must have at least 3 characters",
+                    maxlength: "Last name should have a maximum of 20 characters"
+                },
+                other_names: {
+                    minlength: "Other name must have at least 3 characters",
+                    maxlength: "Last name should have a maximum of 20 characters"
+                },
+                company_name: {
+                    minlength: "Company name must have at least 3 characters",
+                    maxlength: "Company name should have a maximum of 30 characters"
+                },
+                address: {
+                    minlength: "Address must have at least 3 characters",
+                    maxlength: "Address should have a maximum of 30 characters"
+                }
+            }
+        }), $("#frm_account_edits").validate({
+            rules: {               
+                username: {
+                    minlength: 6,
+                    maxlength: 20,
+                    remote: "/user/check-username",
+                    alphanumeric: !0
+                }
+            },
+            messages: {               
+                username: {
+                    minlength: "Username must have at least 6 characters",
+                    maxlength: "Username should have a maximum of 20 characters",
+                    remote: "This username is not available",
+                    alphanumeric: "Invalid username"
+                }
+            }
+        }), $("#frm_password_edits").validate({
+            rules: {
+                old_password: {
+                    minlength: 6,
+                    maxlength: 15,
+                    required: !0
+                },
+                new_password: {
+                    required: !0,
+                    minlength: 6,
+                    maxlength: 15
+                },
+                confirm_password: {
+                    required: !0,
+                    minlength: 6,
+                    maxlength: 15,
+                    equalTo: "#new_user_password"
+                }
+            },
+            messages: {
+                old_password: {
+                    minlength: "Your password must be between 6-15 characters long",
+                    maxlength: "Your password must be between 6-15 characters long",
+                    required: "Your password must be between 6-15 characters long"
+                },
+                new_password: {
+                    required: "Your password must be between 6-15 characters long",
+                    minlength: "Your password must be between 6-15 characters long",
+                    maxlength: "Your password must be between 6-15 characters long"
+                },
+                confirm_password: {
+                    required: "Your password must be between 6-15 characters long",
+                    minlength: "Your password must be between 6-15 characters long",
+                    maxlength: "Your password must be between 6-15 characters long",
+                    equalTo: "New passwords do not match!"
+                }
+            }
+        })
+   
+    
+    
+        $image_crop = $("#cropped-profile-image").croppie({
+            enableExif: !0,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: "square"
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            }
+        })
+  
+     $("#btn_profile_edits").click(function(e) {
+        e.preventDefault(), $("#frm_profile_edits").submit()
+    }), $("#btn_password_edits").click(function(e) {
+        e.preventDefault(), $("#frm_password_edits").submit()
+    }),$("#btn_account_edits").click(function(e) {
+        e.preventDefault(), $("#frm_account_edits").submit()
+    }), 
+    $("#profile-image-cropped-button").on("click", function(e) {
+            $image_crop.croppie("result", {
+                type: "base64",
+                format: "jpeg",
+                size: {
+                    width: 200,
+                    height: 200
+                }
+            }).then(function(e) {
+                
+                $("#crop-profile-image-modal").modal("hide");
+                var a = e,
+                    s = a.split(";"),
+                    t = s[1].split(",")[1];               
+
+                $.ajax({
+        type: "POST",
+        async: true,
+        credentials: 'same-origin',
+        headers: {
+            'CSRF-Token': csrf_token
+        },
+       url: "<%= base_url %>/user/update-profile-image",
+        data: {profile_image: t},
+        success: function(data) {
+            if (data.Status == 200) {				
+                $("#account_profile_image").attr("src",e);
+                $(".header-profile-user").attr("src",e);
+                
+                showAppNotification("success", data.Message);                
+            } else {
+                showAppNotification("warning", data.Message);
+            }
+        },
+        error: function(err) {
+            showAppNotification("danger", "Unable to process your request");
+        },
+    });
+            })
+        }),
+    $("#profile_picture").on("change", function() {
+            var e = new FileReader;
+            e.onload = function(e) {
+                $image_crop.croppie("bind", {
+                    url: e.target.result              
+                })
+            }, e.readAsDataURL(this.files[0]), $("#crop-profile-image-modal").modal("show")
+        }),
+         $("#reset-account-image-file").on("click", function(e) {
+        e.preventDefault(), $.ajax({
+            url: "<%= base_url %>/user/reset-profile-image",
+            type: "POST",
+            async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+            data: {},
+            success: function(e) {
+                200 == e.Status ? ($("#account_profile_image").attr("src", "<%= base_url %>/public/users/profile-image/<%= user_profile .user_code%>"), showAppNotification("success", "Profile picture has been reset")) : showAppNotification("danger", e.Message)
+            }
+        })
+    }), $("#frm_profile_edits").on("submit", function(e) {
+        e.preventDefault();
+        var a = $("#frm_profile_edits").valid();
+        if (a) {
+            $("#btn_profile_edits").attr("disabled", !0), $("#btn_profile_edits").addClass("spinner spinner-darker-primary spinner-left mr-3"), $("#btn_profile_edits").html("Please wait..");
+            var s = $(this).serialize();
+            $.ajax({
+                type: "POST",
+                async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                url: "<%= base_url %>/user/profile?section=profile",
+                data: s,
+                success: function(e) {
+                    reset_profile_submit_button(), 200 == e.Status ? showAppNotification("success", e.Message) : showAppNotification("warning", e.Message)
+                },
+                error: function(e) {
+                    reset_profile_submit_button(), showAppNotification("danger", "An error occured")
+                }
+            })
+        }
+    }), $("#frm_account_edits").on("submit", function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var a = $("#frm_account_edits").valid();
+        if (a) {          
+            $("#btn_account_edits").attr("disabled", !0), $("#btn_account_edits").addClass("spinner spinner-darker-primary spinner-left mr-3"), $("#btn_account_edits").html("Please wait..");
+            var s = $(this).serialize();           
+            $.ajax({
+                type: "POST",
+                async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                url: "<%= base_url %>/user/profile?section=account",
+                data: s,
+                success: function(e) {
+                    reset_account_submit_button(), 200 == e.Status ? showAppNotification("success", e.Message) : showAppNotification("warning", e.Message)
+                },
+                error: function(e) {
+                    reset_account_submit_button(), showAppNotification("danger", "An error occured")
+                }
+            })
+        }
+    }), $("#frm_password_edits").on("submit", function(e) {
+        e.preventDefault();
+        var a = $("#frm_password_edits").valid();
+        if (a) {
+            $("#btn_password_edits").attr("disabled", !0), $("#btn_password_edits").addClass("spinner spinner-darker-primary spinner-left mr-3"), $("#btn_password_edits").html("Please wait..");
+            var s = $(this).serialize();
+            $.ajax({
+                type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                url: "<%= base_url %>/user/profile?section=password",
+                data: s,
+                success: function(e) {
+                    reset_password_submit_button(), 200 == e.Status ? showAppNotification("success", e.Message) : showAppNotification("warning", e.Message)
+                },
+                error: function(e) {
+                    reset_password_submit_button(), showAppNotification("danger", "An error occured")
+                }
+            })
+        }
+    }), $("#password-change-form").on("submit", function(e) {
+        e.preventDefault();
+        var a = $("#password-change-form").valid();
+        if (a) {
+            $("#change-password-button").html('<i class="la la-refresh spinner"></i> Please wait..');
+            var s = $(this).serialize();
+            $.ajax({
+                type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                url: "<%= base_url %>/user/update-user-passwword",
+                data: s,
+                success: function(e) {
+                    $("#change-password-button").html("Change Password"), 200 == e.Status ? showAppNotification("success", e.Message) : ($("#change-password-button").html("Change Password"), showAppNotification("warning", e.Message))
+                },
+                error: function(e) {
+                    $("#change-password-button").html("Change Password"), showAppNotification("danger", "An error occured")
+                }
+            })
+        }
+    })
+});
+</script>
+
+<% if(!load_chunk){%> </body></html> <%}%>

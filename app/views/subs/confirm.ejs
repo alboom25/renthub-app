@@ -1,0 +1,160 @@
+<% if(!load_chunk){%> 
+   <%- include('../shared/page-header') %>
+   <%- include('../shared/top-page') %>
+   <div class="page-content">
+ <%}%>
+			<div class="container-fluid">
+                <%- include('../shared/page-title') %>
+                
+                <div class="d-flex flex-column-fluid">
+                  <!--begin::Container-->
+                  <div class="container">
+                     <!-- BEGIN: Content-->
+                     <div class="row">
+                        <div class="col-md-4 order-md-2 mb-4">
+                           <div class="card">
+                              <div class="card-body">
+                                 <ul class="list-group mb-3">
+                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                       <div>
+                                          <h6 class="my-0">Package</h6>
+                                          <small class="text-muted"><%= subs.package_name %> SUBSCRIPTION</small>
+                                       </div>
+                                       <span class="text-muted"><%= subs.package_rate %></span>
+                                    </li>
+         
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <strong>Maximum Properties</strong>                                
+                                         <span><%= subs.maximum_properties %></span>                               
+                                     </li>
+                                     <li class="list-group-item d-flex justify-content-between"> 
+                                         <strong> Maximum Units</strong>
+                                         <span><%= subs.maximum_units %></span>
+                                     </li>
+                                     <li class="list-group-item d-flex justify-content-between">                                                                              
+                                         <strong>Free SMS</strong>  
+                                         <span><%= subs.free_sms_units %> </span>                                  
+                                     </li>
+                                     <li class="list-group-item d-flex justify-content-between">
+                                         <span>Unlimited Support</span>
+                                     </li>
+                                     <li class="list-group-item d-flex justify-content-between"> 
+                                         <span>Add Kes 10,000.00/= for branded SMS</span>                               
+                                     </li>
+                                     <li class="list-group-item d-flex justify-content-between">
+                                         <span>Free MPESA Intergration</span>                              
+                                     </li>
+                                     <li class="list-group-item d-flex justify-content-between">
+                                         <span>Upgrade Anytime</span> 
+                                     </li>
+                                    
+                                    <li class="list-group-item d-flex justify-content-between">                             
+                                       <h5 class="my-0">Total (KES)</h5>
+                                       <h5 class="my-0"><%= subs.offer_price %></h5>                             
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                          
+                         
+                           <button id='package_checkout_button' class="btn btn-success btn-block" type="submit">Confirm Subscription</button>
+                           <button id='btn_cancel_subscription' onclick='cancelSubscription()' class="btn btn-danger btn-block" type="submit">Cancel</button>
+                        </div>
+                        <div class="col-md-8 order-md-1">
+                           <div class='card'>
+                              <div class="card-body py-4">
+                                 <div class="col col-12 mr-20 mt-2">
+                                    <div class="form-group">
+                                       <div class="controls">
+                                          <label for="account-email">Email Address</label>
+                                          <div class="input-group">                       
+                                             <input type="text" class="form-control" value="<%= user_profile .email_address %>" disabled>                                                
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-12">
+                                    <div class="form-group">
+                                       <div class="controls">
+                                          <label for="first_name">First Name</label>
+                                          <input type="text" class="form-control" value="<%= user_profile .first_name %>" disabled>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-12">
+                                    <div class="form-group">
+                                       <div class="controls">
+                                          <label for="other_names">Other Names</label>
+                                          <input type="text" class="form-control" value="<%= user_profile .othr_names %>" disabled>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-12">
+                                    <div class="form-group">
+                                       <div class="controls">
+                                          <label for="last_name">Last Name</label>
+                                          <input type="text" class="form-control"  placeholder="Last Name" value="<%= user_profile .last_name %>" disabled>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-12">
+                                    <div class="form-group">
+                                       <div class="controls">
+                                          <label for="address">Address</label>
+                                          <textarea disabled class="form-control" placeholder="Your Address" name='address'> <%= user_profile .address %> </textarea>                                                                    
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- END: Content-->
+                  </div>
+                  <!--end::Container-->
+               </div>		
+			</div>
+			<!-- container-fluid -->
+         <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+<script >
+   window.onload=function(){window.jQuery||window.location.reload()};
+   $(document).ready(function(){
+    $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+    
+      $("#package_checkout_button").click(function(e) {
+        $("#package_checkout_button").attr("disabled", true);
+        $("#package_checkout_button").addClass("spinner spinner-left mr-3");
+        $('#package_checkout_button').html('Please wait..');      
+        $.ajax({
+            type: "POST",
+            async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+            url: "<%= base_url%>/system/subscriptions/subscribe/<%=subs.package_id%>",
+            data: {plan: '<%= subs.payment_plan%>'},
+            success: function(data) {
+                if (data.Status == 200) {                  
+                    loadPage(data.Message,1);
+                } else {
+                    $("#package_checkout_button").attr("disabled", false);
+                    $("#package_checkout_button").removeClass("spinner spinner-left mr-3");
+                    $('#package_checkout_button').html('Confirm Subscription');
+                    showAppNotification('warning', data.Message);
+                }
+            },
+            error: function(err) {
+                $("#package_checkout_button").attr("disabled", false);
+                $("#package_checkout_button").removeClass("spinner spinner-left mr-3");
+                $('#package_checkout_button').html('Confirm Subscription');              
+                showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+            }
+        });
+    });
+
+   });
+  
+function cancelSubscription() {
+   loadPage('<%= base_url%>/system/subscriptions',1);  
+} 
+</script>
+  
+  <% if(!load_chunk){%> </body></html> <%}%>

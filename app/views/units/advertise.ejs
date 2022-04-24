@@ -1,0 +1,199 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+  
+  <div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+       <div class="col-12">
+          <div class="page-title-box d-flex align-items-center justify-content-between">
+             <h4 id="page-title" class="mb-0 font-size-18"><%=page_title%></h4>
+             <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                   <li class="breadcrumb-item"><a class='dynamic-link' href="<%= base_url %>">Home</a></li>
+                   <li class="breadcrumb-item"><a class='dynamic-link' href="<%=base_url%>/manage/units">Units</a></li>
+                   <li class="breadcrumb-item active"><%=sub_header%></li>
+                </ol>
+             </div>
+          </div>
+       </div>
+       <div class='col-12'>
+       </div>
+    </div>
+    <!-- end page title -->
+    <div class="row">
+       <div class="col-xl-4">       
+          <!-- end card -->
+          <div class="card">
+             <div class="card-body">
+               <div class="mb-2 mr-2">
+                  <img id="unit-display-picture" onclick="intitImagePopup(this)" class='rounded avatar-lg' alt="" title="<%=unit_info.unit_name%>" src="<%= base_url %>/public/units/display-picture/<%= unit_info.unit_code %>" />
+                   
+                 </div>
+                <h4 class="card-title mb-4">Room/Unit -  <%=unit_info.unit_name%></h4>
+                <%- unit_info.ratings_message %>
+               
+                <div class="table-responsive">
+                   <table class="table mb-0" style="width:100%">
+                      <tbody>                        
+                         <tr>
+                            <th scope="row">Rent Amount:</th>
+                            <td><%=unit_info.rent_amount%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Unit Type:</th>
+                            <td><%=unit_info.unit_type%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Floor:</th>
+                            <td><%=unit_info.floor%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Garages:</th>
+                            <td><%=unit_info.garages%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Bedrooms:</th>
+                            <td><%=unit_info.bedrooms%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Bathrooms:</th>
+                            <td><%=unit_info.bathrooms%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Water Source:</th>
+                            <td><%=unit_info.water_source%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Floor Type:</th>
+                            <td><%=unit_info.floor_type%></td>
+                         </tr>
+                         <tr>
+                            <th scope="row">Furnishing:</th>
+                            <td><%=unit_info.furnishing%></td>
+                         </tr>                        
+                      </tbody>
+                   </table>
+                   
+                </div>
+                <div class="mt-2 button-items">
+                    <p class="text-muted ml-3 mb-0">Features</p>
+                    <% if(unit_info.internet_available){%>
+                        <button class="text-muted btn btn-sm"><i class="bx bx-wifi font-size-16 align-middle text-primary mr-1"></i> Internet/Wifi</button>
+                    <%}%>
+                    <% if(unit_info.tv_cable_available){%>
+                        <button class="text-muted btn btn-sm"><i class="bx bx-tv font-size-16 align-middle text-primary mr-1"></i> Tv Cable</button>
+                    <%}%>
+                    <% if(unit_info.has_balcony){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bx-chair font-size-16 align-middle text-primary mr-1"></i> Balcony</button>
+                    <%}%>
+                    <% if(unit_info.has_balcony){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bxs-tree font-size-16 align-middle text-primary mr-1"></i> Garden</button>
+                    <%}%>
+                    <% if(unit_info.pet_friendly){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bxl-baidu font-size-16 align-middle text-primary mr-1"></i> Pets</button>
+                    <%}%>
+                    <% if(unit_info.has_closet){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bx-closet font-size-16 align-middle text-primary mr-1"></i> Closet</button>
+                    <%}%>
+                    <% if(unit_info.has_laundry_room){%>
+                       <button class="text-muted btn btn-sm"><i class="bx bxs-washer font-size-16 align-middle text-primary mr-1"></i> Laundry Room</button>
+                    <%}%>
+                   
+                   
+                </div>
+             </div>
+          </div>
+            
+       </div>
+       <div class="col-xl-8">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class=''>
+                                <h4 class="card-title">Advertise Unit</h4>
+                                <p class="card-title-desc">Provide the information below and submit to Publish a public advert</p>
+                                
+                                <form id='frm_unit_advert' method='post' action='#'>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-4">Viewing Fee (If charged)</label>
+                                        <div class="col-md-8">
+                                           <input class="form-control " type="number" name='viewing_fees' placeholder="Viewing Fee"  autocomplete="off" value='<%=ad_info.viewing_fees%>' maxlength="20"/>                         
+                                        </div>
+                                     </div>
+                                     <div class="form-group row">
+                                        <label class="col-form-label col-md-4"> Additional Information (If any)</label>
+                                        <div class="col-md-8">
+                                           <textarea class="form-control" name='ad_comments' maxlength="1000" rows="16"><%=ad_info.ad_comments%></textarea>
+                                        </div>
+                                     </div>
+                                      <div class="d-flex flex-row-reverse mt-10">
+                                    <button type="submit" class="btn btn-success small-block">
+                                       Publish Advert
+                                    </button>                                                              
+                                </div>
+                                </form>
+                               
+
+                            </div>    
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </div>         
+       </div>
+    </div>
+       
+
+
+    
+        
+ 
+      
+         
+       
+    <!-- end row -->
+  </div>
+  <!-- container-fluid -->
+    <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+   
+  <script>
+window.onload=function(){window.jQuery||window.location.reload()};
+  
+  $("#frm_unit_advert").on("submit", function(e) {
+          e.preventDefault();
+           var isvalid = $("#frm_unit_advert").valid();
+           if (isvalid) {
+          $('#frm_unit_advert button').html('Please wait..');
+          $("#frm_unit_advert button").attr("disabled", true);
+           var data = new myFormData($(this));
+          $.ajax({
+              type: "POST",
+          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+              url: "<%= base_url %>/manage/units/advertise?unit=<%=unit_info.unit_code%>",
+              data: data,
+              success: function(data) {
+                  $('#frm_unit_advert button').html('Publish Advert');
+                  $("#frm_unit_advert button").attr("disabled", false);
+                  if (data.Status == 200) {
+                     loadPage("<%= base_url %>/manage/units", false);
+                     showAppNotification('success', data.Message);
+                  } else {
+                     showAppNotification('warning', data.Message);
+                  }
+              },
+              error: function(err) {                
+                  $('#frm_unit_advert button').html('Publish Advert');
+                  $("#frm_unit_advert button").attr("disabled", false);
+                  showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+              }
+          });
+      
+        }
+  });
+   
+  </script>
+  <% if(!load_chunk){%> </body></html> <%}%>

@@ -1,0 +1,149 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+			<div class="container-fluid " >
+				<%- include('../shared/page-title') %>
+				<div class="d-flex flex-column-fluid" >
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-body pb-0">
+                                <form id='frm_report' action='#' method='post'>
+                                    <div class="row p-0">
+                                        <div class="col-md-6 col-lg-3 mb-0">
+                                            <div class="form-group">    
+                                                <label>Report Type</label>                          
+                                                <select name='report_id' class="form-control " id="report_id" onchange='reportChanged(this.value)' value=required>
+                                                    <optgroup label="Tenants">
+                                                        <option value="10">All Tenants</option>
+                                                        <option value="11">Active Tenants</option>                                                      
+                                                    </optgroup>
+                                                    <optgroup label="Units">
+                                                        <option value="20">All Units</option>
+                                                        <option value="21">Occupied Units</option>   
+                                                        <option value="22">Unoccupied Units</option>                                                    
+                                                    </optgroup>
+                                                    <optgroup label="Leases">
+                                                        <option value="30">Active Leases</option>
+                                                        <option value="31">Expired Leases</option>        
+                                                    </optgroup>
+                                                    <optgroup label="Readings">
+                                                        <option value="40">All Readings</option>                                                            
+                                                    </optgroup>
+                                                    <optgroup label="Work Orders">
+                                                        <option value="50">All Work Orders</option>                                                            
+                                                    </optgroup>
+                                                    <optgroup label="Suppliers/Vendors">
+                                                        <option value="60">All Suppliers/Vendors</option>                                                            
+                                                    </optgroup>
+                                                    <optgroup label="Accounting">
+                                                        <option value="70">Accounts List</option> 
+                                                        <option value="71">Expenses</option>  
+                                                        <option value="72">Tenant Invoices</option>   
+                                                        <option value="73">Tenant Payments</option>   
+                                                        <option value="74">Supplier Invocies</option> 
+                                                        <option value="75">Supplier Payments</option>   
+                                                        <option value="76">Accounts Receivables</option>  
+                                                        <option value="77">Accounts Payables</option>  
+                                                        <option value="78">Balance Sheet</option> 
+                                                        <option value="79">Income Statement</option> 
+                                                        <option value="80">Cashflow Statement</option>                                               
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-3 mb-0">
+                                            <div class="form-group"> 
+                                                <label>Date Range</label>     
+                                                <input  id="date_range" type="text" class="form-control" name="daterange" />                         
+                                                <input id="date_start" name="date_start" type="hidden"/>  
+                                                <input id="date_end" name="date_end" type="hidden"/> 
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 col-lg-3 mb-0">
+                                            <div class="form-group">
+                                                <label>Click to Display</label>
+                                               <button data-label='Display' type="submit" class="btn btn-success form-control report-action">Display</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-3 mb-0">
+                                            <div class="form-group">
+                                                <label>Click to Download</label>
+                                               <button data-label='Download' type="button" id class="btn btn-info form-control report-action"><i class='mdi mdi-download'></i> Download</button>
+                                            </div>
+                                        </div>                                                  
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="panel border-lg shadow" style='overflow:auto'>
+                            <div id='generated_report' class="pb-0" style='min-height: 200px;' style=''>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<!-- container-fluid -->
+<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+			
+<script>
+ 
+    window.onload=function(){window.jQuery||window.location.reload()};
+    $(document).ready(function(){ 
+      
+        $("#report_id").selectpicker(); 
+
+        $('#date_range').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            $("#date_start").val(start);
+            $("#date_end").val(end);            
+        });
+    });  
+
+    function reportChanged(val){
+        
+    }
+
+   $("#frm_report").on("submit", function(e) {
+	e.preventDefault();
+	
+    var data = new myFormData($(this));    
+	$(".report-action").html("Please wait...");
+    $(".report-action").attr("disabled", true);
+    makeBusy('#generated_report');
+    $.ajax({
+        type: "POST",
+        credentials: 'same-origin',
+        headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/admin/reports/display",
+        data: data,
+        success: function(data) {
+            $(".report-action").each(function (e){               
+                $(this).html($(this).attr('data-label'));
+                $(this).attr("disabled", false);
+            });
+            $('#generated_report').html(data.Message);
+           
+            makeBusy('#generated_report', 0);
+        },
+        error: function(err) {
+            $(".report-action").each(function (e){
+                $(this).html($(this).attr('data-label'));
+                $(this).attr("disabled", false);
+            });
+            $('#generated_report').html(`<div class='alert alert-warning'>Unable to generate the report reuested</div>`)
+            makeBusy('#generated_report', 0);
+        }
+    });
+
+});
+
+
+   
+</script>
+  
+<% if(!load_chunk){%> </body></html> <%}%>

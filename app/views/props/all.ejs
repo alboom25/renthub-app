@@ -1,0 +1,102 @@
+<% if(!load_chunk){%> 
+   <%- include('../shared/page-header') %>
+   <%- include('../shared/top-page') %>
+   <div class="page-content">
+ <%}%>
+
+	<div class="container-fluid">
+		<%- include('../shared/page-title') %>
+		<div class="d-flex flex-column-fluid">
+         <!--begin::Container-->
+         <div class="container">
+            <!--begin::top Card-->
+            <div class="card">
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-lg-8">
+                        <h4 class="card-title">My Properties</h4>
+                        <p class="card-title-desc">You can manage a max of <%= max_properties %>. Upgrade your package anytime to manage more.</p>
+                        </div>
+                     <div class="col-lg-4 text-right" style='margin: auto;'>
+                        <a href="<%= base_url %>/admin/properties/new" class="btn btn-success small-block  dynamic-link">                        
+                           + Add New Property</a>
+                     </div>
+                  </div>  
+               </div>               
+            </div>
+            <!--end::top Card-->
+            <% for (var i = 0; i < props.length ; i++) { %>
+               <div class=card>
+                  <div class=card-body>
+                     <div class=d-flex>
+                        <div class="" style="margin-right: 7px"><img onclick=intitImagePopup(this) class="rounded avatar-lg" alt="<%= props[i].property_code %>" src="<%= base_url %>/public/properties/display-picture/<%= props[i].property_code %>"></div>
+                        <div class=flex-grow-1>
+                           <div class="d-flex align-items-center justify-content-between flex-wrap mt-0">
+                              <div class="mr-3 small-block mb-0" style="flex: 1">
+                                 <h5>
+                                    <a href="<%= base_url %>/admin/properties/<%= props[i].property_code %>/settings" class="text-dark text-hover-danger font-weight-bold dynamic-link"><%= props[i].property_name %></a><%if(props[i].is_verified){%> 
+                                    <svg onmouseover=showPopOver(this) data-toggle=popover title="" data-content="A verified badge confirms that this is an authentic property." xmlns=http://www.w3.org/2000/svg width=16 height=16 viewbox="0 0 24 24" style="fill:rgba(80, 165, 241, 1);transform:-ms-filter; cursor:pointer">
+                                       <path d="M12,2C6.486,2,2,6.486,2,12c0,5.514,4.486,10,10,10s10-4.486,10-10C22,6.486,17.514,2,12,2z M10.001,16.413l-3.713-3.705 L7.7,11.292l2.299,2.295l5.294-5.294l1.414,1.414L10.001,16.413z"></path>
+                                    </svg>
+                                    <%}%>
+                                 </h5>
+                                 <div class="d-flex flex-wrap"><span class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-3 mb-lg-0 mb-2"><i class="bx bxs-building-house"></i><%= props[i].property_type %></span> <span class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-3 mb-lg-0 mb-2"><i class="bx bxs-map"></i><%= props[i].locality_name %></span> <span class="text-muted text-hover-primary font-weight-bold"><i class="bx bx-bulb"></i><%= props[i].unit_types %></span></div>
+                                 <p class="text-muted mt-2" style=line-height:100%><%= props[i].occupied_units %>/<%= props[i].available_units %>Occupied Units</p>
+                                 <div class=progress style=max-width:500px>
+                                    <div class="progress-bar bg-success" role=progressbar style="width: <%= props[i].occupancy %>%" aria-valuenow="<%= props[i].occupancy %>" aria-valuemin=0 aria-valuemax=100><%= props[i].occupancy %>%</div>
+                                 </div>
+                              </div>
+                              <div class="my-lg-0 my-1"><a href="<%= base_url %>/admin/properties/<%= props[i].property_code %>/settings" class="btn btn-sm btn-info text-uppercase mr-2 dynamic-link">Edit</a> <button onclick="deleteProperty('<%= props[i].property_code %>')" class="btn btn-sm btn-danger text-uppercase">Delete</button></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="py-2 py-lg-2"><%= props[i].property_description %></div>
+                     <hr>
+                     <div class="d-flex align-items-center flex-wrap">
+                        <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                           <span class=mr-2><i class="bx bx bx-wallet text-success bx-2x"></i></span>
+                           <div class="d-flex flex-column text-dark-75"><span class="font-weight-bolder font-size-sm">Income</span> <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">Kes </span><%= props[i].income %></span></div>
+                        </div>
+                        <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                           <span class=mr-2><i class="bx bxs-wallet-alt text-warning bx-2x"></i></span>
+                           <div class="d-flex flex-column text-dark-75"><span class="font-weight-bolder font-size-sm">Expenses</span> <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">Kes </span><%= props[i].expenses %></span></div>
+                        </div>
+                        <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                           <span class=mr-2><i class="bx bx-briefcase-alt-2 bx-2x text-muted" aria-hidden=true></i></span>
+                           <div class="d-flex flex-column text-dark-75"><span class="font-weight-bolder font-size-sm">Net</span> <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold">Kes </span><%= props[i].net_total %></span></div>
+                         </div>
+                        <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                           <span class=mr-2><i class="bx bx-task bx-2x text-info"></i></span>
+                           <div class="d-flex flex-column text-dark-75"><span class="font-weight-bolder font-size-sm">Work Orders</span> <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold"></span><%= props[i].orders %></span></div>			 
+                        </div>
+                        <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                           <span class=mr-2><i class="bx bx-dollar-circle bx-2x text-danger"></i></span>
+                           <div class="d-flex flex-column text-dark-75"><span class="font-weight-bolder font-size-sm">Uncleared Bills</span> <span class="font-weight-bolder font-size-h5"><span class="text-dark-50 font-weight-bold"></span><%= props[i].unpaid_invoices %></span></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            <% } %>       
+           
+         </div>
+         <!--end::Container-->
+      </div>
+								</div>
+								<!-- container-fluid -->
+<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+  <script>
+     window.onload=function(){window.jQuery||window.location.reload()};
+   $(document).ready(function(){
+    $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+    
+      $(".property-lead").hover(
+        function () {
+               $(this).addClass("shadow-lg");
+         },
+         function () {
+               $(this).removeClass("shadow-lg");
+         }
+      );
+   });
+  </script>
+<% if(!load_chunk){%> </body></html> <%}%>

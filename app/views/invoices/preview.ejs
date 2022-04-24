@@ -1,0 +1,470 @@
+
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+
+	<div class="container-fluid">
+	   <%- include('../shared/page-title') %>
+	   <div class="d-flex flex-column-fluid">
+		  <!--begin::Container-->
+		  <div class="container">
+			 <div class="content-body">
+				<div class="row">
+				   <!-- invoice view page -->
+				   <div class="col-xl-9 col-md-8 col-12">
+					  <div id='invoice' class="card invoice-print-area">						 
+							<div class="card-body pb-0 mx-5">
+							   <!-- header section -->
+							   <div class="row">
+								  <div class="col-xl-4 col-md-12">
+									 <span class="invoice-number mr-50">Invoice#</span>
+									 <span><%= invoice_data.invoice_id%>
+									 </span>
+								  </div>
+								  <div class="col-xl-8 col-md-12">
+									 <div class="d-flex align-items-center justify-content-xl-end flex-wrap">
+										<div class="mr-3">
+										   <small class="text-muted">Date Issue:</small>
+										   <span><%= invoice_data.invoice_date%>
+										   </span>
+										</div>
+										<div>
+										   <small class="text-muted">Date Due:</small>
+										   <span><%= invoice_data.invoice_due_date%>
+										   </span>
+										</div>
+									 </div>
+								  </div>
+							   </div>
+							   <!-- logo and title -->
+							   <div class="row my-3">
+								  <div class="col-6">
+									 <h1 class="text-primary">Invoice</h1>
+									 <% if(invoice_data.invoice_amount - (invoice_data.discount_amount + invoice_data.paid_amount) >0){ %>
+									 <h4 class="text-danger">Unpaid</h4>
+									 <% } else{ %>
+									 <h4 class="text-success">Paid</h4>
+									 <% } %>
+								  </div>
+								  <div class="col-6 d-flex justify-content-end">
+									 <img src="<%= base_url %>/assets/images/rent-hub.png" alt="logo" height="40" >
+								  </div>
+							   </div>
+							   <hr class='dashed'>
+							   <!-- invoice address and contact -->
+							   <div class="row invoice-info">
+								  <div class="col-6 mt-1">
+									 <h6 class="invoice-from">Bill From</h6>
+									 <div class="mb-1">
+										<span>Getsharp Developers Ltd.</span>
+									 </div>
+									 <div class="mb-1">
+										<span>P.O. Box 9730, Nairobi.</span>
+									 </div>
+									 <div class="mb-1">
+										<span>support@getsharp.co.ke</span>
+									 </div>
+									 <div class="mb-1">
+										<span>(254)711 223 639</span>
+									 </div>
+								  </div>
+								  <div class="col-6 mt-1">
+									 <h6 class="invoice-to">Bill To</h6>
+									 <div class="mb-1"><% if(user_profile .company_name === null || user_profile .company_name ==='') {%>
+										<span><%= user_profile .first_name +' '+  user_profile .last_name%>
+										</span><% }else if(user_profile .company_name.length>3){%>
+										<span><%= user_profile .company_name.toUpperCase() %>
+										</span><% } else{ %>
+										<span><%= user_profile .first_name +' '+  user_profile .last_name%>
+										</span><% } %>
+									 </div>
+									 <div class="mb-1">
+										<span><%= user_profile .address %>
+										</span>
+									 </div>
+									 <div class="mb-1">
+										<span><%= user_profile .email_address %>
+										</span>
+									 </div>
+									 <div class="mb-1">
+										<span><%= user_profile .phone_number %>
+										</span>
+									 </div>
+								  </div>
+							   </div>
+							   <hr class='dashed'>
+							   <div class="row" >
+								<div class='col-12'>
+									<div class="table-responsive ">
+										<table class="table table-borderless">
+											<thead>
+											   <tr class="border-0">
+												  <th scope="col">Description</th>
+												  <th scope="col">Cost</th>
+												  <th scope="col">Qty</th>
+												  <th scope="col" class="text-right">Price</th>
+											   </tr>
+											</thead>
+											<tbody>
+											   <tr>
+												  <td><%= package_data.package_name %> Package Subscription - 1 Month
+												  </td>
+												  <td><%= package_data.package_rate %>
+												  </td>
+												  <td>1</td>
+												  <td class="text-primary text-md-left, text-lg-right"><%= package_data.package_rate %>
+												  </td>
+											   </tr>
+											</tbody>
+										 </table>
+									</div>
+								 
+								   <hr class='dashed'>
+								</div>
+							  </div>
+							  <div class="row">
+								<div class="col-12 col-sm-6 ">
+								   <p>Thanks for your business.</p>
+								</div>
+								<div class="col-12 col-sm-6 justify-content-end">
+								   <div class="invoice-subtotal">
+									  <div class="invoice-calc d-flex justify-content-between">
+										 <span class="invoice-title">Subtotal</span>
+										 <span class="invoice-value"><%= invoice_data.invoice_amount %>
+										 </span>
+									  </div>
+									  <div class="invoice-calc d-flex justify-content-between">
+										 <span class="invoice-title">Discount</span>
+										 <span class="invoice-value">- <%= invoice_data.discount_amount %>
+										 </span>
+									  </div>
+									  <hr class='dashed'>
+									  <div class="invoice-calc d-flex justify-content-between">
+										 <span class="invoice-title">Invoice Total</span>
+										 <span class="invoice-value"><%= invoice_data.invoice_amount- invoice_data.discount_amount %>
+										 </span>
+									  </div>
+									  <div class="invoice-calc d-flex justify-content-between">
+										 <span class="invoice-title">Paid to date</span>
+										 <span class="invoice-value">- <%= invoice_data.paid_amount %>
+										 </span>
+									  </div>
+									  <div class="invoice-calc d-flex justify-content-between">
+										 <h4>Balance (KES)</h4>
+										 <h4><%= invoice_data.invoice_amount - (invoice_data.discount_amount + invoice_data.paid_amount) %>
+										 </h4>
+									  </div>
+								   </div>
+								</div>
+							 </div>
+							 <hr class='dashed'>
+							 <div class="row invoice-payments-info">
+								<div class="col-12">
+								   <h6 class="invoice-from">Payments</h6>
+								   <% if(payment_data.length >0){ %>
+									<div class="table-responsive ">
+										<table class="table table-borderless">
+											<thead>
+											   <tr class="border-0">
+												  <th scope="col">Pay Date</th>
+												  <th scope="col">Mode</th>
+												  <th scope="col">Ref</th>
+												  <th scope="col" class="text-right">Amount</th>
+											   </tr>
+											</thead>
+											<tbody>
+											   <% for (var i = 0; i < payment_data.length ; i++) { %>
+											   <tr>
+												  <td><%= payment_data[i].payment_date %>
+												  </td>
+												  <td><%= payment_data[i].payment_method %>
+												  </td>
+												  <td><%= payment_data[i].payment_ref %>
+												  </td>
+												  <td class="text-primary text-md-left, text-lg-right"><%= payment_data[i].paid_amount %>
+												  </td>
+											   </tr>
+											   <% } %>
+											</tbody>
+										 </table>
+									</div>
+								
+								   <% } else{ %>
+								   <div class='alert alert-custom alert-light-danger fade show mb-5 '>
+									  <p>
+										 <strong>No payment(s) found.</strong> Having trouble in making payments? 
+										 <a href='#'>Contact Us</a>
+									  </p>
+								   </div>
+								   <% } %>
+								</div>
+							 </div>
+							</div>
+							<!-- product details table-->						
+						 
+					  </div>
+				   </div>
+				   <div class="col-xl-3 col-md-4 col-12">
+					  <% if(invoice_data.invoice_amount - (invoice_data.discount_amount + invoice_data.paid_amount) > 0){ %>
+					  <!-- invoice action  -->
+					  <div class="col-12">
+						 <div class="card invoice-action-wrapper shadow-none border">
+							<div class="card-body">
+								<% if(auto_pay){%>
+									<div>
+										<p>Click on "Send Request" button to generate a payment request on your phone. Enter your MPESA PIN on your phone to complete the payment. You will get your receipt from MPESA and a payment confirmation from us.</p>
+										<form id='frm_mpesa_payment' action = '' method='post'>
+										   <div class="form-group">
+											  <label>Phone Number 
+											  <span class="text-danger">*</span>
+											  </label>
+											  <input type="text" name='mpesa_payment_no' value='<%= user_profile .phone_number %>' class="form-control" placeholder="Enter Phone No">
+										   </div>
+										   <div id='mpesa_request_result'></div>
+										   <button id='btn_mpesa_payment' type='submit' class="btn btn-primary  mb-1 btn-block font-weight-bold"> Send Request</button>
+										</form>
+										<div id='mpesa_confirmation' style='display:none'>
+										   <button type='button' id='btn_mpesa_payment_confirmation'  class="btn btn-success  mb-1 btn-block font-weight-bold"> Confirm Payment</button>
+										</div>
+									   </div>
+								<%}%>							
+
+							   <form id='frm_send_confirmation_code' action = '' method='post'>
+								<div class="form-group">
+									<h5>Payment Guide</h5>
+									<p class="mb-2">
+										<span>1: On your phone, Go To STK>M-PESA</span><br>
+										<span>2: Lipa na M-PESA</span><br>
+										<span>3: Buy Goods and Services</span><br>
+										<span>4: Enter till no: <b>4046345</b></span><br>
+										<span>5: Enter Amount: <b><%= invoice_data.invoice_amount - (invoice_data.discount_amount + invoice_data.paid_amount) %></b></span><br>
+										<span>6: Enter your Mpesa PIN and send</span><br>
+										<hr>
+										<span>Enter the Mpesa Transaction code in the field below to complete the transaction</span><br>
+									</p>
+								   <label>Transaction Code 
+								   <span class="text-danger">*</span>
+								   </label>
+								   <input style="text-transform:uppercase" type="text" name='mpesa_confirmation' class="form-control" placeholder="Enter TRX Code" maxlength="10" autocomplete="off" required>
+								</div>
+								<div id='mpesa_request_result'></div>
+								<button id='btn_mpesa_confirm' type='submit' class="btn btn-primary  mb-1 btn-block font-weight-bold"> Confirm Payment</button>
+							 </form>
+
+							</div>
+						 </div>
+					  </div>
+					  <% } %>
+					  <div class="col-12">
+						 <div class="card invoice-action-wrapper shadow-none border">
+							<div class="card-body">
+							   <button id='btn_download_invoice' onclick='generateInvoicePDF("<%= invoice_data.invoice_id%>")' type='submit' class="btn btn-block btn-info font-weight-bold  mb-1">
+							   Download
+							   </button>
+							   <a href='<%= base_url %>/system/subscriptions' class="dynamic-link btn btn-info btn-block font-weight-bold"> My Subscriptions
+							   </a>
+							</div>
+						 </div>
+					  </div>
+				   </div>
+				</div>
+			 </div>
+		  </div>
+		  <!--end::Container-->
+	   </div>
+	</div>
+
+	<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%> 
+	
+        <script >
+			window.onload=function(){window.jQuery||window.location.reload()};
+    $(document).ready(function() {     
+         $("#frm_mpesa_payment").validate({
+            rules: {
+                mpesa_payment_no: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 12,
+                    number: true
+                }
+            },
+            messages: {
+                mpesa_payment_no: {
+                    required: "Please provide your MPESA Number",
+                    minlength: "Mpesa number should be between 10-12 characters",
+                    maxlength: "Mpesa number should be between 10-12 characters",
+                    number: "Please provide a valid MPESA Number"
+                }
+            }
+        });
+
+
+		$("#frm_send_confirmation_code").validate({
+            rules: {
+                mpesa_confirmation: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10,                  
+                }
+            },
+            messages: {
+                mpesa_confirmation: {
+                    required: "Please provide your MPESA Transaction code",
+                    minlength: "Mpesa transaction code should be between 10 characters",
+                    maxlength: "Mpesa transaction code should be between 10 characters",
+                   
+                }
+            }
+        });
+
+		$("#frm_send_confirmation_code").on("submit", function(e) {
+            e.preventDefault();
+
+            var isvalid = $("#frm_send_confirmation_code").valid();
+            if (isvalid) {
+                $("#btn_mpesa_confirm").attr("disabled", true);
+                $("#btn_mpesa_confirm").addClass("spinner spinner-light spinner-left mr-3");
+                $('#btn_mpesa_confirm').html('Please wait..');
+                 var data = new myFormData($(this));
+                $.ajax({
+                    type: "POST",
+        			async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                    url:  "<%=base_url %>/system/invoices/<%= invoice_data.invoice_id%>?action=confirmation-code",
+                    data: data,
+                    success: function(data) {
+                        reset_confirm_submit_button();
+                        if (data.Status == 200) {                        
+                            showAppNotification('success', data.Message);
+                        } else {
+                            showAppNotification('warning', data.Message);
+                        }
+                    },
+                    error: function(err) {
+                        reset_confirm_submit_button();
+                        showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                    }
+                });
+
+            }
+        });
+
+       
+        $("#frm_mpesa_payment").on("submit", function(e) {
+            e.preventDefault();
+
+            var isvalid = $("#frm_mpesa_payment").valid();
+            if (isvalid) {
+                $("#btn_mpesa_payment").attr("disabled", true);
+                $("#btn_mpesa_payment").addClass("spinner spinner-light spinner-left mr-3");
+                $('#btn_mpesa_payment').html('Please wait..');
+                 var data = new myFormData($(this));
+                $.ajax({
+                    type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                    url:  "<%=base_url %>/system/invoices/<%= invoice_data.invoice_id%>?action=request-payment",
+                    data: data,
+                    success: function(data) {
+                        reset_mpesa_submit_button();
+                        if (data.Status == 200) {
+                            $("#mpesa_confirmation").css("display", "block");
+                            showAppNotification('success', data.Message);
+                        } else {
+                            showAppNotification('warning', data.Message);
+                        }
+                    },
+                    error: function(err) {
+                        reset_mpesa_submit_button();
+                        showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                    }
+                });
+
+            }
+        });
+
+        $("#btn_mpesa_payment_confirmation").click(function(e) {
+    e.preventDefault();
+    $("#btn_mpesa_payment_confirmation").attr("disabled", true);
+    $("#btn_mpesa_payment_confirmation").addClass("spinner spinner-light spinner-left mr-3");
+    $('#btn_mpesa_payment_confirmation').html('Please wait..');
+    $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%=base_url %>/system/invoices/<%= invoice_data.invoice_id%>" + "?action=confirm-payment",
+        data: "",
+        success: function(data) {
+
+            if (data.Status == 200) {
+               loadPage("<%=base_url %>/system/subscriptions", true);               
+            } else {
+                reset_mpesa_confirm_button()
+                showAppNotification('warning', data.Message);
+            }
+        },
+        error: function(err) {
+            reset_mpesa_confirm_button();
+            showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+        }
+    });
+
+});
+
+
+    });
+
+
+function reset_mpesa_submit_button() {
+    $("#btn_mpesa_payment").attr("disabled", false);
+    $("#btn_mpesa_payment").removeClass("spinner spinner-light spinner-left mr-3");
+    $('#btn_mpesa_payment').html('Send Request');
+}
+
+function reset_confirm_submit_button() {
+    $("#btn_mpesa_confirm").attr("disabled", false);
+    $("#btn_mpesa_confirm").removeClass("spinner spinner-light spinner-left mr-3");
+    $('#btn_mpesa_confirm').html('Confirm Payment');
+}
+
+
+function reset_mpesa_confirm_button() {
+    $("#btn_mpesa_payment_confirmation").attr("disabled", false);
+    $("#btn_mpesa_payment_confirmation").removeClass("spinner spinner-light spinner-left mr-3");
+    $('#btn_mpesa_payment_confirmation').html('Confirm Payment');
+} 
+
+function generateInvoicePDF(id) {  
+	 $("#btn_download_invoice").attr("disabled", true);
+	 $('#btn_download_invoice').html('Please wait..');
+	fetch(`<%=base_url %>/system/invoices/generate-pdf/${id}`)
+  .then(resp => resp.blob())
+  .then(blob => {
+	$("#btn_download_invoice").attr("disabled", false);
+$('#btn_download_invoice').html(' Download');
+	if(blob.type.toString() =='application/pdf'){
+      const url = window.URL.createObjectURL(blob);    
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;  
+    a.download = "<%= invoice_data.invoice_id%>";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+	showAppNotification('success', 'Invoice file has been generated');
+    }else{
+      showAppNotification('warning', 'Unable to generate the file. Please refresh and try again');
+    }    
+	
+  })
+  .catch(() => {
+	  showAppNotification('warning', 'Unable to generate file. Please try again!');
+	  $("#btn_download_invoice").attr("disabled", false);
+		$('#btn_download_invoice').html(' Download');});
+ 
+
+   
+  
+}
+
+</script>
+<% if(!load_chunk){%> </body></html> <%}%>

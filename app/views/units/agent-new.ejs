@@ -1,0 +1,495 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+<%}%>
+
+<div class="container-fluid">
+    <%- include('../shared/page-title') %>
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+       <!--begin::Container-->
+       <div class="container">
+          <div class='row'>
+             <div class='col-12'>
+               <div class="card">
+                  <div class="card-body">
+                     <div class="border-bottom p-2">
+                        <h5 class="modal-title">Add new Unit/Room</h5>
+                     </div>
+
+                     <form id='frm_new_property_unit' class="form mx-6" method='post' action='#'>
+                        <div class="p-2">
+                        
+                              <!--begin::Form Group-->
+                              <input name='unit_code' type='hidden' value=''>
+                              <h6 class='text-dark font-weight-bold'>a). Basics</h6>
+                              <div class='row'>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>Unit No/Name/House No <span class="text-danger">*</span></label>
+                                    <input type="text" name='unit_name' value='' class="form-control" autocomplete="off" maxlength="100" required>
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>Floor <span class="text-danger">*</span></label>
+                                    <select name='floor' id='unit_floor' class="form-control custom-select"> 
+                                    </select>
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>Unit Type <span class="text-danger">*</span></label>
+                                    <select name='unit_type' id='unit_type' class="form-control custom-select" onchange="loadBedrooms(this)">                        
+                                    </select>
+                                 </div>
+                                                              
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>Garages</label>
+                                    <input name='garages' type="number" value='0' class="form-control">
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>Bedrooms</label>
+                                    <input name='num_bedrooms' id='num_bedrooms' type="number" value='0' class="form-control">
+                                    <input name='bedrooms' id='bedrooms' type='hidden' value='0'>
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>Bathrooms</label>
+                                    <input name='bathrooms' type="number" value='0' class="form-control">
+                                 </div>
+                              </div>
+                              <div class='row'>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                    <label>Electricity Type <span class="text-danger">*</span></label>
+                                    <select name='electricity_type' id='electricity_type' class="form-control custom-select">                        
+                                    </select>
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                    <label>Water Source <span class="text-danger">*</span></label>
+                                    <select name='water_source' id='water_source' class="form-control custom-select">                        
+                                    </select>
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                 <label>Floor Type <span class="text-danger">*</span></label>
+                                 <select name='floor_type' id='floor_type' class="form-control custom-select"> 
+                                    <option value="Ceramic Tiles">Ceramic Tiles</option>
+                                    <option value="Terrazzo">Terrazzo</option>
+                                    <option value="Porcelain Tiles">Porcelain Tiles</option>
+                                    <option value="Marble Tiles">Marble Tiles</option>
+                                    <option value="Granite Tiles">Granite Tiles</option>
+                                    <option value="Wooden Tiles">Wooden Tiles</option>
+                                    <option value="Hardwood">Hardwood</option>
+                                    <option value="Polished Concrete">Polished Concrete</option>
+                                    <option value="Traditional Concrete">Traditional Concrete</option>
+                                    <option value="Other">Other</option>
+                                 </select>
+                              </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                                    <label>Furnishing <span class="text-danger">*</span></label>
+                                    <select name='furnishing' id='furnishing' class="form-control custom-select">                        
+                                    </select>
+                                 </div>
+                              </div>
+                              <hr class='dashed'>
+                              <h6 class='text-dark font-weight-bold'>b). Features</h6>
+                              <div class="form-group">
+                                 <div class="form-inline">
+                                    <div class="custom-control custom-checkbox mb-3 mr-3 ">
+                                       <input type="checkbox"  class="custom-control-input" id="internet_available" name='internet_available' value='1'>
+                                       <label class="custom-control-label" for="internet_available">Wifi/Internet Available</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                       <input type="checkbox" class="custom-control-input" id="tv_cable_available" name='tv_cable_available' value='1'>
+                                       <label class="custom-control-label" for="tv_cable_available">Has TV Cable</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                       <input type="checkbox" class="custom-control-input" id="has_balcony" name='has_balcony' value='1'>
+                                       <label class="custom-control-label" for="has_balcony">Has Balcony</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                       <input type="checkbox" class="custom-control-input" id="has_garden" name='has_garden' value='1'>
+                                       <label class="custom-control-label" for="has_garden">Has Garden</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                       <input type="checkbox"  class="custom-control-input" id="pet_friendly" name='pet_friendly' value='1'>
+                                       <label class="custom-control-label" for="pet_friendly">Pet Friendly</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                    <input type="checkbox"  class="custom-control-input" id="has_closet" name='has_closet' value='1'>
+                                    <label class="custom-control-label" for="has_closet">Has Closet</label>
+                                 </div>
+                                 <div class="custom-control custom-checkbox mb-3  mr-3">
+                                    <input type="checkbox"  class="custom-control-input" id="has_laundry_room" name='has_laundry_room' value='1'>
+                                    <label class="custom-control-label" for="has_laundry_room">Has Laundry Room</label>
+                                 </div>
+
+                                 <div class="custom-control custom-checkbox mb-3  mr-3">
+                                    <input type="checkbox"  class="custom-control-input" id="has_hair_condition" name='has_hair_condition' value='1'>
+                                    <label class="custom-control-label" for="has_hair_condition">Has Air Conditioner</label>
+                                 </div>
+
+                                 <div class="custom-control custom-checkbox mb-3  mr-3">
+                                    <input type="checkbox"  class="custom-control-input" id="has_fire_place" name='has_fire_place' value='1'>
+                                    <label class="custom-control-label" for="has_fire_place">Has Fire Place</label>
+                                 </div>
+
+                                 </div>
+                              </div>
+                              <hr class='dashed'>
+                              <h6 class='text-dark font-weight-bold'>c). Bills/Payments</h6>
+                              <div class="row mb-10">
+                                 <div class='col'>
+                                    <p class='text-dark font-weight-bold'>1. Deposits</p>
+                                    <table id='tbl_deposists' class="table table-striped table-bordered no-footer dtr-inline collapsed">
+                                       <thead>
+                                          <tr>
+                                             <th>Deposit Name</th>
+                                             <th>Amount</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          
+                                       </tbody>
+                                    </table>
+                                    <input type='hidden' name='unit_deposits' id='unit_deposits'>
+                                    <button type="button" id='add_deposit' class="btn btn-light">Add New Row</button>
+                                 </div>
+                              </div>
+                              <div class='row mt-3'>
+                                 <div class="col-12">
+                                    <p class='text-dark font-weight-bold'>2. Rent</p>                              
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>Monthly Rent <span class="text-danger">*</span></label>
+                                    <input name='monthly_rent' id='monthly_rent' type="number" value='0' class="form-control">
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>Payment Date <span class="text-danger">*</span></label>
+                                    <select name='payment_date' id='payment_date' class="form-control custom-select"> 
+                                    </select>
+                                 </div>                           
+                              </div>
+                              <div class="row">
+                                 <div class='col'>
+                                    <p class='text-dark font-weight-bold'>3. Other Fixed Monthly Payments</p>
+                                    <table id='tbl_other_bills' class="table table-striped table-bordered no-footer dtr-inline collapsed">
+                                       <thead>
+                                          <tr>
+                                             <th>Bill Name</th>
+                                             <th>Amount</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          
+                                       </tbody>
+                                    </table>
+                                    <input type='hidden' name='unit_fixed_bills' id='unit_fixed_bills'>
+                                    <button type="button" id='add_other_bill' class="btn btn-light">Add New Row</button>
+                                    <span class="form-text text-muted">Click on add new row to add other monthly bills ie, security, garbage, etc</span>
+                                 </div>
+                              </div>
+                              <div class='row mt-3'>
+                                 <div class="col-12">
+                                    <p class='text-dark font-weight-bold'>4. Similar Units</p>                              
+                                 </div>
+                                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                                    <label>No of Similar Units <span class="text-danger">*</span></label>
+                                    <input name='similar_units' id='similar_units' type="number" value='1' class="form-control">
+                                    <span class="form-text text-muted">Enter the number of similar unit if exists. You will edit unit names/labels/numbers later</span>
+                                 </div>                                                 
+                              </div>
+                           
+                        </div>
+                        <input type="hidden" name="property" value="<%=property.property_code%>"/>
+                        <div class="d-flex flex-row justify-content-end border-top pt-2 mx-6">
+                           <a href="<%=base_url %>/agent/properties/<%=property.property_code%>?dest=units" class="btn btn-danger dynamic-link mr-2">Cancel</a>
+                           <button id='btn_save_unit' type="submit" class="btn btn-success">Add New Unit</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+             </div>
+          </div>
+       </div>
+       <!--end::Container-->
+    </div>
+ </div>
+
+ <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+    <!--custom scripts-->
+  
+    
+    <script >
+       window.onload=function(){window.jQuery||window.location.reload()};
+       $(document).ready(function() {
+         $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();       
+      
+            $('#tbl_deposists').SetEditable({
+               columnsEd: "0, 1",
+       $addButton: $('#add_deposit')   
+       });
+       
+       $('#tbl_other_bills').SetEditable({
+       columnsEd: "0, 1",
+       $addButton: $('#add_other_bill')    
+       });
+        
+         
+       
+    
+       $("#frm_new_property_unit").validate({
+                    rules: {
+                       unit_name: {
+                            required: true,
+                            maxlength:100                        
+                        },
+                        floor:{
+                            required: true,
+                            number:true,
+                            min:0
+                        },
+                        unit_type:{
+                            required: true
+                        },
+                        garages: {
+                            required: true,
+                            number: true
+                        },
+                        num_bedrooms: {
+                            required: true,
+                            number: true
+                        },
+                        bathrooms:{
+                            required: true,
+                            number: true
+                        },
+                        electricity_type:{
+                            required: true
+                        },
+                        water_source:{
+                            required: true
+                        },
+                        furnishing:{
+                            required: true
+                        },
+                        floor_type:{
+                           required: true
+                        },
+                        monthly_rent:{
+                            required: true,
+                            number: true
+                        },
+                        payment_date:{
+                            required: true,
+                            number: true
+                        },
+                        similar_units:{
+                            required: true,
+                            number: true,
+                            min:1
+                        }
+                        
+                    },
+                    messages: {
+                       unit_name: {
+                            required: "Please provide the unit number",
+                            maxlength: "The unit number should have a maximum of 100 characters"                        
+                        },
+                        floor:{
+                            required:  "Select the floor number. Ground floor equals to 1",
+                            number:"Select the floor number. Ground floor equals to 1",
+                            min:"Select the floor number. Ground floor equals to 1"
+                        },
+                        unit_type:{
+                            required: "Select the unit type from the list"
+                        },
+                        garages: {
+                            required: "Enter the number of garages",
+                            number: "Enter the number of garages"
+                        },
+                        num_bedrooms: {
+                            required: "Enter the number of bedrooms",
+                            number: "Enter the number of bedrooms"
+                        },
+                        bathrooms:{
+                            required: "Enter the number of bathrooms",
+                            number: "Enter the number of bathrooms"
+                        },
+                        electricity_type:{
+                            required: "Select electricity type from the list"
+                        },
+                        water_source:{
+                            required: "Select water source from the list"
+                        },
+                        furnishing:{
+                            required: "Select furnishing type from the list"
+                        },
+                        floor_type:{
+                           required: "Select floor type from the list"
+                        },
+                        monthly_rent:{
+                            required: "Enter monthly rent amount",
+                            number: "Enter monthly rent amount"
+                        },
+                        payment_date:{
+                            required: "Select rent payment date from the list",
+                            number: "Select rent payment date from the list"
+                        },
+                        similar_units:{
+                            required: "Enter the number of similar units",
+                            number: "Enter the number of similar units",
+                            min:"Enter the number of similar units"
+                        }
+                    }
+                });
+       
+         
+ 
+          loadFloors();
+       initDates();
+       initUnitTypes();
+       initElectricityTypes();
+       initWaterSources();
+       initFurnishing();
+       
+       $("#frm_new_property_unit").on("submit", function(e) {
+            e.preventDefault();
+            $("#bedrooms").val($("#num_bedrooms").val());
+            var deps = $('#tbl_deposists').tableToJSON({columns: new Array(0, 1)});
+            $("#unit_deposits").val(JSON.stringify(deps));
+            
+            var bills = $('#tbl_other_bills').tableToJSON({columns: new Array(0, 1)});
+            $("#unit_fixed_bills").val(JSON.stringify(bills));
+
+            var isvalid = $("#frm_new_property_unit").valid();       
+              
+            if (isvalid) {
+                $('#btn_save_unit').html('Please wait..');
+                $("#btn_save_unit").attr("disabled", true);
+                 var data = new myFormData($(this));    
+                $.ajax({
+                     type: "POST",
+                     async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                     url: "<%= base_url %>/agent/properties/new-unit",
+                     data: data,
+                     success: function(data) { 
+                       $('#btn_save_unit').html('Add New Unit');
+                       $("#btn_save_unit").attr("disabled", false);                   
+                        if (data.Status == 200) {                      
+                            showAppNotification('success', data.Message);                        
+                           loadPage("<%=base_url %>/agent/properties/<%=property.property_code%>?dest=units", true);
+                        } else {
+                           showAppNotification('warning', data.Message);
+                        }
+                    },
+                    error: function(err) {
+                       $('#btn_save_unit').html('Add New Unit');
+                       $("#btn_save_unit").attr("disabled", false);
+                       showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                    }
+                });
+            }
+       });
+    
+       
+       });
+       
+       
+       function loadFloors() {
+       var y = parseInt("<%=property.floors %>");
+       var x = 0;
+       var options = [];
+       while (x < y) {
+         
+           var val = '<option value="' + x +'">'+floorToLabel(x)+ '</option>';
+           
+           options.push(val);
+           x++;
+          
+           
+       }
+       $("#unit_floor").html(options.join(''));
+       }
+       
+       function initDates() {
+       var y = 31;
+       var x = 0;
+       var options = [];
+       while (x < y) {
+           x++;
+           var val = '<option value="' + x +'">'+x+ '</option>';
+          
+          
+           options.push(val);
+       }
+       $("#payment_date").html(options.join(''));
+       }
+       
+       function initUnitTypes(){
+       var rms = ['Single Room','Bedsitter','One Bedroom','Two Bedroom','Three Bedroom','Four Bedroom','Five Bedroom','Six Bedroom','Studio','Shop','Stall','Other'];
+       
+       rms.forEach(listUnitType);
+       }
+       
+       function listUnitType(item, index) {
+       var val = '<option value="' + item +'">'+item+ '</option>';
+           
+           $("#unit_type").append(val);         
+       }
+       
+       function initElectricityTypes(){
+       var rms = ['Prepaid/Tokens - Owner','Prepaid/Tokens - Shared','Postpaid - Owner','Postpaid - Shared','Not Available'];
+       rms.forEach(listElectricityType);
+       }
+       
+       function listElectricityType(item, index) {
+       var val = '<option value="' + item +'">'+item+ '</option>';
+           
+           $("#electricity_type").append(val);         
+       }
+       
+       function initWaterSources(){
+       var rms = ['Tap-Internal','Tap-External','Well/Borehole','Not Available/Outsource'];
+       rms.forEach(listWaterSources);
+       }
+       
+       function listWaterSources(item, index) {
+       var val = '<option value="' + item +'">'+item+ '</option>';
+           
+           $("#water_source").append(val);         
+       }
+       
+       function initFurnishing(){
+       var rms = ['Not Furnished','Semi-Furnished','Full-Furnished'];
+       rms.forEach(listFurnishing);
+       }
+       
+       function listFurnishing(item, index) {
+       var val = '<option value="' + item +'">'+item+ '</option>';
+          
+           $("#furnishing").append(val);         
+       }
+       
+       function loadBedrooms(obj) {
+       switch (obj.value) {
+           case 'One Bedroom':
+               $("#num_bedrooms").val(1);            
+               $("#num_bedrooms").attr("disabled", true);
+               break;
+           case 'Two Bedroom':
+               $("#num_bedrooms").val("2");
+               $("#num_bedrooms").attr("disabled", true);
+               break;
+           case 'Three Bedroom':
+               $("#num_bedrooms").val("3");
+               $("#num_bedrooms").attr("disabled", true);
+               break;
+           case 'Four Bedroom':
+               $("#num_bedrooms").val("4");
+               $("#num_bedrooms").attr("disabled", true);
+               break;
+           default:
+               $("#num_bedrooms").val("0");
+               $("#num_bedrooms").attr("disabled", false);
+       }
+       }
+       
+     
+    </script>
+<% if(!load_chunk){%> </body></html> <%}%>

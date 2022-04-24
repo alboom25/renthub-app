@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>Rent Hub - <%= page_title  %></title>
+      <meta name="description" content="Be the ahead of everyone by using the modern approach in managing tenancies and properties.">
+      <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+      <meta name="csrf-token" content="<%=csrfToken%>">
+      <meta name="theme-color" content="#764ABC"/>
+      <meta name="google-signin-client_id" content="320945779663-ftgojoti77r2l8h6j18aff1k925n2eu4.apps.googleusercontent.com">
+      <link rel="canonical" href="<%= base_url %>">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+   
+      <link rel="prefetch" href="<%=base_url%>/assets/images/favicon_128.png" />
+      <link rel="apple-touch-icon" href="<%=base_url%>/assets/images/apple-touch.png">
+      <link rel="stylesheet" href="<%= base_url %>/assets/css/bootstrap.min.css?ver=0104" type="text/css"/>
+      <link rel="stylesheet" href="<%= base_url %>/assets/css/bundle.css?ver=125014683" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="<%= base_url %>/assets/css/app.css?ver=092018" type="text/css" crossorigin/>
+      
+      <noscript>
+         <link rel="stylesheet" href="<%= base_url %>/assets/css/nojs.css" type="text/css" crossorigin/>         
+      </noscript>
+      <style>
+
+
+         
+.fs-listings, .listings-container {
+    position: relative;
+    z-index: 9;
+}
+.list-layout .property-listing.property-1 .listing-detail-wrapper {
+    padding: 1rem 1rem 0.5rem;
+}
+.list-layout .property-listing.property-1{
+    display: flex;
+    margin: 0 0 30px 0;
+}
+.list-layout .price-features-wrapper {
+    padding: 0.1rem 1rem 0.6rem;
+}
+.prt-types{
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    margin-top: 5px;
+    border-radius: 50px;
+    background: #efefef;
+    display: inline-block;
+}
+.list-layout .listing-detail-btn .more-btn {
+    border-radius: 50px !important;
+    padding: 6px 17px !important;
+}
+.prt-types.sale {
+    background:rgba(247,68,0,0.1);
+	color:#f74400;
+}
+.prt-types.rent {
+    background:rgba(136,102,218,0.1);
+	color:#8866da;
+}
+.listing-locate {
+    flex: 1;
+}
+.list-layout .property-listing.property-1 .listing-img-wrapper{
+    height: 0;
+    min-height:210px;
+    flex: 2;
+    overflow: hidden;
+    border-radius: 3px 0 0 3px;
+}
+.list-layout .property-listing.property-1 .listing-img-wrapper a{
+    min-height:210px;
+}
+.list-layout .property-listing.property-1 .listing-name {
+    font-size: 16px;
+    margin-bottom: 0px;
+    line-height: 1.4;
+}
+.list-layout .property-listing.property-1 .listing-img-wrapper img {
+    height: 210px;
+    object-fit: cover;
+}
+.list-layout .property-listing.property-1 .listing-img-wrapper>a:before {
+    background:transparent;
+}
+.list-layout .property-listing.property-1 .listing-content{
+    flex: 3;
+	position:relative;
+}
+.list-layout .property-listing.property-1 .listing-footer-wrapper {
+    padding: 0.9rem 1rem;
+    border-top: 1px solid #e5e9ec;
+    width: 100%;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    right: 0;
+    left: 0;
+}
+
+
+
+      </style>

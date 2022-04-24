@@ -1,0 +1,499 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+			<div class="container-fluid">
+				<%- include('../shared/page-title') %>
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container">
+							<%- include('../shared/property-common') %>
+                                <div class="row">
+                                <div class="col-12">
+                                  <div class="panel  panel-default">                                   
+                                    <div class="panel-body">
+                                        <div class='row'>
+                                            <div class="col-lg-7">
+                                                <h4 class="card-title">Supplier Payments</h4>
+                                                <p class="card-title-desc">Manage all supplier payments associated with this property</p>
+                                            </div>
+                                            <div class="col-lg-5 text-right" style="margin: auto;">														
+                                                <button class="btn btn-info small-block px-4 mt-2 mb-2" onclick='beginNewExpense()'>+ Create New</button> 
+                                            </div>                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class='col-12'>
+                                                <hr>
+                                                <div class="table-responsive">
+                                                    <table id='tbl_invoices' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date/Time</th>                                                               
+                                                                <th>Supplier</th>
+                                                                <th>Paid Amount</th>
+                                                                <th>Source Account</th>
+                                                                <th>Method</th>                                                               
+                                                                <th>Status</th>
+                                                                <th>Actions</th>																		
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+						</div>
+						<!--end::Container-->
+					</div>
+			</div>
+			<!-- container-fluid -->
+
+            <!-- add payment modal -->
+<div id="mdl_add_payment" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+       <!-- Modal content-->
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 id='add_payment_title' class="modal-title">Add Payment</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+             </button>
+          </div>
+          <form id="frm_add_payment" method='post' action ='#'>
+             <div class="modal-body">
+                <input type="hidden" name="expense_id" id = "expense_id"/>
+                <div class="form-group row mb-4">
+                   <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
+                   <div class="col-sm-9">             
+                      <input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control" required/>					
+                   </div>
+                </div>
+                <div class="form-group row mb-4">
+                   <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
+                   <div class="col-sm-9">
+                      <select name="payment_method" class="form-control custom-select" id ="payment_payment_method">
+                         <option value="Cash">Cash</option>
+                         <option value="M-PESA">M-PESA</option>
+                         <option value="Card Swipe">Card Swipe</option>
+                         <option value="Bank Deposit">Bank Deposit</option>
+                         <option value="Bank Transfer">Bank Transfer</option>
+                         <option value="Cheque">Cheque</option>
+                         <option value="Other">Other</option>
+                      </select>
+                   </div>
+                </div>
+
+                <div class="form-group row mb-4">
+                    <label for="payment_payment_method" class="col-sm-3 col-form-label">Source<span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                        <select name='source_account' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null" required >
+                            <% for (var i = 0; i < property.accounts_list.length ; i++) { %>
+                                <option value="<%= property.accounts_list[i].account_id %>" ><%= property.accounts_list[i].account_name %> (<%= property.accounts_list[i].account_no %>)</option>
+                            <%}%>
+                        </select>
+                    </div>
+                 </div>
+
+                <div class="form-group row mb-4">
+                   <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
+                   <div class="col-sm-9">             
+                      <input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
+                   </div>
+                </div>
+                <div class="form-group row mb-4">
+                    <label for="transaction_charge" class="col-sm-3 col-form-label">TRX Charge</label>
+                    <div class="col-sm-9">             
+                       <input value='0.00' id='transaction_charge' type="number" name="transaction_charge" class="form-control"/>          
+                    </div>
+                 </div>
+                
+                <div class="form-group row mb-4">
+                   <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
+                   <div class="col-sm-9">             
+                      <input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
+                   </div>
+                </div>                
+             </div>
+             <div class="modal-footer">    
+                <button id='btn_add_payment' type="submit" class="btn btn-success">Add Payment</button>       
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+             </div>
+          </form>
+       </div>
+    </div>
+  </div>
+
+
+			<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+            
+
+				
+				
+				<script>
+
+window.onload=function(){window.jQuery||window.location.reload()};
+                      
+           function beginNewExpense(){
+            loadUnitsList();
+
+            loadSuppliersList();
+
+               $('#mdl_new_expense').modal('show');
+           }
+
+           function loadUnitsList(){
+            $.ajax({
+                type: "POST",
+                async: true, 
+                credentials: 'same-origin',
+                headers: {
+                    'CSRF-Token': csrf_token
+                },
+                url: "<%= base_url %>/manage/units/list",               
+                success: function(data) {                   
+                    if(data.Status == 200) {
+                        var result = data.Message;
+                         var options = [];
+                         options.push("<option>Not Applicable</option>");
+                         for (var i = 0; i < result.length; i++) {
+                             options.push('<option value="',
+                             result[i].unit_code, '">',
+                             result[i].unit_name, '</option>');
+                         }
+                         $("#expense_unit_code").html(options.join('')); 
+                         $(".selectpicker-select").selectpicker("refresh");
+                    } else {                       
+                        showAppNotification('warning', data.Message); 
+                    }
+                },
+                error: function(err) {                   
+                    showAppNotification( 'danger', 'Unable to complete your request. Please try again later!'); 
+                },
+            });
+
+           }
+              
+           function loadSuppliersList(){
+            $.ajax({
+                type: "POST",
+                async: true, 
+                credentials: 'same-origin',
+                headers: {
+                    'CSRF-Token': csrf_token
+                },
+                url: "<%= base_url %>/suppliers/list",               
+                success: function(data) {                   
+                    if(data.Status == 200) {
+                        var result = data.Message;
+                        var options = [];
+                        options.push("<option>Not Applicable</option>");
+                        for (var i = 0; i < result.length; i++) {
+                            options.push('<option value="',
+                            result[i].supplier_code, '">',
+                            result[i].full_name, '</option>');
+                        }
+                        $("#expense_supplier_code").html(options.join('')); 
+                        $(".selectpicker-select").selectpicker("refresh");
+                    } else {                       
+                        showAppNotification('warning', data.Message); 
+                    }
+                },
+                error: function(err) {                   
+                    showAppNotification( 'danger', 'Unable to complete your request. Please try again later!'); 
+                },
+            });
+
+           }
+              
+
+    $(document).ready(function() {
+        $('.selectpicker-select').selectpicker();
+        
+        $("#frm_new_expense").validate();
+
+            $("#frm_add_payment").validate({  
+    rules:{ 
+      payment_date:{
+        required: true,
+        date:true
+      },
+      payment_method:{
+        required: true
+      },
+      payment_amount:{
+        required: true,
+        number: true,
+        min: 10
+      },
+      payment_ref :{
+        maxlength: 255
+      },
+      payment_by:{
+        maxlength: 255
+      }
+    },
+    messages:{     
+      payment_date:{
+        required: "Please click to select payment date",
+        date:"Invalid date value"
+      },
+      payment_method:{
+        required: "Invalid payment method"
+      },
+      payment_amount:{
+        required: "Please enter the paid amount",
+        number: "Please enter the paid amount",
+        min: "Amount should be greater than 10"
+      },
+      payment_ref :{
+        maxlength: "Maximum length required is 255 characters"
+      },
+      payment_by:{
+        maxlength: "Maximum length required is 255 characters"
+      }
+    }
+  });
+
+                
+
+   
+ 
+    $("#tbl_invoices").DataTable({
+		responsive: !0,
+		searchDelay: 500,
+		processing: !0,
+        serverSide:true,
+		order: [],
+		ajax: {
+			url: "<%= base_url %>/suppliers/payments",
+			type: "POST",
+			deferRender: true,
+        	async: true, 
+			credentials: 'same-origin',
+			headers: {
+				'CSRF-Token': csrf_token
+			},
+		},
+		columns: [
+			{
+				data: 'payment_date'
+			},
+            {
+				data: 'expense_title'
+			},
+            {
+			data: 'amount',
+            className: "text-md-left, text-lg-right",
+            render: function(data, type, row) {return formatMoney(row.amount);}
+		},
+			{
+			data: 'source_account_name'            
+		}, {
+			data: 'payment_method'           
+		}, {
+			data: 'is_cancelled',			
+            render: function(data, type, row) {
+                if(row.is_cancelled){
+                    return '<span class="badge badge-danger">Cancelled</span>';
+                }else{
+                    return '<span class="badge badge-success">Complete</span>';
+                }
+            }
+			
+		},{
+			data: null,
+            responsivePriority: -1,
+			render: function(data, type, row) {	
+                if(!row.is_cancelled){                  
+                    return `<button class="btn btn-warning btn-sm" type='button'>Cancel</button>`;
+                }				
+			},
+		},
+		
+	 ],
+	});
+
+    $("#frm_add_payment").on("submit", function(e) {
+        e.preventDefault();
+         var isvalid = $("#frm_add_payment").valid();
+         if (isvalid) {
+            $("#mdl_add_payment").modal("hide");
+         var data = new myFormData($(this));
+        $.ajax({
+            type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+            url: "<%= base_url %>/accounting/expenses/add-payment",
+            data: data,
+            success: function(data) {               
+                if (data.Status == 200) {                
+                  $("#tbl_invoices").DataTable().ajax.reload();
+                  showAppNotification('success', data.Message);
+                } else {
+                    $("#mdl_add_payment").modal("show");
+                    showAppNotification('warning', data.Message);
+                }
+            },
+            error: function(err) {
+                $("#mdl_add_payment").modal("show");
+                showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+            }
+        });
+    
+      }
+});
+  
+
+
+});
+
+function computeBill(){
+    var data = $("#tbl_expense_breakdown").tableToJSON({
+		        columns: new Array(0, 1),
+	        });           
+            var total = 0;
+            for (var i = 0; i <data.length; i++){
+                total +=parseFloat(data[i]["Amount"])
+            }
+            $("#lbl_expense_total").html("Total: " + formatMoney(total));
+}
+
+function actionData(data){
+    var btns = `<a class="dropdown-item" href="javascript:void(0)" onclick='previewExpense("${data.expense_id}")'>Preview Expense</a>`;
+    if(!data.is_cancelled){
+        if(data.paid_amount< data.expense_amount){
+            btns+=`<a class="dropdown-item" href="javascript:void(0)" onclick='addPayment("${data.expense_id}")'>Add Payment</a><a class="dropdown-item text-warning" href="javascript:void(0)" onclick='cancelExpense("${data.expense_id}","${data.expense_title}")'>Cancel Expense</a>`;       
+        }     
+
+       
+      
+    }
+    if(data.paid_amount===0){
+        btns +=`<a class="dropdown-item text-danger" href="javascript:void(0)" onclick='deleteExpense("${data.expense_id}","${data.expense_title}")'>Delete Expense</a>`;
+    }
+   
+    return row_begin + btns + row_end;
+}
+
+function previewExpense(id){
+
+}
+
+function addPayment(id) {
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/accounting/expenses/info",
+        data: {id:id},
+        success: function(data) {
+          if(data.Status==200) {
+            var expense_info = data.Message;
+            
+            var balance  = expense_info.expense_amount - expense_info.paid_amount;
+            if(balance>0){
+              $("#frm_add_payment").trigger('reset');
+              setTodayDate();
+              $("#expense_id").val(id);             
+              $("#payment_payment_amount").val(balance);             
+              $("#mdl_add_payment").modal("show");
+
+            }else{
+              showAppNotification('warning', "This expense has already been paid up!");
+            }
+          
+          } else {
+            showAppNotification('warning', data.Message);
+          }
+        },
+        error: function(err) {
+          showAppNotification('warning', 'An error occured while getting invoice details! Please try again.');
+        }
+      });
+  }
+  
+
+function setTodayDate(){
+      $('#payment_payment_date').val(todaysDate());
+   }
+
+function cancelExpense(id, title){
+     sharpAlert({
+        title: "Confirm?",
+        text: "Are you sure you want to cancel the expense `" + title +"`?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        confirmButtonClass: "btn btn-success mr-2 btn-swal",
+        cancelButtonText: "No",
+        cancelButtonClass: "btn btn-danger mr-2 btn-swal",
+       
+        
+    },(passed)=>{
+        if (passed) {
+            $.ajax({
+                type: "POST",
+                async: true,
+                credentials: "same-origin",
+                headers: { "CSRF-Token": csrf_token },
+                url: "<%= base_url %>/accounting/expenses/cancel",
+                data: {id:id},
+                success: function (data) {
+                    if (data.Status == 200) {
+                        showAppNotification("success", data.Message);
+                        $("#tbl_invoices").DataTable().ajax.reload();
+                    } else {
+                        showAppNotification("warning", data.Message);
+                    }
+                },
+                error: function (err) {
+                    showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                },
+            });
+        }
+    });
+}
+
+function deleteExpense(id, title){
+     sharpAlert({
+        title: "Confirm?",
+        text: "Are you sure you want to delete the expense `" + title +"`?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        confirmButtonClass: "btn btn-success mr-2 btn-swal",
+        cancelButtonText: "No",
+        cancelButtonClass: "btn btn-danger mr-2 btn-swal",
+       
+        
+    },(passed)=>{
+        if (passed) {
+            $.ajax({
+                type: "POST",
+                async: true,
+                credentials: "same-origin",
+                headers: { "CSRF-Token": csrf_token },
+                url: "<%= base_url %>/accounting/expenses/delete",
+                data: {id:id},
+                success: function (data) {
+                    if (data.Status == 200) {
+                        showAppNotification("success", data.Message);
+                        $("#tbl_invoices").DataTable().ajax.reload();
+                    } else {
+                        showAppNotification("warning", data.Message);
+                    }
+                },
+                error: function (err) {
+                    showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                },
+            });
+        }
+    });
+}
+		
+				
+				</script>
+	<% if(!load_chunk){%> </body></html> <%}%>

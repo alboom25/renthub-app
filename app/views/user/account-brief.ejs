@@ -1,0 +1,137 @@
+<%- include( '../shared/page-header') %>
+	</head>
+
+	<body class="accounts-body">
+		<div class="account-pages my-5 pt-sm-5">
+            
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-8 col-lg-6 col-xl-5">                        
+						<div class="card overflow-hidden">							
+							<div class="card-body pt-0">
+                                <div class="avatar-md mx-auto mt-2">
+                                    <div class="avatar-title rounded-circle bg-light">
+                                        <img src="<%= base_url %>/assets/images/favicon.png" alt="" class="rounded-circle" height="34" width="34">
+                                    </div>
+                                </div>
+								<div class="p-2 text-center">
+									<h4 class="text-success">Complete Account Setup</h4>									
+								</div>
+                                <div class="alert alert-info">Your account has been created. Please complete this last step to get started</div>
+								<iv id="proceed-result"></iv>
+								<div class="p-2">									
+									<form id="user-account-form" class="form-horizontal" action="#" method="post">
+										<div class="form-group">
+                                            <label for="first_name">First name <span class="text-danger">*</span></label>
+											<input type='text' class="form-control" name="first_name" id="first_name" placeholder="Enter your first name" autocomplete="off" required maxlength="20">
+										</div>
+										<div class="form-group">
+                                            <label for="last_name">Last name <span class="text-danger">*</span></label>
+											<input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter your last name" autocomplete="off" required maxlength="20">
+										</div>
+										<div class="form-group">
+                                            <label for="other_names">Other name(s)</label>
+											<input type="text" class="form-control" name="other_names" id="other_names" placeholder="Enter your other name" autocomplete="off" maxlength="20">
+										</div>
+										
+										<div class="mt-3">
+											<button id="proceed-button" class="btn btn-info btn-block " type="submit">Proceed</button>
+										</div>
+									</form>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="<%= base_url %>/assets/js/jquery.min.js"></script>
+		<script>
+			window.onload=function(){window.jQuery||window.location.reload()};
+			var csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');			
+				
+			function showFailedMessage(msg) {
+				$('#proceed-button').html('Proceed');
+				var res = "<div class='alert alert-warning alert-dismissible mb-2' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><strong>Failed!</strong> " + msg + " </div>";
+				$("#proceed-result").html(res);
+				$("#proceed-button").attr("disabled", false);
+			}
+			
+			$(document).ready(function() {
+				$.getScriptCached('https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js', function() {
+					$("#user-account-form").validate({
+					rules: {
+						first_name: {
+							required: !0,
+							maxlength:20,
+							minlength:3
+						},
+						last_name: {
+							required: !0,
+							maxlength:20,
+							minlength:3
+						},
+						other_names: {							
+							maxlength:20,
+							minlength:3
+						}
+					},
+					messages: {
+						first_name: {
+							required: "First name cannot be empty",
+							maxlength:"A maximum of 20 characters allowed on the first name",
+							minlength:"A minimum of 3 characters is allowed on the first name"
+						},
+						last_name: {
+							required: "Last name cannot be empty",
+							maxlength:"A maximum of 20 characters allowed on the last name",
+							minlength:"A minimum of 3 characters is allowed on the last name"
+						},
+						other_names: {							
+							maxlength:"A maximum of 20 characters allowed on the other names",
+							minlength:"A minimum of 3 characters is allowed on the other names"
+						}
+					}
+				});
+			
+				});
+				
+			$("#user-account-form").on("submit", function(e) {
+				e.preventDefault();
+				var s = $("#user-account-form").valid();
+				if(s) {
+					$("#proceed-button").html("Please wait.."), $("#proceed-button").attr("disabled", !0);
+					var a = $(this).serialize();
+					$.ajax({
+						type: "POST",
+        				async: true, 
+						credentials: 'same-origin',
+						headers: {
+							'CSRF-Token': csrf_token
+						},
+						url: "<%= base_url %>/user/profile?section=profile",
+						data: a,
+						success: function(data) {						
+							if(data.Status == 200){
+								$("#proceed-button").removeClass("btn-info");
+								$("#proceed-button").addClass("btn-success");
+								$("#proceed-button").html("Completing..");
+								window.location.replace(window.location.href)
+							}else{
+								showFailedMessage(data.Message)
+							}         
+                                
+                 },
+                 error: function(err) {                    
+					showFailedMessage("Please try again later");                    
+                 }
+						
+					});
+				}
+			});
+		});
+		</script>
+	</body>
+
+	</html>

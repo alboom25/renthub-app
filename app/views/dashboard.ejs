@@ -1,0 +1,242 @@
+<% if(!load_chunk){%> 
+  <%- include('./shared/page-header') %>
+  <%- include('./shared/top-page') %>
+  <div class="page-content">
+<%}%>
+  <div class="container-fluid">
+
+    <%- include('./shared/page-title') %>
+  
+     <div class="row">
+
+        <div class="col-xl-3 col-md-6 mb-2" >
+            <div class="card custom-card shadow" style="border-left: 4px solid #e83e8c;" >
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-gray-600 text-uppercase mb-1">
+                                Active Tenants<br>(All Active)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%=numbers_data.active_tenants%></div>
+                        </div>
+                        <div class="col-auto">                        
+                          <span class="avatar-title rounded-circle bg-soft-pink p-2">
+                            <i class='bx bx-group font-size-24 text-pink'></i>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-2">
+            <div class="card custom-card shadow" style="border-left: 4px solid #34c38f;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-gray-600 text-uppercase mb-1">
+                                Revenue<br>(<%=numbers_data.month_name %>, <%=numbers_data.current_year%>)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%=numbers_data.revenue %></div>
+                        </div>
+                        <div class="col-auto">
+                          <span class="avatar-title rounded-circle bg-soft-success p-2">
+                            <i class='bx bx-archive-in font-size-24 text-success'></i>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-xl-3 col-md-6 mb-2">
+            <div class="card custom-card shadow " style="border-left: 4px solid #f46a6a;">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-gray-600 text-uppercase mb-1">
+                          Expenses<br>(<%=numbers_data.month_name%>, <%=numbers_data.current_year%>)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=numbers_data.expenses %></div>
+                    </div>
+                    <div class="col-auto">
+                      <span class="avatar-title rounded-circle bg-soft-danger p-2">
+                        <i class='bx bx-archive-in font-size-24 text-danger'></i>
+                      </span>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+       
+        <div class="col-xl-3 col-md-6 mb-2">
+            <div class="card custom-card shadow " style="border-left: 4px solid #50a5f1;">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-gray-600 text-uppercase mb-1">
+                          Unpaid Bills<br>(Up to date)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=numbers_data.unpaid_bills %></div>
+                    </div>
+                    <div class="col-auto">
+                      <span class="avatar-title rounded-circle bg-soft-info p-2">
+                        <i class='bx bx-purchase-tag-alt font-size-24 text-info'></i>
+                      </span>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>    
+
+    <div class="row">
+     
+      <div class="col-12">
+       <div class="card custom-card">
+         <div class="card-body">
+          <h4 class="card-title text-center">Revenue Trends by Month, <%=numbers_data.current_year%></h4>
+           <div id="chart" class=""></div>
+         </div>
+       </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card custom-card">
+          <div class="card-body">
+            <h4 class="card-title text-center">Leased Units</h4>
+            <div class="border-top" id="donut"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card custom-card">
+          <div class="card-body">
+            <h4 class="card-title text-center">Top 5 units <%=numbers_data.current_year%></h4>
+            <div class="table-responsive mt-4">
+              <table class="table table-centered mb-0">
+                  <tbody>
+                    <% for(var i = 0; i < best_units.length ; i++){%>
+                      <tr>
+                        <td>
+                            <h5 class="font-size-14 mb-1"><%= best_units[i].unit_name%></h5>
+                            <p class="text-muted mb-0"><%= best_units[i].property_name%></p>
+                        </td>                        
+                        <td>
+                            <p class="text-muted mb-1">Revenue</p>
+                            <h5 class="mb-0"><%= best_units[i].revenue%></h5>
+                        </td>
+                    </tr>
+                    <%}%>
+                      
+                      
+                  </tbody>
+              </table>
+          </div>
+          </div>
+        </div>
+      </div>
+
+  
+
+    </div>
+
+  
+
+  </div>
+  
+<% if(!load_chunk){%> </div> <%- include('./shared/page-footer') %> <%- include('./shared/admin-scripts') %> <%}%>
+
+<script>
+window.onload=function(){window.jQuery||window.location.reload()};
+var colorPalette = ['#00D8B6','#008FFB',  '#FEB019', '#FF4560', '#775DD0','#564ab1','#f46a6a',  '#50a5f1', '#f1b44c', '#34c38f','#e83e8c'];
+
+
+$(document).ready(function(){
+    $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+    
+  drawCharts();
+});
+
+function drawCharts(){
+  var options = {
+          series: [{
+            name: "Revenue",
+            data: "<%=revenue_data%>".split(",").map(Number),
+        }],
+          chart: {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          dropShadow:{enabled:!0,color:"#000",top:18,left:7,blur:8,opacity:.2}
+        },
+        dataLabels: {
+          enabled: false,
+        },
+      
+        stroke: {
+          curve: 'smooth',
+          width:3
+        },
+       
+      
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'],
+            opacity: 0.5
+          },
+        },
+        
+        xaxis: {
+          categories: "<%=revenue_categories%>".split(','), 
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+
+        var optionDonut = {
+  chart: {
+      type: 'pie',
+      width: '100%',
+      height: 384
+  },
+  dataLabels: {
+    enabled: true,
+  },
+  plotOptions: {
+    pie: {
+      customScale: 1,
+      donut: {
+        size: '100%',
+      },
+      offsetY: 0,
+    },
+    stroke: {
+      colors: undefined
+    }
+  },
+  colors: colorPalette, 
+  series: "<%=units_data%>".split(",").map(Number),
+  labels: "<%=units_labels%>".split(","),
+  legend: {
+    position: 'bottom',
+    offsetY: 0
+  }
+}
+
+var donut = new ApexCharts(
+  document.querySelector("#donut"),
+  optionDonut
+)
+donut.render();
+}
+
+
+
+       
+
+       
+</script>
+<% if(!load_chunk){%> </body></html> <%}%>

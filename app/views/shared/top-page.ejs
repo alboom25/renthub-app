@@ -1,0 +1,144 @@
+</head>
+<body data-sidebar="light"  >
+   <noscript>
+      <div id="noscriptmsg">You don't have javascript enabled. Please enable and refresh your browser.</div>
+   </noscript>
+
+   <div id="overlay-image-modal" >
+      <i class='bx bx-x' id='overlay-close-button'></i>
+      <img id="overlay-image" alt="" src="">
+      <div id="overlay-image-caption"></div>
+    </div>
+   
+   <div class="load-bar"><i class='bx bx-loader bx-spin' ></i></div>
+      <!-- <body data-layout="horizontal" data-topbar="dark"> -->
+   <div id="layout-wrapper">      
+   <header id="page-topbar">
+      <div class="navbar-header">
+         <div class="d-flex">
+            <div class="navbar-brand-box">
+               <a href="<%=base_url%>" class="logo logo-dark dynamic-link">
+               <span class="logo-sm">
+               <img data-src="<%=base_url%>/assets/images/favicon.png" alt="" height="38">
+               </span>
+               <span class="logo-lg">
+               <img data-src="<%=base_url%>/assets/images/rent-hub.png" alt="" height="38">
+               </span>
+               </a>
+               <a href="<%=base_url%>" class="logo logo-light dynamic-link">
+               <span class="logo-sm">
+               <img data-src="<%=base_url%>/assets/images/favicon.png" alt="" height="38">
+               </span>
+               <span class="logo-lg">
+               <img data-src="<%=base_url%>/assets/images/rent-hub.png" alt="" height="38">
+               </span>
+               </a>
+            </div>
+            <button type="button" class="btn btn-sm px-3 font-size-24 header-item " id="vertical-menu-btn">
+            <i class="bx bx-menu"></i>
+            </button>
+            <!-- App Search-->
+            <form class="app-search d-none d-lg-block">
+               <div class="position-relative">
+                  <input type="text" class="form-control" placeholder="Search...">
+                  <span class="bx bx-search-alt"></span>
+               </div>
+            </form>
+         </div>
+
+         <div class="d-flex">
+            <% if(property_count>1){%>              
+               <% if(current_property_code){%>
+                  <button type="button" onclick='setWorkingProperty()' class="btn header-item2 btn-light">
+                     <%=current_property_name%> - Change
+                  </button>          
+               <%}else{%> 
+                  <button type="button" onclick='setWorkingProperty()' class="btn header-item  ">
+                     Choose Property
+                  </button>
+               <%}%> 
+            <%}%>            
+         </div>
+        
+         <div class="d-flex">
+            <div class="dropdown d-none d-lg-inline-block ml-1">
+               <button type="button" class="btn header-item noti-icon " data-toggle="fullscreen">
+               <i class="bx bx-fullscreen"></i>
+               </button>
+            </div>
+            <div class="dropdown d-inline-block">
+               <button type="button" class="btn header-item noti-icon" style='height:64px' id="page-header-notifications-dropdown"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="bx bx-bell"></i>							
+               </button>
+               <div id="app-notifications" class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
+                  aria-labelledby="page-header-notifications-dropdown">
+                  <div class="p-3">
+                     <div class="row align-items-center">
+                        <div class="col">
+                           <h6 class="m-0"> Notifications </h6>
+                        </div>
+                        <div class="col-auto">
+                           <a id="read-all-notes" href="javascript:void(0)" class="font-size-12 text-warning mr-1"> Mark all as read</a>                           
+                        </div>
+                     </div>
+                  </div>
+                  <div data-simplebar id="notifications-container" style="max-height: 230px; margin-bottom: 8px">
+                     <div id="note-inner"></div>
+                  </div>
+                  <div id='load-more-notifications' class="p-2 justify-content-center">
+                     <i class='bx bx-loader bx-spin font-size-16' ></i>                   
+                  </div>
+                  <div class="p-2 border-top">
+                     <a id="view-all-notifications" class="btn btn-sm btn-light btn-block" href="javascript:void(0)">
+                         View All 
+                     </a>
+                 </div>
+               </div>
+            </div>
+            <div class="dropdown d-inline-block">
+               <button  type="button" class="btn header-item" id="page-header-user-dropdown"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='height:64px'>
+                  <% if(user_profile.avatar_path.startsWith('http')){  %>
+                     <img class="rounded-circle header-profile-user" data-src="<%= user_profile.avatar_path%>"
+                     alt="">
+                 <%}else{%>
+                  <img class="rounded-circle header-profile-user" data-src="<%= base_url %>/public/users/profile-image/<%= user_profile .user_code%>"
+                  alt="">
+                  <%}%> 
+               
+               <span class="text-muted font-weight-bold d-none d-md-inline mr-1">Hi,</span>
+               <span class="text-dark-50 font-weight-bolder d-none d-md-inline mr-3"><%= user_profile .first_name %></span>							   
+               
+               <i class='bx bxs-chevron-down d-none d-xl-inline-block'></i>
+               </button>
+               <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" target="_blank" href="<%= base_url %>/admin-help"><i class='bx bx-help-circle font-size-16 align-middle mr-1' ></i> <span >Help &amp; Support</span></a>
+                  <div class="dropdown-divider"></div>
+                  <% if(user_profile.is_landlord){%>
+                     <% if(!user_profile.has_properties){%>                        
+                        <div id='landlord-button' class="container mb-3 mt-2"> <button type="button" class="btn btn-sm btn-danger btn-block">Landlord (Opt Out)</button></div>
+                     <%}%>
+                  <%}else{%>
+                     <div onclick="landlordPrompt(1, 1)" class="container mb-3 mt-2"> <button type="button" class="btn btn-sm btn-danger btn-block">Landlord (Opt In)</button></div>
+                  <%}%> 
+
+                  <a class="dropdown-item" id='user-chats-link' href="javascript:void(0)"><i class="bx bx-chat font-size-16 align-middle mr-1"></i> <span >Chats</span></a>
+
+                  <a class="dropdown-item" id='user-profile-link' href="javascript:void(0)"><i class="bx bx-user font-size-16 align-middle mr-1"></i> <span >My Profile</span></a>
+                  
+                  <button type="button" class="dropdown-item" onclick="lockUserSession()" ><i class="bx bx-lock-alt font-size-16 align-middle mr-1"></i> <span >Lock Screen</span></button>	
+
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item text-danger" href="<%= base_url %>/auth/logout"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span>Logout</span></a>
+               </div>
+            </div>
+            <div class="dropdown d-inline-block">
+               <button type="button" class="btn header-item noti-icon right-bar-toggle">
+                   <i class="bx bx-cog bx-spin text-warning"></i>
+               </button>
+           </div>
+         </div>
+      </div>
+   </header>
+   <%- include('./side-bar') %>

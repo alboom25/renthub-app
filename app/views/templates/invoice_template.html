@@ -1,0 +1,212 @@
+<html>
+   <head>
+      <title>INVOICE</title>
+
+     <style>
+/*! CSS Used from: Embedded */
+*,::after,::before{box-sizing:border-box;}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-size:1rem;font-weight:400;line-height:1.5;color:#212529;text-align:left;background-color:#fff;}
+hr{box-sizing:content-box;height:0;overflow:visible;}
+h1,h4,h5,h6{margin-top:0;margin-bottom:.5rem;}
+p{margin-top:0;margin-bottom:1rem;}
+small{font-size:80%;}
+img{vertical-align:middle;border-style:none;}
+table{border-collapse:collapse;}
+th{text-align:inherit;}
+h1,h4,h5,h6{margin-bottom:.5rem;font-weight:500;line-height:1.2;}
+h1{font-size:2.5rem;}
+h4{font-size:1.5rem;}
+h5{font-size:1.25rem;}
+h6{font-size:1rem;}
+hr{margin-top:1rem;margin-bottom:1rem;border:0;border-top:1px solid rgba(0,0,0,.1);}
+small{font-size:80%;font-weight:400;}
+.row{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px;}
+.col,.col-12,.col-5,.col-6,.col-7,.col-sm-6{position:relative;width:100%;padding-right:15px;padding-left:15px;}
+.col{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;flex-grow:1;max-width:100%;}
+.col-5{-ms-flex:0 0 41.666667%;flex:0 0 41.666667%;max-width:41.666667%;}
+.col-6{-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%;}
+.col-7{-ms-flex:0 0 58.333333%;flex:0 0 58.333333%;max-width:58.333333%;}
+.col-12{-ms-flex:0 0 100%;flex:0 0 100%;max-width:100%;}
+@media (min-width:576px){
+.col-sm-6{-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%;}
+}
+.table{width:100%;margin-bottom:1rem;color:#212529;}
+.table td,.table th{padding:.75rem;vertical-align:top;border-top:1px solid #dee2e6;}
+.table thead th{vertical-align:bottom;border-bottom:2px solid #dee2e6;}
+.table-borderless td,.table-borderless th,.table-borderless thead th{border:0;}
+.border-0{border:0!important;}
+.d-flex{display:-ms-flexbox!important;display:flex!important;}
+.flex-wrap{-ms-flex-wrap:wrap!important;flex-wrap:wrap!important;}
+.justify-content-end{-ms-flex-pack:end!important;justify-content:flex-end!important;}
+.justify-content-between{-ms-flex-pack:justify!important;justify-content:space-between!important;}
+.align-items-center{-ms-flex-align:center!important;align-items:center!important;}
+@media (min-width:1200px){
+.justify-content-xl-end{-ms-flex-pack:end!important;justify-content:flex-end!important;}
+}
+.mt-1{margin-top:.25rem!important;}
+.mb-1{margin-bottom:.25rem!important;}
+.my-3{margin-top:1rem!important;}
+.mr-3{margin-right:1rem!important;}
+.my-3{margin-bottom:1rem!important;}
+.mx-5{margin-right:3rem!important;}
+.mx-5{margin-left:3rem!important;}
+.pb-0{padding-bottom:0!important;}
+.text-right{text-align:right!important;}
+.font-weight-bold{font-weight:700!important;}
+.text-primary{color:#007bff!important;}
+.text-muted{color:#6c757d!important;}
+@media print{
+*,::after,::before{text-shadow:none!important;box-shadow:none!important;}
+thead{display:table-header-group;}
+img,tr{page-break-inside:avoid;}
+p{orphans:3;widows:3;}
+body{min-width:992px!important;}
+.table{border-collapse:collapse!important;}
+.table td,.table th{background-color:#fff!important;}
+}
+body,table{font-size:20px;}
+         body, table{
+            font-size:16px;
+         }
+         body{padding-top: 40px;}
+
+      </style>
+   </head>
+   <body>
+      <div id='invoice' class="invoice-print-area">
+         <div class="card-content">
+            <div class="card-body pb-0 mx-5">
+               <!-- header section -->
+               <div class="row">
+                  <div class="col-6">
+                     <span class="invoice-number mr-50">Invoice#:</span>
+                     <span><b><%invoice_id%></b></span>
+                  </div>
+                  <div class="col-6">
+                     <div style="text-align:right; align-content:right; display: inline">
+                        <div class="">
+                           <small class="text-muted">Date Issue:</small>
+                           <span><b><%invoice_date%></b></span>
+                        </div>
+                        <div>
+                           <small class="text-muted">Date Due:</small>
+                           <span><b><%invoice_due_date%></b></span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- logo and title -->
+               <div class="row my-3">
+                  <div class="col-6">
+                     <h1 class="text-primary">Invoice</h1>
+                     <%status%>
+                  </div>
+                  <div class="col-6 d-flex justify-content-end">
+                     <img src="../../../assets/images/rent-hub.png" alt="" height="40" >
+                  </div>
+               </div>
+               <hr class='dashed'>
+               <!-- invoice address and contact -->
+               <div class="row invoice-info">
+                  <div class="col-6 mt-1">
+                     <h6 class="invoice-from">Bill From</h6>
+                     <div class="mb-1">
+                        <span>Getsharp Developers Ltd.</span>
+                     </div>
+                     <div class="mb-1">
+                        <span>P.O. Box 9730, Nairobi.</span>
+                     </div>
+                     <div class="mb-1">
+                        <span>support@getsharp.co.ke</span>
+                     </div>
+                     <div class="mb-1">
+                        <span>(254)711 223 639</span>
+                     </div>
+                  </div>
+                  <div class="col-6 mt-1">
+                     <h6 class="invoice-to">Bill To</h6>
+                     <div class="mb-1">
+                        <%recepient%>
+                     </div>
+                     <div class="mb-1">
+                        <span> <%address%></span>
+                     </div>
+                     <div class="mb-1">
+                        <span><%email_address%></span>
+                     </div>
+                     <div class="mb-1">
+                        <span><%phone_number%></span>
+                     </div>
+                  </div>
+               </div>
+               <hr class='dashed'>
+            </div>
+            <!-- product details table-->
+            <div class="card-body pb-0 mx-5" >
+               <table class="table table-borderless ml-25">
+                  <thead>
+                     <tr class="border-0">
+                        <th scope="col">Description</th>
+                        <th scope="col">Cost</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col" class="text-right">Price</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><%package_name%> Package Subscription - 1 Month</td>
+                        <td><%package_rate%></td>
+                        <td>1</td>
+                        <td class="text-primary text-right font-weight-bold"><%package_rate%></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <!-- invoice subtotal -->
+            <div class="card-body pb-0 mx-5">
+               <hr class='dashed'>
+               <div class="row">
+                  <div class="col-12 col-sm-6 ">
+                     <p>Thanks for your business.</p>
+                  </div>
+                  <div class="col-12 col-sm-6 justify-content-end">
+                     <div class="invoice-subtotal">
+                        <div class="invoice-calc d-flex justify-content-between">
+                           <span class="invoice-title">Subtotal</span>
+                           <span class="invoice-value"> <%invoice_amount%></span>
+                        </div>
+                        <div class="invoice-calc d-flex justify-content-between">
+                           <span class="invoice-title">Discount</span>
+                           <span class="invoice-value">-<%discount_amount%></span>
+                        </div>
+                        <hr class='dashed'>
+                        <div class="invoice-calc d-flex justify-content-between">
+                           <span class="invoice-title">Invoice Total</span>
+                           <span class="invoice-value"><%invoice_total%></span>
+                        </div>
+                        <div class="invoice-calc d-flex justify-content-between">
+                           <span class="invoice-title">Paid to date</span>
+                           <span class="invoice-value">- <%paid_amount%></span>
+                        </div>
+                        <div class="invoice-calc d-flex justify-content-between">
+                           <h4>Balance </h4>
+                           <h4><%balance_amount%></h4>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class ='pb-0 mx-5'>
+               <hr class='dashed'>
+            </div>
+            <div class="row invoice-payments-info pb-0 mx-5">
+               <div class="col ml-10 mr-10">
+                  <h5 class="invoice-from">Payments</h5>
+                  <%payment_data%>
+               </div>
+            </div>
+         </div>
+      </div>
+	  <%watermark%>
+   </body>
+</html>

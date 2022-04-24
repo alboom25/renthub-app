@@ -1,0 +1,96 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+    <div class="container-fluid">
+  
+      <%- include('../shared/page-title') %>
+      <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+            <div class="row list-layout">
+                <% if(leases.length>0){%>
+                    <% for (var i = 0; i < leases.length ; i++) {%>   
+                        <div class="col-sm-12 col-md-6">
+                            <div class="panel">
+                                <div class="panel-body unit-lead ">
+                                    <div class="row font-size-14">
+                                        <div class="col-lg-4">
+                                            <div class="text-lg-center">
+                                                <div class="text-center">
+                                                    <a class="dynamic-link" href="<%= base_url %>/tenant/leases/<%=leases[i].lease_id%>">
+                                                        <img  class="img-fluid rounded w-100" alt=""  src="<%= base_url %>/public/units/display-picture/<%=leases[i].unit_code%>" />
+                                                    </a>
+                                                </div>
+                                               
+                                                <% if(leases[i].status=='Active'){%>
+                                                    <span class="badge badge-success">Active</span>
+                                                <%}else if(leases[i].status=='Expiring Soon') {%>
+                                                    <span class="badge badge-warning">Expiring Soon</span>
+                                                <%}else if(leases[i].status=='Expired') {%>
+                                                    <span class="badge badge-danger">Expired</span>
+                                                <%}%>
+                                            </div>
+                                        </div>
+        
+                                        <div class="col-lg-8">
+                                            <span class="mb-1 font-size-14 text-truncate badge badge-success mt-2"><%=leases[i].unit_type%></span>
+                                            <div>
+                                                <a href="<%= base_url %>/tenant/leases/<%=leases[i].lease_id%>" class="d-block text-info mb-2 dynamic-link font-weight-bold"><%=leases[i].unit_name%> <span class="unit-floor" data-floor="<%=leases[i].floor%>"></span></a>
+                                                <h5 class="text-wrap mb-2 font-size-14 unit-name"><%=leases[i].property_name %> </h5>
+                                                <ul class="list-inline mb-0 border-top pt-1">
+                                                    <li class="list-inline-item mr-3">
+                                                        <h6 class="font-size-14"><span class="text-dark font-weight-bold">Rent:</span> <span class="amount-value"><%=leases[i].monthly_rent %></span></h6>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <h6 class='font-size-14'><span class="text-dark font-weight-bold">Balance:</span> <span class="amount-value"><%=leases[i].balance %></span></h6>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    <%}%>
+                <%}else{%>
+                    <div class="col-12">
+                        <div class="alert alert-warning">You are not linked to any units. Please verify with your landlord if using the right details. </div>
+                    </div>
+                <%}%>    
+                
+            </div>				
+        </div>
+        <!--end::Container-->
+    </div>
+        
+    </div>
+    
+  <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+  <script>
+    window.onload=function(){window.jQuery||window.location.reload()};
+  $(document).ready(function(){
+    $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+    
+    $(".unit-floor").each(function () {        
+        var f = parseInt($(this).attr("data-floor"));
+        $(this).html(", " + floorToLabel(f));
+    });
+    $(".amount-value").each(function () {        
+        var f = parseFloat($(this).html());
+        $(this).html(formatMoney(f));
+    });
+
+     $(".unit-lead").hover(
+       function () {
+              $(this).addClass("shadow-lg");
+        },
+        function () {
+              $(this).removeClass("shadow-lg");
+        }
+     );
+  });
+ </script>
+  <% if(!load_chunk){%> </body></html> <%}%>

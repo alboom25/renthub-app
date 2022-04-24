@@ -1,0 +1,19 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+			<div class="container-fluid">
+				<%- include('../shared/page-title') %>
+               
+			</div>
+			<!-- container-fluid -->
+
+      
+
+      
+            <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+
+  
+<% if(!load_chunk){%> </body></html> <%}%>

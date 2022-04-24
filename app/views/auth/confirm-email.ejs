@@ -1,0 +1,36 @@
+<%- include( '../shared/page-header') %>
+	</head>
+
+	<body class="accounts-body">
+		<div class="account-pages my-5 pt-sm-5">
+			<div class="container">				
+				<div class="row justify-content-center">
+					<div class="col-md-8 col-lg-6 col-xl-5">
+						<div class="card shadow-lg">
+							<div class="card-body">
+								<div class="p-2">
+									<div class="text-center">
+										<div class="avatar-md mx-auto">
+											<div class="avatar-title rounded-circle bg-light">
+												<img src="<%= base_url %>/assets/images/favicon.png" alt="" class="rounded-circle" height="34" width="34">
+											</div>
+										</div>
+										<div class="p-2 mt-4">
+											<h4 class="<%= text_class %>"><%= header %></h4>
+											<p class="text-muted">
+												<%=message %>
+											</p>
+											<div class="mt-4"> <a href="<%= base_url %>/auth/login" class="btn btn-info">Go to Login</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	</html>

@@ -1,0 +1,485 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+			<div class="container-fluid">				
+				<%- include('../shared/page-title') %>
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container">
+							<%- include('../shared/agent-property-single') %>							
+							<div class="row">
+								<div class="col-12">
+									<div class="panel panel-default">										
+										<div class="panel-body">
+											<%- include('../shared/agent-property-tabs') %>
+											<div class='row'>
+												<div class="col-lg-7">
+													<h4 class="card-title">Property Units</h4>
+													<p class="card-title-desc">Manage units/houses/rooms associated with this property</p>
+												</div>
+												<div class="col-lg-5 text-right" style="margin: auto;">														
+													<a href="<%= base_url %>/agent/properties/new-unit?property=<%=property.property_code%>" class="btn btn-info small-block px-4 mt-2 mb-2 dynamic-link">+ Add New Unit</a> 
+												</div>
+											</div>
+											<div class="row">
+												<div class='col-12'>
+													<hr>
+													<div class="table-responsive">
+														<table id='tbl_units' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+															<thead>
+																<tr>
+																	<th></th>
+																	<th>Unit No</th>
+																	<th>Unit Type</th>
+																	<th>Floor</th>
+																	<th>Monthly Rent</th>
+																	<th>Status</th>
+																	<th>Tenant</th>																		
+																</tr>
+															</thead>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>								
+						</div>
+						<!--end::Container-->
+					</div>
+			</div>
+			<!-- container-fluid -->
+
+			  <!-- terminate tenancy modal -->
+<div id="mdl_terminate_tenancy" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+	   <!-- Modal content-->
+	   <div class="modal-content">
+		  <div class="modal-header">
+			 <h5 class="modal-title">Tenancy Termination (ROOM NO, FLOOR)</h5>
+			 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			 <i class='bx bx-x'></i>
+			 </button>
+		  </div>
+		  <div class="modal-body">
+			
+		  </div>
+		  <div class="modal-footer"> 
+			
+		  </div>
+	   </div>
+	</div>
+  </div>
+
+<div id="mdl_preview_advert" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+	   <!-- Modal content-->
+	   <div class="modal-content">
+		  <div class="modal-header">
+			 <h5 class="modal-title">Preview Advert</h5>
+			 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			 <i class='bx bx-x'></i>
+			 </button>
+		  </div>
+		  <div class="modal-body">
+			
+		  </div>
+		  <div class="modal-footer"> 
+			
+		  </div>
+	   </div>
+	</div>
+  </div>
+
+  <div id="mdl_clone_unit" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-sm">
+	   <!-- Modal content-->
+	   <div class="modal-content">
+		  <div class="modal-header">
+			 <h5 class="modal-title">Clone Unit</h5>
+			 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			 <i class='bx bx-x'></i>
+			 </button>
+		  </div>
+		  	<form id='frm_clone_unit' action='#' method='post'>
+				<div class="modal-body">
+					<input type='hidden' name='unit_code' class="unit_code">
+					<input type='hidden' name='property' value="<%=property.property_code%>">
+					<label>New Unit No/Name</label>
+					<input type="text" name='unit_name' class="form-control" maxlength="100" autocomplete="off" required>
+				</div>
+				<div class="modal-footer">     
+					<button type="submit" class="btn btn-success">Clone Unit</button>      
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				 </div>
+			</form>
+		  
+	   </div>
+	</div>
+</div>
+
+  
+			<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+				
+				
+				<script>
+					window.onload=function(){window.jQuery||window.location.reload()};
+
+
+
+$(document).ready(function() {
+	$("#tbl_units").SetEditable({
+		columnsEd: "1",
+		onEdit: function(columnsEd) {
+			rowEdited(columnsEd);
+		},
+		onDelete: function(columnsEd) {
+			rowDeleted(columnsEd);
+		},
+	});
+
+	$("#tbl_units").DataTable({
+		responsive: !0,
+		searchDelay: 500,
+		processing: !0,
+		serverSide: true,
+		order: [],
+		ajax: {
+			url: "<%= base_url %>/agent/properties/units",
+			type: "POST",
+			deferRender: true,
+        	async: true, 
+			credentials: 'same-origin',
+			data: {property_code:'<%= property.property_code%>'},
+			headers: {
+				'CSRF-Token': csrf_token
+			},
+		},
+		columns: [
+			{
+				data: null,
+				render: function(data, type, row) {
+					return '<img onclick="intitImagePopup(this)" class="rounded-circle avatar-sm img img-popup" alt="" title="' + data.unit_name +'" src="<%= base_url %>/public/units/display-picture/'+ data.unit_code +'" />'
+				}
+			},
+			{
+			data: "unit_name",
+		}, {
+			data: "unit_type",
+		}, {
+			data: null,
+			render: function(data, type, row) {
+				return floorToLabel(data.floor);
+			}
+		}, {
+			data: null,
+			className: "text-md-left, text-lg-right",
+			render: function(data, type, row) {
+				return formatMoney(data.rent_amount);
+			}
+		}, {
+			data: null,
+			render: function(data, type, row) {
+				var rp = '<span class="badge badge-soft-warning">Vacant</span>';
+				if(data.occupied) {
+					rp = '<span class="badge badge-soft-success">Occupied</span>';
+				}
+				return rp;
+			},
+		}, {
+			data: null,
+			render: function(data, type, row) {
+				if(data.occupied) {
+					
+					<% if (property.manage_tenants){ %>
+						return "<a class='dynamic-link text-info' href='<%= base_url %>/agent/tenants/view/"+ data.tenant_id +"'>"+ data.tenant_name +"</a>";	
+					<% }else{ %>
+						return  data.tenant_name ;	
+					<% } %>
+				} else {
+					let msg =  '';
+
+					<% if(property.manage_leases){ %>
+						msg +=`<a class="btn btn-primary btn-sm dynamic-link mt-0" href="<%= base_url %>/agent/properties/new-lease?unit_code=${data.unit_code}">Add Lease</a>`;
+					<% } %>
+
+					if(data.ad_id){
+						msg += `<button type='button' class="btn btn-info btn-sm ml-2 mt-0" onclick="previewAd('${data.ad_id}')">Preview Advert</button>`;
+					}else{
+						msg += `<a class="btn btn-warning btn-sm dynamic-link ml-2 mt-0" href="<%= base_url %>/agent/units/advertise/${data.unit_code}">Adversise</a>`;
+					}				
+						
+					return msg;				
+				}
+			},
+		}, {
+			data: null,
+			responsivePriority: -1,
+			render: function(data, type, row) {				
+				return actionData(data);
+			},
+		},
+		
+	 ],
+	});
+	
+	$("#frm_clone_unit").validate({
+                  rules: {                   
+                    unit_name:{
+                        required: true,
+						minlength:1,
+						maxlength: 100   
+                    }
+                  },
+                  messages: {
+                    unit_name:{
+                        required: "Please enter the unit No/Name",
+						minlength:"The unit No/Name should contain at least 1 character",
+						maxlength: "The unit No/Name should contain a maximum of 100 characters",   
+                    }  
+                  }
+          });
+
+
+});
+
+function previewAd(id){
+	$("#mdl_preview_advert .modal-body").html(loading_div);
+      $("#mdl_preview_advert .modal-footer").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+      $("#mdl_preview_advert .modal-title").html('Preview Advert');
+      $("#mdl_preview_advert").modal("show");
+	  $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/agent/units/advert-info",
+        data: {id:id},        
+        success: function(data) {         
+          if (data.Status == 200) {			
+             var data = data.Message;
+            $("#mdl_preview_advert .modal-footer").html(`<a href="<%= public_url%>/vacant-houses/${data.ad_id}" target="_blank" class="btn btn-info" ">View as Public</a><a href="<%= base_url %>/agent/units/advertise/${data.unit_code}" class="btn btn-warning dynamic-link" ">Edit Advert</a><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>`);
+
+            $("#mdl_preview_advert .modal-title").html(`Preview Advert ( ${data.unit_name} - ${floorToLabel(data.floor)})`);
+          
+             var resp = '<table class="table border table-bordered mb-0"> <tbody>';
+			resp +=`<tr><td>Date Published: </td><td>${data.ad_date}</td></tr>`;		
+			resp +=`<tr><td>Views: </td><td>${data.total_views}</td></tr>`;
+			resp +=`<tr><td>Viewing Fees: </td><td>${formatMoney(data.viewing_fees)}</td></tr>`;
+			resp +=`<tr><td>Additional Information: </td><td>${data.ad_comments}</td></tr>`;
+            resp +='</tbody> </table>';
+          
+            $("#mdl_preview_advert .modal-body").html(resp);
+                        
+          } else {
+            var resp = '<div class="alert alert-warning fade show"><divclass="alert-text">' + data.Message + '</div></div>';
+            $("#mdl_preview_advert .modal-body").html(resp);
+          }
+        },
+        error: function(err) {        
+          var resp = '<div class="alert alert-danger fade show"><divclass="alert-text">An error occured while getting advert details! Please try again.</div></div>';
+          $("#mdl_preview_advert .modal-body").html(resp);
+        }
+      });
+   }
+
+function actionData(data) {
+	var add_lease = "";
+	if(data.occupied) {		
+		
+		<% if(property.manage_leases){ %>
+			add_lease = `<a class="dropdown-item text-warning" onclick="terminateTenancy('${data.lease_id}')" href="javascript:void(0);">Terminate Lease</a>`;
+		<% } %>
+
+	} else {		
+		<% if(property.manage_leases){ %>
+			add_lease = `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/leases/new?unit_code=${data.unit_code}">Add Lease</a>`;
+		<% } %>
+		if(data.ad_id){
+			add_lease += `<button type='button' class="dropdown-item"onclick="previewAd('${data.ad_id}')">Preview Advert</button>`;			
+		}else{
+			add_lease += `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/units/advertise/${data.unit_code}">Advertise</a>`;
+		}		
+	}
+	var btns = add_lease + `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/edit-unit/${data.unit_code}?property=<%=property.property_code%>">Edit Unit - ${data.unit_name}'</a><a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/unit-info/${data.unit_code}?property=<%=property.property_code%>" >Detailed Information</a><button class="border-top border-bottom dropdown-item text-primary" href="#" onclick="cloneUnit('${data.unit_code}', '${data.unit_name}')" >Clone Unit</button>`;
+	return row_begin + btns + edit_links + row_end;
+}
+
+function rowDeleted(columnsEd) {
+	var ind = columnsEd[0]._DT_RowIndex;
+	var unit_label = columnsEd[0].childNodes[1].innerHTML;
+	var data = $("#tbl_units").DataTable().row(ind).data();
+	var dt = {unit_code: data.unit_code, property:'<%=property.property_code %>'};
+	$.ajax({
+		type: "POST",
+        async: true, 
+		credentials: 'same-origin',
+		headers: {
+			'CSRF-Token': csrf_token
+		},
+		url: "<%= base_url %>/agent/properties/delete-unit",
+		data: dt,
+		success: function(data) {
+			$("#tbl_units").DataTable().ajax.reload();
+			if(data.Status == 200) {
+				showAppNotification("success", data.Message);
+			} else {
+				showAppNotification("warning", data.Message);
+			}
+		},
+		error: function(err) {
+			showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+			$("#tbl_units").DataTable().ajax.reload();
+		},
+	});
+
+}
+
+function rowEdited(columnsEd) {
+	var ind = columnsEd[0]._DT_RowIndex;
+	var unit_label = columnsEd[0].childNodes[1].innerHTML;
+	var data = $("#tbl_units").DataTable().row(ind).data();	
+	$.ajax({
+		type: "POST",
+        async: true, 
+		credentials: 'same-origin',
+		headers: {
+			'CSRF-Token': csrf_token
+		},
+		url: "<%= base_url %>/agent/properties/update-unit-label",
+		data: {unit_code: data.unit_code, unit_label:unit_label, property:'<%=property.property_code %>'},
+		success: function(data) {
+			if(data.Status != 200) {
+				showAppNotification("warning", data.Message);
+				$("#tbl_units").DataTable().ajax.reload();
+			}
+		},
+		error: function(err) {
+			showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+			$("#tbl_units").DataTable().ajax.reload();
+		},
+	});
+}
+
+function terminateTenancy(id){
+      $("#mdl_terminate_tenancy .modal-body").html(loading_div);
+      $("#mdl_terminate_tenancy .modal-footer").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+      $("#mdl_terminate_tenancy .modal-title").html('Tenancy Termination');
+      $("#mdl_terminate_tenancy").modal("show");
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/agent/leases/get-single",
+        data: {id:id},        
+        success: function(data) {         
+          if (data.Status == 200) {			
+             var data = data.Message;
+            $("#mdl_terminate_tenancy .modal-footer").html('<button type="button" onclick="proceedTermination()" class="btn btn-success" ">Proceed</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+
+            $("#mdl_terminate_tenancy .modal-title").html('Tenancy Termination ('+ data.unit_name +', '+ floorToLabel(data.floor) +')');
+          
+             var resp = '<div class="row"> <div class="col-12"> <form class="form-horizontal" action="#" method="post" id="frm_terminate_tenancy"> <div class="form-group row"> <label for="termination_date" class="col-md-5 col-form-label">Expected move out date</label> <div class="col-md-7"> <input type="date" class="form-control" id="termination_date" name="termination_date" required> </div> </div> <input type="hidden" name="lease_id" value="'+id+'"/> </form> <label for="form-label">Available deposit(s)</label> <table class="table border table-bordered mb-0"> <tbody>';
+               var deps = JSON.parse(data.deposists);
+               var deps_str ='';
+               for(var i = 0; i < deps.length; i++) {
+                  deps_str+='<tr> <th scrope="row">'+ deps[i]["Deposit Name"]+'</th> <td class="text-right">'+ formatMoney(deps[i]["Amount"])+'</td> </tr>';
+               }
+               resp +=deps_str;
+            resp +='</tbody> </table></div> </div>';
+            $("#mdl_terminate_tenancy .modal-body").html(resp);
+            var now = moment().format();
+            var day = ("0" + parseInt(data.bills_payment_date-1).toString()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var td = now.getFullYear()+"-"+(month)+"-"+(day);
+           
+            var xd = new Date(td);
+            if(now.getTime()>xd.getTime()){
+               var month = ("0" + (now.getMonth() + 2)).slice(-2);
+               var td = now.getFullYear()+"-"+(month)+"-"+(day);               
+            }
+            $("#termination_date").val(td)
+            
+          } else {
+            var resp = '<div class="alert alert-warning fade show"><divclass="alert-text">' + data.Message + '</div></div>';
+            $("#preview_tenancy_body .modal-body").html(resp);
+          }
+        },
+        error: function(err) {        
+          var resp = '<div class="alert alert-danger fade show"><divclass="alert-text">An error occured while getting invoice details! Please try again.</div></div>';
+          $("#preview_tenancy_body .modal-body").html(resp);
+        }
+      });
+   }
+
+function proceedTermination(){
+      var form_data = $('#frm_terminate_tenancy').serialize(); 
+      $("#mdl_terminate_tenancy").modal('hide');
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/agent/leases/terminate",
+        data: form_data,        
+        success: function(data) {         
+          if (data.Status == 200) {
+             showAppNotification("success", data.Message);
+             $("#tbl_units").DataTable().ajax.reload();
+             getPendingTerminations();
+          } else {
+            $("#mdl_terminate_tenancy").modal('show');
+            showAppNotification('warning', data.Message);          
+          }
+        },
+        error: function(err) {       
+         $("#mdl_terminate_tenancy").modal('show'); 
+          showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+        }
+      });
+   }
+
+   function cloneUnit(unit_code, unit_name){	   
+		$("#mdl_clone_unit .modal-title").html(`Clone Unit - ${unit_name}`);
+		$("#mdl_clone_unit .unit_code").val(unit_code);
+		$("#mdl_clone_unit").modal("show");		
+   }
+
+   $("#frm_clone_unit").submit(function(e){
+        e.preventDefault();
+        var isvalid = $("#frm_clone_unit").valid();
+        if(isvalid){
+           makeBusy('#mdl_clone_unit .modal-dialog');
+        var data = new myFormData($(this));
+        $.ajax({
+                  type: "POST",
+                  async: true,  
+                  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                  url: "<%= base_url %>/agent/properties/clone-unit",
+                  data: data,
+                  success: function(data) {  
+					makeBusy('#mdl_clone_unit .modal-dialog', 0);  
+					if (data.Status == 200) {   
+						$('#frm_clone_unit').trigger("reset");
+						$("#mdl_clone_unit").modal("hide");
+						$("#tbl_units").DataTable().ajax.reload();
+						showAppNotification('success', data.Message);                      
+					} else {                         
+						showAppNotification('warning', data.Message);
+					}
+                  },
+                  error: function(err) {                      
+					makeBusy('#mdl_clone_unit .modal-dialog', 0);    
+                    showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                  }
+              });
+          
+        }
+      
+        
+    });
+
+	
+				
+				
+				</script>
+	<% if(!load_chunk){%> </body></html> <%}%>

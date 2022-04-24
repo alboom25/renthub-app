@@ -1,0 +1,453 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+  
+  <div class="container-fluid">
+     <%- include('../shared/page-title') %>
+     <div class="d-flex flex-column-fluid">
+      <div class="container">
+        <div class="card card-custom">
+            <div class="card-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#upcoming" role="tab">                         
+                            <span class="d-sm-block">Upcoming</span> 
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#submitted" role="tab">                           
+                            <span class="d-sm-block">Submitted Requests <span class="badge badge-pill badge-danger" key="t-new">10+</span></span> 
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content pt-3 text-muted">
+                    <div class="tab-pane active" id="upcoming" role="tabpanel">
+                       <div class="table-responsive">
+                        <table id="tbl_leases" class="table border table-hover mb-0" style="width:100%">
+                            <thead>
+                               <tr>
+                                  <th>Unit #</th>
+                                  <th>Property</th>
+                                  <th>Tenant</th>                                
+                                  <th>Expiry Date</th>
+                                  <th>Approved By</th>
+                                  <th>Status</th>  
+                                  <th>Actions</th>
+                               </tr>
+                            </thead>
+                         </table>
+                       </div>
+                    </div>
+                    <div class="tab-pane" id="submitted" role="tabpanel">
+                       
+                    </div>
+                </div>
+
+            </div>
+        </div>
+     </div>
+     </div>
+  </div>
+
+   <!-- preview tenancy modal -->
+<div id="mdl_preview_tenancy" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+       <!-- Modal content-->
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Tenancy Preview</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+             </button>
+          </div>
+          <div id='preview_tenancy_body' class="modal-body">
+            
+          </div>
+          <div class="modal-footer"> 
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <div id="mdl_process_refund" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+       <!-- Modal content-->
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Process Refund</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+             </button>
+          </div>
+          <div class="modal-body pb-1">
+              <h6 class='text-dark text-center'>Damages/Expenses</h6>
+              <div class ="table-responsive">
+                  <table id="tbl_particulars" class="table table-nowrap border dt-responsive table-hover">
+                      <thead>
+                          <tr>
+                              <th>Particular</th>
+                              <th>Amount</th>
+                          </tr>
+                      </thead>
+                      <tbody> </tbody>
+                  </table>
+                  <button id="btn_add_row" type="button" class="btn btn-light">Add Empty Row</button>
+              </div>
+              <hr class="dashed">
+              <div class ="table-responsive">
+                <h6 class='text-dark text-center'>Available Deposits</h6>
+                <table id="tbl_available_deposists" class="table table-nowrap border dt-responsive">
+                    <thead>
+                        <tr>
+                            <th>Deposits Name</th>
+                            <th class="text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody> </tbody>
+                </table>
+              </div>
+              <h5 id="lbl_refund_balance" class='p-2 bg-soft-info text-dark text-right mx-auto'>Balance: 0.00</h5>
+              <input type="hidden" id="refund_lease_id"/>
+            
+          </div>
+          <div class="modal-footer"> 
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+       </div>
+    </div>
+  </div>
+ 
+  <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+  
+  <script >
+    window.onload=function(){window.jQuery||window.location.reload()};
+      $(document).ready(function() {
+        $("#tbl_particulars").SetEditable({
+          columnsEd: "0, 1",
+            $addButton: $("#btn_add_row"),
+            onEdit: function() {computeBill()}, 
+			      onDelete: function() {computeBill()},
+        });
+        
+        $("#tbl_leases").DataTable({
+          responsive: !0,
+          searchDelay: 500,
+         processing: !0,
+         serverSide: true,
+          order: [],
+          ajax: {
+           url: "<%= base_url %>/admin/terminations?action=get-upcoming",
+            type: "POST",
+          async: true, 
+            credentials: 'same-origin',
+            headers: {
+              'CSRF-Token': csrf_token
+            },
+          },
+          columns: [
+            {
+              data: null,
+              render: function(data, type, row) {                
+                return (
+                  "<a class='text-dark dynamic-link' href='<%= base_url %>/admin/properties/" +
+                  data.property_code +
+                  "/units/info/" +
+                  data.unit_code +
+                  "'>" +
+                  data.unit_name + ', '+ floorToLabel(data.floor) +
+                  "</a>"
+                );
+              },
+            },
+            {
+              data:null,
+              render: function(data, type, row) {
+                return (
+                  "<a class='dynamic-link' href='<%= base_url %>/admin/properties/" +
+                  data.property_code +
+                  "/units'>" +
+                  data.property_name +
+                  "</a>"
+                );
+              }
+            },
+            {
+              data: null,
+              render: function(data, type, row) {
+                return (
+                  "<a class='dynamic-link' href='<%= base_url %>/admin/properties/" +
+                  data.property_code +
+                  "/tenants/view/" +
+                  data.tenant_id +
+                  "'>" +
+                  data.tenant_name +
+                  "</a>"
+                );
+              }
+            },
+            {
+              data: "expiry_date",             
+            },
+            {
+              data: "terminated_by"
+            },            
+            {
+              data: null,
+              render: function(data, type, row) {
+                if (data.refund_processed) {
+                    return '<span class="badge badge-pill badge-success font-weight-bold">Processed</span>';  
+                } else {
+                  return '<span class="badge badge-pill badge-danger font-weight-bold">Not Processed</span>';
+                }
+              },
+            },
+            {
+              data: null,
+              responsivePriority: -1,
+              render: function(data, type, row) {               
+                return actionData(data);
+              },
+            },
+          ],
+        });
+  
+        
+      });
+      function actionData(data){
+  var btns = '';
+      if(!data.refund_processed) {
+		btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'processRefund("'+ data.lease_id+'","'+data.property_code+'")\'>Process Refund</a><a class="dropdown-item" href="javascript:void(0)" onclick=\'proceedTenancy("'+ data.lease_id+'","'+data.property_code+'")\'>Extend Tenancy</a>';
+      }
+      btns += '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewTenancy("'+ data.lease_id+'","'+data.property_code+'")\'>Preview Tenancy</a>';
+      return row_begin + btns + row_end;
+}
+
+function previewTenancy(id, property_code){
+      $("#preview_tenancy_body").html(loading_div);
+      $("#mdl_preview_tenancy").modal("show");
+      $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/admin/properties/" + property_code +"/leases/get-single",
+        data: {id:id},        
+        success: function(data) {         
+          if (data.Status == 200) {
+             var resp = leaseData(data.Message, property_code);
+            $("#preview_tenancy_body").html(resp);
+          } else {
+            var resp = '<div class="alert alert-warning fade show"><divclass="alert-text">' + data.Message + '</div></div>';
+            $("#preview_tenancy_body").html(resp);
+          }
+        },
+        error: function(err) {        
+          var resp = '<div class="alert alert-danger fade show"><divclass="alert-text">An error occured while getting invoice details! Please try again.</div></div>';
+          $("#preview_tenancy_body").html(resp);
+        }
+      });
+   }
+
+   function leaseData(data, property_code){    
+      var str= '<div class="row"> <div class="col-12"> <div class="table-responsive"> <table class="table table-hover border mb-0"> <tbody> <tr> <th scope="row">Unit/Room:</th> <td>'+ data.unit_name +', '+ floorToLabel(data.floor) +'</td> </tr> <tr> <th scope="row">Lease Date:</th> <td>'+ data.lease_date +'</td> </tr><tr> <th scope="row">Expiry Date:</th> <td>';
+         if(data.expiry_date ==null){
+            str+="<span class='badge badge-success'>Active</span>";
+         }else{
+            str +=data.expiry_date;
+         }
+         str +='</td> </tr> <tr> <th scope="row">Tenant Name:</th> <td><a class="dynamic-link text-info" href="<%= base_url %>/admin/properties/'+property_code+'/tenants/view/'+ data.tenant_id+'">'+ data.tenant_name +'</td> </tr> <tr> <th scope="row">Leased By:</th> <td>'+ data.leased_by +'</td> </tr> <tr> <th scope="row">Monthly Rent:</th> <td>'+ formatMoney(data.monthly_rent) +'</td> </tr> <tr> <th scope="row">Deposits</th> <td> <table class="table table-sm table-borderless mb-0"> <tbody>';
+      var deps = JSON.parse(data.deposists);
+      var deps_str ='';     
+      for(var i = 0; i < deps.length; i++) {
+         deps_str+='<tr> <td>'+ deps[i]["Deposit Name"]+':</td> <td class="text-right">'+ formatMoney(deps[i]["Amount"])+'</td> </tr>';
+      }
+      str +=deps_str;
+         
+      str +=  '</tbody> </table> </td> </tr> <tr> <th scope="row">Fixed Monthly Bills:</th> <td> <table class="table table-sm table-borderless mb-0"> <tbody>';
+
+      var fixed_bills = JSON.parse(data.fixed_monthly_bills);
+      var fs_str ='';
+      for(var i = 0; i < fixed_bills.length; i++) {
+         fs_str +='<tr> <td>'+ fixed_bills[i]["Bill Name"]+':</td> <td class="text-right">'+ formatMoney(fixed_bills[i]["Amount"])+'</td> </tr>';
+      }
+      str +=fs_str;
+
+      str +='</tbody> </table> </td> </tr> <tr> <th scope="row">Payments Date:</th> <td>'+ data.bills_payment_date +'</td> </tr> <tr> <th scope="row">Lease Agreement:</th> <td>';
+         if(data.lease_agreement_path !==null){
+            str +='<a onclick="downloadLeaseFile(\''+ data.lease_agreement_path +'\')" href="javascript: void(0);" class="btn btn-sm btn-light text-dark font-weight-medium">'
+            if(data.file_extension==".pdf"){
+               str +='<i class="bx bxs-file-pdf font-size-24 align-middle text-success mr-2"></i>';              
+            }else{
+               str+='<i class="bx bxs-image-alt font-size-24 align-middle text-success mr-2"></i>';
+            }
+            str+= data.lease_agreement_path  + '</a>';
+         }
+        str+='</td> </tr> </tbody> </table> </div> </div> </div>';
+      return str;
+   }
+
+function proceedTenancy(lease_id, property_code){
+    $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/admin/properties/" + property_code +"/leases/get-single",
+        data: {id:lease_id},        
+        success: function(data) {         
+          if (data.Status == 200) {
+              sharpAlert({
+                title: "Confirm?",
+                text: "Are you sure you want to continue the selected tenancy/lease",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                confirmButtonClass: "btn btn-success mr-2 btn-swal",
+                cancelButtonText: "No",
+                cancelButtonClass: "btn btn-danger mr-2 btn-swal",
+               
+                
+            },(passed)=>{
+                if (passed) {
+                    $.ajax({
+                        type: "POST",
+                        async: true,
+                        credentials: "same-origin",
+                        headers: { "CSRF-Token": csrf_token },
+                        url: "<%= base_url %>/admin/terminations?action=extend-lease",
+                        data: {id:lease_id},
+                        success: function (data) {
+                            if (data.Status == 200) {
+                                showAppNotification("success", data.Message);
+                                $("#tbl_leases").DataTable().ajax.reload();
+                            } else {
+                                showAppNotification("warning", data.Message);
+                            }
+                        },
+                        error: function (err) {
+                            showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                        },
+                    });
+                }
+            });
+
+          } else {
+           showAppNotification("warning", data.Message);
+          }
+        },
+        error: function(err) {        
+          showAppNotification("danger", "An error has occured. Unable to get the lease");
+        }
+      });
+   }
+ 
+ function processRefund(lease_id, property_code){     
+    $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/admin/properties/" + property_code +"/leases/get-single",
+        data: {id:lease_id},        
+        success: function(data) {         
+          if (data.Status == 200) {
+            $("#refund_lease_id").val(lease_id);
+            var data = data.Message;
+            var deps = JSON.parse(data.deposists);     
+            var deps_str ='';
+            var dtotal = 0;
+            for(var i = 0; i < deps.length; i++) {
+                deps_str+='<tr> <td>'+ deps[i]["Deposit Name"]+':</td> <td class="text-right">'+ deps[i]["Amount"]+'</td> </tr>';
+                dtotal += parseFloat(deps[i]["Amount"]);
+            }
+            $("#tbl_available_deposists tbody").html(deps_str);
+            $("#tbl_particulars tbody").html("");
+            $("#mdl_process_refund .modal-title").html("Process Refund - " + data.unit_name +', '+ floorToLabel(data.floor) );
+            $("#mdl_process_refund .modal-footer").html('<button type="button" class="btn btn-success" onclick="proceedProcessRefund()">Proceed</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            $("#mdl_process_refund").modal("show");
+            $("#lbl_refund_balance").html("Balance: " + formatMoney(dtotal));
+           
+          } else {
+            showAppNotification("warning", data.Message);
+          }
+        },
+        error: function(err) {        
+            showAppNotification("danger", "An error has occured. Unable to get the lease");
+        }
+      });
+ }
+
+ $('#mdl_process_refund').on('show.bs.modal', function() {
+   // computeBill();
+    //computeBill();
+});
+
+ function computeBill(){
+    var deps = $("#tbl_available_deposists").tableToJSON({});
+
+    var damages = $("#tbl_particulars").tableToJSON({
+		columns: new Array(0, 1),
+	}); 
+
+    var credits =0;
+    for (var i = 0; i <deps.length; i++){
+        credits += parseFloat(deps[i]["Amount"]);
+    }
+
+    var debits=0;
+    for(var i = 0; i < damages.length; i++){        
+        debits += parseFloat(damages[i]["Amount"])
+    }
+
+    var total = credits-debits;
+    $("#lbl_refund_balance").html("Balance: " + formatMoney(total));
+
+
+ }
+
+ function proceedProcessRefund(){
+     sharpAlert({
+                title: "Confirm?",
+                text: "Are you sure you want to proceed?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                confirmButtonClass: "btn btn-success mr-2 btn-swal",
+                cancelButtonText: "No",
+                cancelButtonClass: "btn btn-danger mr-2 btn-swal",
+               
+                
+            },(passed)=>{
+                if (passed) {
+                    $('#mdl_process_refund').modal('hide');
+                    var damages = $("#tbl_particulars").tableToJSON({
+                        columns: new Array(0, 1),
+                    }); 
+
+                    $.ajax({
+                        type: "POST",
+                        async: true,
+                        credentials: "same-origin",
+                        headers: { "CSRF-Token": csrf_token },
+                        url: "<%= base_url %>/admin/terminations?action=process-refund",
+                        data: {damages:damages, lease_id: $("#refund_lease_id").val()},
+                        success: function (data) {
+                            if (data.Status == 200) {
+                                showAppNotification("success", data.Message);
+                                $("#tbl_leases").DataTable().ajax.reload();
+                                getPendingTerminations();
+                            } else {
+                                showAppNotification("warning", data.Message);
+                            }
+                        },
+                        error: function (err) {
+                            showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                        },
+                    });
+                }
+            });
+
+ }
+ </script>
+    
+  <% if(!load_chunk){%> </body></html> <%}%>

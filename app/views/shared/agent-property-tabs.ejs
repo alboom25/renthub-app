@@ -1,0 +1,49 @@
+<ul id="property-tabs-pills" class="nav nav-tabs mb-4 " role="tablist">
+    <% if( property.manage_units){%>
+        <li class="nav-item">
+            <a class="nav-link dynamic-link <%if(active_tab=='units'){%> active<%}%>" href="<%= base_url %>/agent/properties/<%= property.property_code%>?dest=units" role="tab">          
+                Units
+            </a>
+        </li>
+    <%}%>
+    
+    <% if( property.manage_tenants){%>
+        <li class="nav-item">
+            <a class="nav-link dynamic-link <%if(active_tab=='tenants'){%> active<%}%>" href="<%= base_url %>/agent/properties/<%= property.property_code%>?dest=tenants" role="tab">          
+                Tenants
+            </a>
+        </li>
+    <%}%>
+
+    <% if( property.manage_leases){%>
+        <li class="nav-item">
+            <a class="nav-link dynamic-link <%if(active_tab=='leases'){%> active <%}%>" href="<%= base_url %>/agent/properties/<%= property.property_code%>?dest=leases" role="tab">          
+                Leases
+            </a>
+        </li>
+    <%}%>
+
+    <% if( property.manage_payments){%>
+        <li class="nav-item">
+            <a class="nav-link dynamic-link <%if(active_tab=='payments'){%> active <%}%>" href="<%= base_url %>/agent/properties/<%= property.property_code%>?dest=payments" role="tab">          
+                Payments
+            </a>
+        </li>
+    <%}%>
+
+    <% if( property.manage_expenses){%>
+        <li class="nav-item">
+            <a class="nav-link dynamic-link <%if(active_tab=='expenses'){%> active <%}%>" href="<%= base_url %>/agent/properties/<%= property.property_code%>?dest=expenses" role="tab">          
+                Expenses
+            </a>
+        </li>
+    <%}%>
+
+    <% if( property.meter_readings){%>
+        <li class="nav-item">
+            <a class="nav-link dynamic-link <%if(active_tab=='meter-readings'){%> active<%}%>" href="<%= base_url %>/agent/properties/<%= property.property_code%>?dest=meter-readings" role="tab">          
+                Meter Readings
+            </a>
+        </li>
+    <%}%>   
+</ul>

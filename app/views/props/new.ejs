@@ -1,0 +1,497 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+
+	<div class="container-fluid">
+		<%- include('../shared/page-title') %>
+		<div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container">
+               <div class='row'>
+                  <div class="col-12">
+                     <!--begin::Card-->
+                     <div class="card">
+                        <!--begin::Form-->
+                        <form id='frm_new_property' method='post' action='#'>
+                           <div class="card-body">
+                              <div class="form-group mb-8">
+                                 <div class="alert alert-info" role="alert">                                    
+                                    <div class="alert-text">Fill the form below to add the new Property</div>
+                                 </div>
+                              </div>
+                              <h6 class='text-dark font-weight-bold'>a). Basics</h6>
+                              <div class="form-group">
+                                 <label>Name/Title
+                                 <span class="text-danger">*</span></label>
+                                 <input name = 'property_name' type="text" class="form-control" placeholder="Enter Property Name/Title">                       
+                              </div>
+                              <div class="form-group">
+                                 <label for="property_description">Description 
+                                 <span class="text-danger">*</span></label>
+                                 <textarea name='property_description' class="form-control" id="property_description" rows="3" placeholder="Property Description"></textarea>
+                              </div>
+                              <div class='row'>
+                                <div class='col-lg-3 col-md-12'>
+                                   <div class="form-group">
+                                      <label for="property_type">Property Type
+                                      <span class="text-danger">*</span></label>
+                                      <select name='property_type' id='property_type' class="form-control custom-select" data-size="5" data-live-search="true" tabindex="null">
+                                         <option value='Residential'>Residential</option>
+                                         <option value='Business-Stalls'>Business-Stalls</option>
+                                         <option value='Business-Offices'>Business-Offices</option>
+                                         <option value='Mixed'>Mixed</option>
+                                      </select>
+                                   </div>
+                                </div>
+                                <div class='col-lg-3 col-md-12'>
+                                   <div class="form-group">
+                                      <label for="unit_types">Unit Types
+                                      <span class="text-danger">*</span></label>
+                                      <select name='unit_types' id='unit_types' class="form-control custom-select">
+                                         <option value='Single Rooms'>Single Rooms</option>
+                                         <option value='Bedsitters'>Bedsitters</option>
+                                         <option value='One Bedrooms'>One Bedrooms</option>
+                                         <option value='Two Bedrooms'>Two Bedrooms</option>
+                                         <option value='Three Bedrooms'>Three Bedrooms</option>
+                                         <option value='Four Bedrooms'>Four Bedrooms</option>
+                                         <option value='Mixed'>Mixed</option>
+                                         <option value='Others'>Others</option>
+                                      </select>
+                                   </div>
+                                </div>
+                                <div class='col-lg-3 col-md-12'>
+                                    <div class="form-group">
+                                       <label for="year_built">Year Built 
+                                       <span class="text-danger">*</span></label>
+                                       <select id='year_built' name='year_built' class="form-control custom-select">                               
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class='col-lg-3 col-md-12'>
+                                    <div class="form-group">
+                                       <label for="floors">No of Floors 
+                                       <span class="text-danger">*</span></label>
+                                       <select id='floors' name='floors' class="form-control custom-select">                                 
+                                       </select>
+                                    </div>
+                                 </div>
+                             </div>
+                             
+                             <div class="form-group">
+                                <label>Options</label>
+                                <div class="form-inline">
+                                   <div class="custom-control custom-checkbox mb-3 mr-3 ">
+                                       <input type="checkbox" class="custom-control-input" id="has_cctv" name='has_cctv' value='1'>
+                                       <label class="custom-control-label" for="has_cctv">CCTV Available</label>
+                                   </div>
+
+                                   <div class="custom-control custom-checkbox mb-3  mr-3">
+                                       <input type="checkbox" class="custom-control-input" id="pet_friendly" name='pet_friendly' value='1'>
+                                       <label class="custom-control-label" for="pet_friendly">Pets Allowed</label>
+                                   </div>
+
+                                   <div class="custom-control custom-checkbox mb-3  mr-3">
+                                       <input type="checkbox" class="custom-control-input" id="has_garden" name='has_garden' value='1'>
+                                       <label class="custom-control-label" for="has_garden">Has Garden</label>
+                                   </div>
+
+                                   <div class="custom-control custom-checkbox mb-3  mr-3">
+                                       <input type="checkbox" class="custom-control-input" id="has_parking" name='has_parking' value='1'>
+                                       <label class="custom-control-label" for="has_parking">Parking Available</label>
+                                   </div>
+
+                                   <div class="custom-control custom-checkbox mb-3  mr-3">
+                                       <input type="checkbox" class="custom-control-input" id="has_swimming_pool" name='has_swimming_pool' value='1'>
+                                       <label class="custom-control-label" for="has_swimming_pool">Has Swimming Pool</label>
+                                   </div>
+
+                                   <div class="custom-control custom-checkbox mb-3  mr-3">
+                                        <input type="checkbox" class="custom-control-input" id="has_generator" name='has_generator' value='1'>
+                                        <label class="custom-control-label" for="has_generator">Has Power Backup</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                        <input type="checkbox" class="custom-control-input" id="has_lift" name='has_lift' value='1'>
+                                        <label class="custom-control-label" for="has_lift">Lift Elevator</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                        <input type="checkbox" class="custom-control-input" id="has_door_man" name='has_door_man' value='1'>
+                                        <label class="custom-control-label" for="has_door_man">Has Doorman</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                        <input type="checkbox" class="custom-control-input" id="has_emergency_exit" name='has_emergency_exit' value='1'>
+                                        <label class="custom-control-label" for="has_emergency_exit">Has Emergency Exit</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                        <input type="checkbox" class="custom-control-input" id="has_fire_alarm" name='has_fire_alarm' value='1'>
+                                        <label class="custom-control-label" for="has_fire_alarm">Has Fire Alarm</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3  mr-3">
+                                        <input type="checkbox" class="custom-control-input" id="gated_community" name='gated_community' value='1'>
+                                        <label class="custom-control-label" for="gated_community">Gated Community</label>
+                                    </div>
+                                </div>                       
+                             </div>
+                             <hr class='dashed'>
+                             <h6 class='text-dark font-weight-bold'>b). Location</h6>   
+                              <div class='row  mb-0'>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label for="sel_counties">County 
+                                        <span class="text-danger">*</span></label>
+                                        <select id='sel_counties' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0" onchange="getCountyAreas(this)">
+                                           <option>--Select County--</option>
+                                           <% for (var i = 0; i < counties.length ; i++) { %>
+                                           <option value="<%= counties[i].county_id %>"><%= counties[i].county_name %></option>
+                                           <% } %>                           
+                                        </select>
+                                     </div>
+                                </div>                               
+                                 <div class='col-lg-4 col-md-12'>
+                                    <div class="form-group">
+                                       <label for="sel_areas">Area 
+                                       <span class="text-danger">*</span></label>
+                                       <select id='sel_areas' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null" onchange="getLocalities(this)">
+                                          <option>--Select Area--</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class='col-lg-4 col-md-12'>
+                                    <div class="form-group">
+                                       <label for="sel_locality">Locality 
+                                       <span class="text-danger">*</span></label>
+                                       <select id='sel_locality' name='locality_code' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null">
+                                          <option>--Select Locality--</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group ">
+                                 <label for="street_address">Location Descripion
+                                 <span class="text-danger">*</span></label>
+                                 <input name='street_address' type="text" class="form-control" id="street_address" placeholder="Street Address">
+                              </div>
+                            <div class="form-inline">
+                                <div class="custom-control custom-checkbox mb-3 mr-3 ">
+                                    <input onchange='getLocation(this)' type="checkbox" class="custom-control-input" id="current_location" name='current_location'>
+                                    <label class="custom-control-label" for="current_location">Use Present Location</label>
+                                </div>
+                                <input type="hidden" name="latitude" id="latitude" value=""/>
+                                <input type="hidden" name="longitude" id="longitude" value=""/>
+                                </div>  
+                                <hr class='dashed'>
+                            <h6 class='text-dark font-weight-bold'>c). Others</h6>
+                            <div class='row  mb-0'>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label>Property Value </label>
+                                        <input type="number" class="form-control" name='property_value' maxlength='12'>
+                                    </div>
+                                </div>                               
+                                 <div class='col-lg-4 col-md-12'>
+                                    <div class="form-group">
+                                       <label>Payment Accounts 
+                                       </label>
+                                       <select name='property_accounts' class="form-control selectpicker-select" data-size="5" multiple data-live-search="true" tabindex="null" >
+                                        <% for (var i = 0; i < accounts_list.length ; i++) { %>
+                                            <option value="<%= accounts_list[i].account_id %>" ><%= accounts_list[i].account_name %> (<%= accounts_list[i].account_no %>)</option>
+                                        <%}%>
+                                       </select>
+                                    </div>
+                                 </div>
+                                
+                            </div>       
+
+                                <div class="d-flex flex-row justify-content-end border-top pt-2 mx-6">
+                                    <a href='<%= base_url %>/admin/properties' class="btn btn-danger dynamic-link  mr-2">Cancel</a>
+                                     <button id='btn_new_property' type="submit" class="btn btn-success">Create Property</button>
+                                     
+                                  </div>
+                            </div>
+
+                             
+                           
+                        </form>
+                        <!--end::Form-->
+                     </div>
+                     <!--end::Card--> 
+                  </div>
+               </div>
+            </div>
+            <!--end::Container-->
+         </div>
+								</div>
+								<!-- container-fluid -->
+<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+    
+
+ 
+<!--custom scripts-->
+<script>
+
+function getLocation(e){   
+    $("#latitude").val("");
+    $("#longtude").val("");
+    if(e.checked){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+            //showPosition(4)
+        } else { 
+            showAppNotification('warning', "Geolocation is not supported by this browser");    
+        }
+    }else{       
+        $("#street_address").removeAttr('readonly');
+    }
+
+}
+
+function showPosition(position) {
+    $("#street_address").removeAttr('readonly');  
+  var lat= position.coords.latitude; //"-1.2484573"; //
+  var long= position.coords.longitude; //= "36.9557296"; //
+  $("#longitude").val(long);
+  $("#latitude").val(lat);
+  $.ajax({
+                 type: "GET",
+        async: true,  
+                 url: "https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat +"&lon="+long,
+                 data: '',
+                 success: function(data) {                                      
+                    if(data.display_name){
+                        $("#street_address").val(data.display_name); 
+                        $("#street_address").attr('readonly','readonly');
+                    }else{
+                        showAppNotification('warning', "Unable to load your current location");                       
+                        $('#current_location').prop('checked', false);
+                    }                    
+                 },
+                 error: function(err) {                    
+                     showAppNotification('warning', "Unable to get your current location");
+                     $('#current_location').prop('checked', false);
+                 }
+             });  
+     
+}
+
+    $(document).ready(function() {
+        $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+        
+        window.onload=function(){window.jQuery||window.location.reload()};
+       
+            $('.selectpicker-select').selectpicker();
+       
+      
+            $("#frm_new_property").validate({
+                rules: {                   
+                    property_name:{
+                        required: true,
+                        minlength:3,
+                        maxlength: 50
+
+                    },
+                    property_description:{
+                        required: true ,
+                        minlength:3,
+                        maxlength: 255                      
+                    },
+                    locality_code:{
+                        required: true,
+                        number:true
+                    },
+                    street_address:{
+                        required: true,
+                        minlength:6,
+                        maxlength: 255
+                    },
+                    property_type:{
+                        required: true
+                    },
+                    unit_types:{
+                        required: true
+                    },
+                    year_built:{
+                        required: true
+                    },
+                    floors: {
+                        required: true
+                    }
+                },
+                messages: {
+                    property_name:{
+                        required: "Please provide the name of the property",
+                        minlength:"Property name should be between 3-50 characters",
+                        maxlength: "Property name should be between 3-50 characters"
+
+                    },
+                    property_description:{
+                        required: "Please provide a brief description",
+                        minlength:"Property description should be between 3-50 characters",
+                        maxlength: "Property description should be between 3-255 characters"                      
+                    },
+                    locality_code:{
+                        required: "Please select county, area, and locality",
+                        number:"Please select county, area, and locality"
+                    },
+                    street_address:{
+                        required: "Location description is required",
+                        minlength:"Location description should be between 3-180 characters",
+                        maxlength: "Location description should be between 3-180 characters"
+                    },
+                    property_type:{
+                        required: "Select a property type from the list"
+                    },
+                    unit_types:{
+                        required: "Select a property unit types from the list"
+                    },
+                    year_built:{
+                        required: "Select the year of built from the list"
+                    },
+                    floors: {
+                        required: "Select the number of floors from the list"
+                    }
+                }
+        });
+        
+       
+        fillYears();
+        fillFloors();
+       
+    });
+
+    $("#frm_new_property").on("submit", function(e) {
+        e.preventDefault();
+        var isvalid = $("#frm_new_property").valid();
+        if (isvalid) {
+            $('#btn_new_property').html('Please wait..');
+            $("#btn_new_property").attr("disabled", true);
+             var data = new myFormData($(this));           
+            $.ajax({
+                type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                url: "<%= base_url %>/admin/properties/new",
+                data: data,
+                success: function(data) {                   
+                    if (data.Status == 200) {  
+                        showAppNotification( 'success', 'The new property has been added');                     
+                        window.location.href="<%= base_url %>/admin/properties";                      
+                    } else {
+                        $('#btn_new_property').html('Create Property');
+                        $("#btn_new_property").attr("disabled", false);
+                        showAppNotification('warning', data.Message);
+                    }
+                },
+                error: function(err) {
+                    $('#btn_new_property').html('Create Property');
+                    $("#btn_new_property").attr("disabled", false);
+                    showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                }
+            });
+        }
+        });
+        
+       
+
+    function fillYears(){
+        var y = new Date().getFullYear();
+        var x = y-20; 
+        var options = [];     
+        while(x<y){
+            x++;           
+            options.push('<option value="',
+                            x, '">',
+                             x, '</option>');
+        }
+        $("#year_built").html(options.join(''));
+    }
+
+    function fillFloors(){
+        var y = 30;
+        var x = 0; 
+        var options = [];     
+        while(x<y){
+            x++;           
+            options.push('<option value="',
+                            x, '">',
+                             x, '</option>');
+        }
+        $("#floors").html(options.join(''));
+    }
+
+   function getCountyAreas(obj){        
+         $.ajax({
+            type: "POST",
+            async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+            url: "<%= base_url %>/areas",
+                 data: 'county_id=' + obj.value,
+                 success: function(data) {                  
+                     if (data.data) {                       
+                         var result = data.data;
+                         var options = [];
+                         options.push("<option>--Select Area--</option>");
+                         for (var i = 0; i < result.length; i++) {
+                             options.push('<option value="',
+                             result[i].id, '">',
+                             result[i].name, '</option>');
+                         }
+                         $("#sel_areas").html(options.join(''));                                            
+                     }else{
+                         var options = [];
+                         options.push("<option>Select Area</option>");
+                         $("#sel_areas").html(options.join(''));
+                        
+                     }
+                     getLocalities(null);
+                     $('.selectpicker-select').selectpicker('refresh');
+                     $("#sel_areas").val($("#sel_areas option:first").val());
+                 },
+                 error: function(err) {
+                     $('.selectpicker-select').selectpicker('refresh');
+                     $("#sel_areas").val($("#sel_areas option:first").val());
+                     showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                 }
+             });  
+     
+       }
+   
+     function getLocalities(obj){  
+         if(obj==null) {
+             var options = [];
+             options.push('<option>--Select Locality--</option>');
+             $("#sel_locality").html(options.join(''));
+             $('.selectpicker-select').selectpicker('refresh'); 
+             return;
+         }
+         $.ajax({
+                 type: "POST",
+                async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                url: "<%= base_url %>/areas/localities",
+                 data: 'area_id=' + obj.value,
+                 success: function(data) {     
+                    // alert(JSON.stringify(data))             
+                     if (data.data) {                       
+                         var result = data.data;
+                         var options = [];
+                         options.push('<option>--Select Locality--</option>');
+                         for (var i = 0; i < result.length; i++) {
+                             options.push('<option value="',
+                             result[i].id, '">',
+                             result[i].name, '</option>');
+                         }
+                         $("#sel_locality").html(options.join(''));
+                         $('.selectpicker-select').selectpicker('refresh');                       
+                     }else{
+                         var options = [];
+                         options.push('<option>Select Locality</option>');
+                         $("#sel_locality").html(options.join(''));
+                         $('.selectpicker-select').selectpicker('refresh');
+                     }
+                 },
+                 error: function(err) {
+                     showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                 }
+             });  
+     }
+   
+</script>
+<% if(!load_chunk){%> </body></html> <%}%>

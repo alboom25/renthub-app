@@ -1,0 +1,399 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+			<div class="container-fluid">
+				<%- include('../shared/page-title') %>
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container">
+							<%- include('../shared/property-common') %>
+                            <div class="row">
+								<div class="col-12">
+									<div class="panel">									
+										<div class="panel-body">
+											<div class='row'>
+                                                <div class="col-lg-7">
+                                                    <h4 class="card-title">Current Meter Readings</h4>
+                                                    <p class="card-title-desc">Record meter reading for units/houses/rooms associated with this property</p>
+                                                </div>
+                                                <div class="col-lg-5 text-right" style="margin: auto;">														
+                                                    <button class="btn btn-info small-block px-4 mt-2 mb-2" data-toggle="modal" data-target="#modal-new-readings">+ New Recording</button> 
+                                                </div>
+                                                
+                                            </div>
+                                            <div clas="row">
+                                                <div class='col-12'>
+                                                    <hr>
+                                                    <div class="table-responsive">
+                                                        <table id='tbl_units' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Unit No</th>
+                                                                    <th>Unit Type</th>
+                                                                    <th>Floor</th>
+                                                                    <th>Meter Name</th>
+                                                                    <th>Last Date</th>
+                                                                    <th>Reading</th>
+                                                                    <th>Actions</th>																		
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+										</div>
+									</div>
+								</div>
+							</div>								
+						</div>
+						<!--end::Container-->
+					</div>
+			</div>
+			<!-- container-fluid -->
+
+                          <!-- add payment modal -->
+<div id="modal-new-readings" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg " style=" width: 100% !important;
+    height: 100% !important;
+    margin: 0;
+    padding: 0;">
+       <!-- Modal content-->
+       <div class="modal-content" style=" height: auto;
+       min-height: 100%;
+       border-radius: 0;">          
+          <div class="modal-header">
+            <h5 class="modal-title">Meter Readings</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+            </button>
+        </div>      
+          <div class="modal-body" role="document" >
+            <div class="row">                  
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="readings_date">Readings Date <span class="text-danger">*</span></label>
+                        <input id='readings_date' type="date" name="readings_date" class="form-control" required/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="meter_name">Select Meter <span class="text-danger">*</span></label>
+                        <select id="meter_name" name="meter_name" onchange="refreshUnitReadings(this)" class="form-control custom-select" id ="meter_name" required>
+                            <% if(property.readable_meters){%>
+                                <% for (var i = 0; i < property.readable_meters.length ; i++) { %>
+                                    <option value="<%= property.readable_meters[i]['Meter Name']%>"><%= property.readable_meters[i]['Meter Name']%></option>
+                                <%}%>  
+                            <%}%>  
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-12'>                  
+                    <div class="table-">
+                        <table id='tbl_units_readings' class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr> 
+                                    <th class='d-none'>UnitCode</th>                        
+                                    <th>Unit No</th>
+                                    <th>Reading</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+  
+                   
+          </div>
+          <div class="modal-footer">    
+            <button id='btn_submit_values' type="submit" class="btn btn-success">Submit Values</button>       
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>       
+       </div>
+    </div>
+  </div>
+
+  <div id="modal-preview-readings" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+       <!-- Modal content-->
+       <div class="modal-content">          
+          <div class="modal-header">
+            <h5 id='preview_readings_title' class="modal-title">Readings History</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <i class='bx bx-x'></i>
+            </button>
+        </div>
+          <div id='preview_readings_body' class="modal-body">
+        
+          </div>
+          <div class="modal-footer">           
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+       </div>
+    </div>
+ </div>
+
+			<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+
+				
+				
+				<script>
+
+window.onload=function(){window.jQuery||window.location.reload()};
+
+                   
+              
+    $(document).ready(function() {
+            $("#tbl_units_readings").SetEditable({					
+					columnsEd: "2",					
+				});
+
+                
+    setTodayDate();
+    var meter_name = $("#meter_name").val();
+   
+    if(meter_name){
+        loadUnitReadings(meter_name);
+    }else{
+        $(this).delay(3000).queue(function() {
+            showAppNotification('warning',"No Readable meter found. Please go to 'property settings' on section D to add new meters");
+            $(this).dequeue();
+        });      
+        
+    }
+
+    $("#btn_submit_values").on("click",function(e){
+        sharpAlert({
+		title: 'Confirm?',
+		text: "Are you sure you want to submit the readings?",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Yes',
+		confirmButtonClass:"btn btn-success mr-2 btn-swal",
+		cancelButtonText: 'No',
+		cancelButtonClass:"btn btn-danger mr-2 btn-swal",
+		reverseButtons: true,
+		buttonsStyling: false
+	},(passed)=>{
+		 if (passed) {            
+            var json_data = $("#tbl_units_readings").tableToJSON({
+		        columns: new Array(0, 2),
+	        });
+
+            var meter_name = $("#meter_name").val();
+            if(meter_name){
+                if(json_data.length===0){
+                    showAppNotification('warning',"No meter readings to submit");
+                }else{       
+                    var readings_date = new Date($("#readings_date").val());            
+                    if(readings_date > new Date(todaysDate())){
+                        showAppNotification('warning',"Readings date cannot be greater than today");
+                    }else{
+                        $("#modal-new-readings").modal('hide');
+                        var data={meter_name:meter_name, readings_date:readings_date,readings:json_data};
+                   	    $.ajax({
+                            type: "POST",
+                            async: true, 
+                            credentials: 'same-origin',
+                            headers: {
+                                'CSRF-Token': csrf_token
+                            },
+                            url: "<%= base_url %>/manage/readings/submit-readings",
+                            data: data,
+                            success: function(data) {
+                                if(data.Status == 200) {
+                                    showAppNotification('success', data.Message); 
+                                    //reload after 30secon
+                                    $("#tbl_units").DataTable().ajax.reload();
+                                } else {
+                                    showAppNotification('warning', data.Message); 
+                                }
+                            },
+                            error: function(err) {
+                                showAppNotification( 'danger', 'Unable to complete your request. Please try again later!'); 
+                            },
+                        });
+                    }          
+                }
+
+            }else{
+                showAppNotification('warning',"Meter not specified");
+            } 
+		} 
+	});
+    });   
+	
+
+    $("#tbl_units").DataTable({
+		responsive: !0,
+		searchDelay: 500,
+		processing: !0,
+        serverSide: true,
+		order: [],
+		ajax: {
+			url: "<%= base_url %>/manage/readings",
+			type: "POST",
+			deferRender: true,
+        	async: true, 
+			credentials: 'same-origin',
+			headers: {
+				'CSRF-Token': csrf_token
+			},
+		},
+		columns: [
+			{
+				data: null,
+				render: function(data, type, row) {
+					return '<img onclick="intitImagePopup(this)" class="rounded-circle avatar-sm img img-popup" alt="" title="' + data.unit_name +'" src="<%= base_url %>/public/units/display-picture/'+ data.unit_code +'" />'
+				}
+			},
+			{
+			data: null,
+            render: function(data, type, row) {
+                return "<a class='dynamic-link text-info' href='<%= base_url %>/manage/units/info/" + data.unit_code + "'>"+ data.unit_name +"</a>";
+            }
+		}, {
+			data: "unit_type",
+		}, {
+			data: 'floor',
+			render: function(data, type, row) {
+				return floorToLabel(row.floor);
+			}
+		}, {
+			data: "reading_type",			
+			
+		}, {
+			data: "read_date",
+		}, {
+			data: "read_value",
+		},{
+			data: null,
+			render: function(data, type, row) {	
+                return "<button onclick='showReadingsHistory(\""+ data.unit_code +"\",\""+ data.unit_name +"\")' class='btn btn-info btn-sm readings-history'>Readings History</button>";
+				
+			},
+		},
+		
+	 ],
+	});
+
+   
+});
+
+
+function refreshUnitReadings(e){
+    $('#tbl_units_readings').DataTable().clear().destroy();
+    loadUnitReadings($(e).val());
+}
+
+function showReadingsHistory(id, unit_name){  
+   $("#preview_readings_body").html(loading_div);
+    $("#preview_readings_title").html("Readings History - " + unit_name);
+    $("#modal-preview-readings").modal('show');
+    $.ajax({
+		type: "POST",
+        async: true, 
+		credentials: 'same-origin',
+		headers: {
+			'CSRF-Token': csrf_token
+		},
+		url: "<%= base_url %>/manage/units/readings-history",
+		data: {unit_code: id},
+		success: function(data) {			
+			if(data.Status == 200) {
+                var table_intro = '<div class="dataTables_scroll"> <table id="tbl_readings_history" class="table table-nowrap border dt-responsive table-hover" style="width:100%"> <thead> <tr> <th>Meter Name</th> <th>Date</th> <th>Reading</th> <th>Rate</th> <th>Recorded By</th> </tr> </thead> <tbody> </tbody> </table> </div>';
+                if(data.Message.length>0){
+                    $("#preview_readings_body").html(table_intro);
+                    var dt = data.Message;
+                    for (var i = 0; i < dt.length; i++) {
+                        var row = "<tr><td> " + dt[i]['reading_type'] +"</td><td>"+ dt[i]['read_date'] +"</td><td>"+ dt[i]['read_value'] +"</td><td>"+ formatMoney(dt[i]['unit_rate']) +"</td><td>"+ dt[i]['read_by_name'] +"</td></tr>";
+                            $("#tbl_readings_history tbody").prepend(row);
+                    }
+                }else{
+                    var resp = '<div class="alert alert-info fade show"><divclass="alert-text">The selected unit/house has no readings history</div></div>';
+                    $("#preview_readings_body").html(resp);
+                }
+				
+			} else {
+				var resp = '<div class="alert alert-warning fade show"><divclass="alert-text">' + data.Message + '</div></div>';
+                $("#preview_readings_body").html(resp);
+			}
+		},
+		error: function(err) {
+            var resp = '<div class="alert alert-danger fade show"><divclass="alert-text">An error occured while getting readings history</div></div>';
+            $("#preview_readings_body").html(resp);
+		},
+	});
+
+}
+
+function loadUnitReadings(meter_name){
+    if(meter_name){
+        $("#tbl_units_readings").DataTable({		
+		searchDelay: 500,
+		processing: !0,      
+        serverSide: true,  
+		ajax: {
+			url: "<%= base_url %>/manage/readings/last-readings",
+			type: "POST",
+			deferRender: true,
+        	async: true, 
+            data:{meter_name:meter_name},
+			credentials: 'same-origin',
+			headers: {
+				'CSRF-Token': csrf_token
+			},
+		},
+		columns: [           
+            {
+                data: "unit_code",
+                className: "d-none"
+            },{
+                data: null,
+			    render: function(data, type, row) {
+				return data.unit_name +' - ' + floorToLabel(data.floor);
+            }
+            },
+            {
+                data: "read_value",
+            },{
+                data:null,
+                render:function(data, type, row){return newColHtml;}
+            }
+		
+		
+	 ],columnDefs: [
+           
+            {
+                "targets": [ 2 ],                
+                 oderable: false
+            }
+        ]        
+	});
+
+    var fix_available = document.getElementById("table-fix");
+    if(!fix_available){
+        $('#tbl_units_readings').wrap('<div id="table-fix" class="dataTables_scroll h-100" />');
+    }
+    
+   
+                 
+
+    }
+}
+
+function setTodayDate(){      
+    $('#readings_date').val(todaysDate());
+}
+
+
+
+				
+				
+				</script>
+	<% if(!load_chunk){%> </body></html> <%}%>

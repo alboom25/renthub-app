@@ -1,0 +1,181 @@
+<% if(!load_chunk){%> 
+  <%- include('../shared/page-header') %>
+  <%- include('../shared/top-page') %>
+  <div class="page-content">
+<%}%>
+  <div class="container-fluid">
+
+    <%- include('../shared/page-title') %>
+
+    <div class="row">
+
+      <div class="col-xl-12">
+          <div class="row">
+            <div class="col-lg-3">
+                <div class="card mini-stats-wid">
+                    <div class="card-body px-2">
+                        
+                        <div class="d-flex flex-wrap">
+                            <div class="mr-3">
+                                <p class="text-muted mb-2">Rented Units</p>
+                                <h5 class="mb-0"><%=dash_data.active_leases%></h5>
+                            </div>
+
+                            <div class="avatar-sm ml-auto">
+                                <div class="avatar-title bg-light rounded-circle text-success font-size-20">
+                                    <i class="bx bx-home"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+              <div class="col-lg-3">
+                  <div class="card mini-stats-wid">
+                      <div class="card-body px-2">
+                          
+                          <div class="d-flex flex-wrap">
+                              <div class="mr-3">
+                                  <p class="text-muted mb-2">Total Paid</p>
+                                  <h5 class="mb-0 amount-value"><%=dash_data.total_paid_amount%></h5>
+                              </div>
+
+                              <div class="avatar-sm ml-auto">
+                                  <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
+                                      <i class="bx bx-wallet"></i>
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="col-lg-3">
+                  <div class="card blog-stats-wid">
+                      <div class="card-body px-2">
+
+                          <div class="d-flex flex-wrap">
+                              <div class="mr-3">
+                                  <p class="text-muted mb-2">Uncleared Invoices</p>
+                                  <h5 class="mb-0"><%=dash_data.uncleared_invoices%></h5>
+                              </div>
+
+                              <div class="avatar-sm ml-auto">
+                                  <div class="avatar-title bg-light rounded-circle font-size-20 text-danger">
+                                      <i class="bx bx-file-blank"></i>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-lg-3">
+                  <div class="card blog-stats-wid">
+                      <div class="card-body px-2">
+                          <div class="d-flex flex-wrap">
+                              <div class="mr-3">
+                                  <p class="text-muted mb-2">Unpaid Amount</p>
+                                  <h5 class="mb-0 amount-value"><%=dash_data.uncleared_amount%></h5>
+                              </div>
+
+                              <div class="avatar-sm ml-auto">
+                                  <div class="avatar-title bg-light rounded-circle font-size-20 text-danger">
+                                      <i class="bx bx-dollar"></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- end row -->
+
+          <div class="card">
+              <div class="card-body">
+                  <div class="d-flex flex-wrap">
+                      <h5 class="card-title mr-2">Bills &amp; Payments</h5>
+                      <div class="ml-auto">
+                          <div class="toolbar button-items text-right">
+                              <button type="button" class="btn btn-light btn-sm">
+                                  ALL
+                              </button>                            
+                              <button type="button" class="btn btn-light btn-sm">
+                                  6M
+                              </button>
+                              <button type="button" class="btn btn-light btn-sm">
+                                  1Y
+                              </button>
+                              
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row text-center">                    
+                      
+                      <div class="col-lg-4">
+                          <div class="mt-4">
+                              <p class="text-muted mb-1">This Month</p>
+                              <h5><span class="amount-value"><%=month_data.paid_amount%></span>/<span class="amount-value"><%=month_data.bill_total%></span></h5>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-4">
+                          <div class="mt-4">
+                              <p class="text-muted mb-1">This Year</p>
+                              <h5><span class="amount-value"><%=year_data.paid_amount%></span>/<span class="amount-value"><%=year_data.bill_total%></span></h5>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-4">
+                        <div class="mt-4">
+                            <p class="text-muted mb-1">All</p>
+                            <h5><span class="amount-value"><%=all_data.paid_amount%></span>/<span class="amount-value"><%=all_data.bill_total%></span></h5>
+                        </div>
+                    </div>
+                  </div>
+
+                  <hr class="mb-4">
+                  
+                  <div class="apex-charts" id="area-chart" dir="ltr"></div>
+              </div>
+          </div>
+      </div>
+         
+  </div>
+  
+        
+  </div>
+  
+<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+<script>
+ $(document).ready(function(e){    
+    var options={
+      series:[
+          {
+              name:"Bills",
+              data:"<%=bills%>".split(",")
+            },
+          {
+              name:"Payments",
+              data:"<%=payments%>".split(",")
+            }
+        ],
+        chart:{height:350,type:"area",toolbar:{show:!1}},colors:["#556ee6","#f1b44c"],dataLabels:{enabled:!1},stroke:{curve:"smooth",width:2},fill:{type:"gradient",gradient:{shadeIntensity:1,inverseColors:!1,opacityFrom:.45,opacityTo:.05,stops:[20,100,100,100]}},
+        xaxis:{
+            categories:"<%=month_names%>".split(",")
+        },markers:{size:3,strokeWidth:3,hover:{size:4,sizeOffset:2}},legend:{position:"top",horizontalAlign:"right"}},chart=new ApexCharts(document.querySelector("#area-chart"),options);chart.render();
+
+  $(".amount-value").each(function () {        
+        var f = parseFloat($(this).html());
+        $(this).html(formatMoney(f));
+    });
+ });
+
+
+</script>
+<% if(!load_chunk){%> </body></html> <%}%>

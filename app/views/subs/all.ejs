@@ -1,0 +1,88 @@
+<% if(!load_chunk){%> 
+    <%- include('../shared/page-header') %>
+    <%- include('../shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+			<div class="container-fluid">
+				<%- include('../shared/page-title') %>
+				<div class="d-flex flex-column-fluid">
+                    <!--begin::Container-->
+                    <div class="container">
+                       <!--begin::Card-->                       
+                       <div class="card">                                 
+                          <div class="card-body">
+                              <div class='row'>
+                                <div class='col-lg-7'>
+                                    <h4 class="card-title">My Subscriptions</h4>
+                                    <p class="text-muted pt-2 font-size-sm">You can upgrade/downgrade your package anytime.</p>
+                                    
+                                  </div>
+                                  <div class='col-lg-5 text-right' style="margin:auto;">                                   							  
+                                    <a href="<%= base_url %>/system/subscriptions/new" class="btn btn-info small-block px-4 mt-0 mb-3 mr-2  dynamic-link"  >New/Upgrade/Downgrade</a>
+                                 </div>                                
+                              </div>
+                            <div class='col-12'>
+                                <hr>
+                                 <!--begin: Datatable-->
+                             <table class="table table-nowrap border dt-responsive table-hover" id="tbl_subscriptions" style="width:100%">
+                                <thead>
+                                   <tr>
+                                      <th>Package</th>
+                                      <th>Subscription Date</th>
+                                      <th>Expiry Date</th>
+                                      <th>Status</th>                                          
+                                   </tr>
+                                </thead>
+                             </table>
+                             <!--end: Datatable-->
+                            </div>
+                          </div>
+                       </div>
+                       <!--end::Card-->
+                    </div>
+                    <!--end::Container-->
+                 </div>
+			</div>
+			<!-- container-fluid -->
+            <% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+<script>
+    window.onload=function(){window.jQuery||window.location.reload()};
+$(document).ready(function(){
+    $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+    
+    $("#tbl_subscriptions").DataTable({
+         responsive: !0,
+         searchDelay: 500,
+         processing: !0,
+         serverSide: true,        
+         "order": [],                
+         ajax: {
+            url: "<%= base_url %>/system/subscriptions?action=get-all",
+            type: "POST",
+            async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token}
+         },
+         columns: [{
+             data: "package_name"
+             
+         }, {
+             data: "subscription_date"
+         }, {
+             data: "expiry_date"
+         }, {
+            data: 'is_active',
+             render: function(data, type, row) {
+                if (row.is_active) {
+                        return '<span class="badge badge-pill badge-info font-weight-bold">Active</span>';
+                    } else {
+                        return '<span class="badge badge-pill badge-danger font-weight-bold">Expired</span>';
+                }
+             }
+         }
+         ]
+     });
+
+    });
+</script>
+  
+<% if(!load_chunk){%> </body></html> <%}%>

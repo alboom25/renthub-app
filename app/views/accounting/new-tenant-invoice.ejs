@@ -1,0 +1,265 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+	<div class="container-fluid">
+		<%- include('../shared/page-title') %>
+
+
+		<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+	<!--begin::Container-->
+	<div class="container">
+	   <div class="card">
+		  
+		  <div class="card-body">
+			<div class="border-bottom p-2">
+				<h5 class="modal-title">Add New Invoice, <%=property.property_name %></h5>
+			 </div>
+			 <form id='frm_new_invoice' class="form mx-6" method='post' action='#'>
+				<div class="p-2">
+					<div class='row'>
+						<div class="form-group col-md-12 col-lg-4">
+						   <label>Unit/Room/House/Stall <span class="text-danger">*</span></label>
+						   <select name='unit_code' id='unit_code' onchange="loadTenantDetails(this.value)" class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0"> </select>
+						</div>
+						<div class="form-group col-md-12 col-lg-4">
+						   <label>Tenant <span class="text-danger">*</span></label>
+						   <input id='tenant_id' type="hidden" name="tenant_id">
+						   <input id='tenant_name' name="tenant_name" type="text" class="form-control" readonly>
+						</div>
+						<div class="form-group col-md-12 col-lg-4">
+						   <label>Due Date <span class="text-danger">*</span></label>
+						   
+							 <input id='due_date' type="date" name="due_date" class="form-control" required/>
+													 
+						 
+						</div>
+					 </div>
+					 <hr class="dashed">				 
+					 <div class="row mb-10">
+						<div class='col-12'>
+						   <p class='text-dark font-weight-bold'>Particulars</p>
+						   <table id='tbl_particulars' class="table table-hover border">
+							  <thead>
+								 <tr>
+									<th>Particular</th>
+									<th>Amount</th>
+								 </tr>
+							  </thead>
+							  <tbody> </tbody>
+						   </table>
+						   <input type='hidden' name='bill_particulars' id='bill_particulars'>
+						   <button type="button" id='add_particular' class="btn btn-light mt-0">Add New Row</button>
+						</div>
+					 </div>
+					 <h5 id='bill_total' class="text-right p-2 bg-light mt-2">Total Kes 0.00</h5>
+				</div>			
+				<div class="d-flex flex-row justify-content-end border-top pt-2 mx-6"> <a href="<%=base_url %>/accounting/tenant-invoices" class="btn btn-danger dynamic-link mr-2">Cancel</a>
+					<button id='btn_add_invoice' type="button" class="btn btn-success">Create Invoice</button>
+				 </div>
+				
+				 
+			 </form>
+		  </div>
+		  
+	   </div>
+	</div>
+	<!--end::Container-->
+ </div>
+								</div>
+								<!-- container-fluid -->
+								<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+		
+	
+		
+
+
+
+
+<script>
+window.onload=function(){window.jQuery||window.location.reload()};
+$(document).ready(function(){
+    $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+    
+
+            $('.selectpicker-select').selectpicker();
+       
+	setTodayDate();
+	
+	$("#tbl_particulars").SetEditable({
+        columnsEd: "0, 1",   
+        onEdit: function() {computeBill()},
+        onDelete:  function() {computeBill()},
+		$addButton: $("#add_particular"),
+	});
+    
+   	
+		$("#frm_new_invoice").validate({
+		rules: {
+			unit_code: {
+				required: true				
+			},
+			tenant_name: {
+                required: true,               
+			},			
+            due_date:{
+                required: true,
+                date: true
+            }			
+		},
+		messages: {
+			unit_code: {
+				required: "Please select a unit from the list."				
+			},
+			tenant_name: {
+                required: "The selected unit has no tenant associated"               
+			},			
+            due_date:{
+                required: "Please select the lease date",
+                date: "Please enter correct lease date"
+            }			
+		},
+    });
+      
+
+	
+	
+	
+    
+    getAllUnits();
+    
+    $("#frm_new_invoice").on("submit", function(e) {
+	e.preventDefault();
+	var isvalid = $("#frm_new_invoice").valid();
+	if(isvalid) {
+		$("#btn_add_invoice").html("Please wait..");
+        $("#btn_add_invoice").attr("disabled", true);
+         var data = new myFormData($(this));		
+		$.ajax({
+			type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+			url: "<%= base_url %>/accounting/tenant-invoices/new",
+			data: data,
+			success: function(data) {
+				$("#btn_add_invoice").html("Create Invoice");
+				$("#btn_add_invoice").attr("disabled", false);
+				if(data.Status == 200) {
+					loadPage("<%=base_url %>/accounting/tenant-invoices", true);
+				} else {
+					showAppNotification("warning", data.Message);
+				}
+			},
+			error: function(err) {
+				$("#btn_add_invoice").html("Create Invoice");
+				$("#btn_add_invoice").attr("disabled", false);
+				showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+            }
+		});
+	}
+});
+
+$("#btn_add_invoice").click(function() {
+	var pats = $("#tbl_particulars").tableToJSON({
+		onlyColumns: new Array(0, 1),
+	});
+    $("#bill_particulars").val(JSON.stringify(pats));   
+	if(pats.length ===0){
+        showAppNotification("warning", "The invoice has no particulars defined");
+    }else{
+        $("#frm_new_invoice").submit();
+    }
+	
+});
+
+});
+
+function setTodayDate(){
+	$('#due_date').val(todaysDate());
+      }
+
+
+function getAllUnits() {
+	$.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/manage/units/brief",
+		data: "",
+		success: function(data) {			
+			if(data.data.length > 0) {
+				var units = data.data;
+				var y = units.length;
+				var x = 0;
+				var options = [];
+				while(x < y) {
+					var val = '<option value="' + units[x].unit_code + '">' + units[x].unit_name + " - " + floorToLabel(units[x].floor) + "</option>";
+					
+					options.push(val);
+					x++;
+				}
+				$("#unit_code").html(options.join(""));				
+                $(".selectpicker-select").selectpicker("refresh");
+                loadTenantDetails($("#unit_code").val());
+			}
+		},
+		error: function(err) {
+			showAppNotification("danger", "An error has occured. Unable to list units");
+		},
+	});
+}
+
+function loadTenantDetails(id) { 
+	$.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/manage/units/owner",
+		data: "unit_code=" +id,
+		success: function(data) {
+			
+			if(data.Status===200){
+				if(data.Message) {
+					$("#tenant_id").val(data.Message.tenant_id);
+					$("#tenant_name").val(data.Message.tenant_name);
+				}else{
+					showAppNotification("warning", "The selected unit does not have a tenant");
+					$("#tenant_id").val("");
+					$("#tenant_name").val("");
+				}
+			}else{
+				$("#tenant_id").val("");
+				$("#tenant_name").val("");
+				showAppNotification("warning",data.Message);
+			}			
+		},
+		error: function(err) {
+			$("#tenant_id").val("");
+					$("#tenant_name").val("");
+			showAppNotification("danger", "An error has occured. Unable to get tenant");
+		},
+	});
+}
+
+function computeBill() {
+	
+	var deps = $("#tbl_particulars").tableToJSON({
+		onlyColumns: new Array(0, 1),
+	});
+	
+    var total = 0;
+    
+    for(var i = 0; i < deps.length; i++) {			
+			var t = parseInt(deps[i]["Amount"]) || 0;
+			total +=t;
+			
+    }
+    $("#bill_total").html("Total " + formatMoney(total));
+	
+
+}
+
+    
+</script>
+  
+<% if(!load_chunk){%> </body></html> <%}%>
