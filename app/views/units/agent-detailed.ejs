@@ -35,7 +35,7 @@
                 <h4 class="card-title mb-4">Room/Unit -  <%=unit_info.unit_name%></h4>
                 <%- unit_info.ratings_message %>
                 <div class="mt-2 mb-2">                   
-                    <a class="btn btn-warning  btn-sm mt-1 dynamic-link" href="<%= base_url %>/agent/properties/edit-unit/<%= unit_info.unit_code %>?property=<%=property.property_code%>">Edit Unit</a>
+                    <a class="btn btn-warning  btn-sm mt-1 dynamic-link" href="<%= base_url %>/agent/properties/units/edit/<%= unit_info.unit_code %>?property=<%=property.property_code%>">Edit Unit</a>
 
                     <button type="button" class="btn btn-danger  btn-sm mt-1" onclick="deleteUnit('<%= unit_info.unit_code %>')" >Delete</button>
                  </div>
@@ -341,57 +341,72 @@
           </div>
           <form id="frm_add_payment" method='post' action ='#'>
              <div class="modal-body">
-                <input type="hidden" name="bill_id" id = "payment_bill_id"/>
-                <div class="form-group row mb-4">
-                   <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
-                   <div class="col-sm-9">             
-                      <input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control" required/>					
-                   </div>
-                </div>
-                <div class="form-group row mb-4">
-                   <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
-                   <div class="col-sm-9">
-                      <select name="payment_method" class="form-control custom-select" id ="payment_payment_method">
-                         <option value="Cash">Cash</option>
-                         <option value="M-PESA">M-PESA</option>
-                         <option value="Card Swipe">Card Swipe</option>
-                         <option value="Bank Deposit">Bank Deposit</option>
-                         <option value="Bank Transfer">Bank Transfer</option>
-                         <option value="Cheque">Cheque</option>
-                         <option value="Other">Other</option>
-                      </select>
-                   </div>
-                </div>
-
-                <div class="form-group row mb-4">
-                  <label for="payment_payment_method" class="col-sm-3 col-form-label">Account<span class="text-danger">*</span></label>
-                  <div class="col-sm-9">
-                      <select name='target_account' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null" required >
-                          <% for (var i = 0; i < property.accounts_list.length ; i++) { %>
-                              <option value="<%= property.accounts_list[i].account_id %>" ><%= property.accounts_list[i].account_name %> (<%= property.accounts_list[i].account_no %>)</option>
-                          <%}%>
-                      </select>
+               <div class="row">
+                 <div class="col-lg-7">
+                  <input type="hidden" name="bill_id" id = "payment_bill_id"/>
+                  <div class="form-group row mb-4">
+                     <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
+                     <div class="col-sm-9">             
+                        <input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control" required/>					
+                     </div>
                   </div>
+                  <div class="form-group row mb-4">
+                     <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
+                     <div class="col-sm-9">
+                        <select name="payment_method" class="form-control custom-select" id ="payment_payment_method">
+                           <option value="Cash">Cash</option>
+                           <option value="M-PESA">M-PESA</option>
+                           <option value="Card Swipe">Card Swipe</option>
+                           <option value="Bank Deposit">Bank Deposit</option>
+                           <option value="Bank Transfer">Bank Transfer</option>
+                           <option value="Cheque">Cheque</option>
+                           <option value="Other">Other</option>
+                        </select>
+                     </div>
+                  </div>
+  
+                  <div class="form-group row mb-4">
+                    <label for="payment_payment_method" class="col-sm-3 col-form-label">Account<span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                        <select name='target_account' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null" required >
+                            <% for (var i = 0; i < property.accounts_list.length ; i++) { %>
+                                <option value="<%= property.accounts_list[i].account_id %>" ><%= property.accounts_list[i].account_name %> (<%= property.accounts_list[i].account_no %>)</option>
+                            <%}%>
+                        </select>
+                    </div>
+                 </div>
+                 
+                  <div class="form-group row mb-4">
+                     <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
+                     <div class="col-sm-9">             
+                        <input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
+                     </div>
+                  </div>
+                  <div class="form-group row mb-4">
+                     <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
+                     <div class="col-sm-9">             
+                        <input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <label for="payment_payment_by" class="col-sm-3 col-form-label">Paid By</label>
+                     <div class="col-sm-9">             
+                        <input id='payment_payment_by' type="text" name="payment_by" class="form-control" autocomplete="off"/>          
+                     </div>
+                  </div>
+                 </div>
+
+                 <div class="col-lg-5">
+                  <label>Attach Payment Receipt</label>
+                  <p>
+                    <label for="payment_receipt" class="btn btn-light btn-sm">Click to attach File</label>
+                    <label  style='visibility: hidden;' id='btn_payment_remove_file' class="btn btn-danger btn-sm" onclick="clearPaymentFile()"> Remove File </label>
+                    <input name="payment_receipt" id='payment_receipt' type="file" accept=".png, .jpg, .jpeg, .pdf" onchange="initializePaymentFile(this)" hidden /> 
+                   </p>
+                   <div class="h100 v-100" id='payment_file_display'> </div>
+                </div>
                </div>
-               
-                <div class="form-group row mb-4">
-                   <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
-                   <div class="col-sm-9">             
-                      <input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
-                   </div>
-                </div>
-                <div class="form-group row mb-4">
-                   <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
-                   <div class="col-sm-9">             
-                      <input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
-                   </div>
-                </div>
-                <div class="form-group row">
-                   <label for="payment_payment_by" class="col-sm-3 col-form-label">Paid By</label>
-                   <div class="col-sm-9">             
-                      <input id='payment_payment_by' type="text" name="payment_by" class="form-control" autocomplete="off"/>          
-                   </div>
-                </div>
+                
              </div>
              <div class="modal-footer">    
                 <button id='btn_add_payment' type="submit" class="btn btn-success">Add Payment</button>       
@@ -548,6 +563,11 @@
 window.onload=function(){window.jQuery||window.location.reload()};
   $(document).ready(function(e){
     $('.selectpicker-select').selectpicker();
+
+    $.getScriptCached("https://mozilla.github.io/pdf.js/build/pdf.js", function(){
+        var pdfjsLib = window["pdfjs-dist/build/pdf"];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://mozilla.github.io/pdf.js/build/pdf.worker.js";
+      });
 
     $image_crop = $("#cropped-profile-image").croppie({
         enableExif: !0,
@@ -837,10 +857,12 @@ $("#tbl_rent_history").DataTable({
            if (isvalid) {
           $('#btn_add_payment').html('Please wait..');
           $("#btn_add_payment").attr("disabled", true);
-           var data = new myFormData($(this));
+          var data = new FormData(this);
           $.ajax({
               type: "POST",
-          async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+              processData: false,
+			        contentType: false,
+              async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
               url: "<%= base_url %>/accounting/tenant-invoices/add-payment",
               data: data,
               success: function(data) {
@@ -1428,7 +1450,7 @@ function resizeImage(img) {
 		headers: {
 			'CSRF-Token': csrf_token
 		},
-		url: "<%= base_url %>/agent/properties/delete-unit",
+		url: "<%= base_url %>/agent/properties/units/delete",
 		data: {'unit_code':id, property:'<%=property.property_code %>'},
 		success: function(data) {
 			

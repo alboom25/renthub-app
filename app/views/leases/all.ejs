@@ -166,6 +166,13 @@ $(document).ready(function() {
 		},
 	});
 
+	$("#tbl_other_bills").SetEditable({
+		autoDelete: false,
+		columnsEd: "0, 1",	
+		$addButton: $("#add_other_bill"),
+	});
+
+
 	$("#tbl_units").DataTable({
 		responsive: !0,
 		searchDelay: 500,
@@ -242,6 +249,35 @@ function actionData(data) {
    }
    return row_begin + btns + row_end;
 }
+
+function saveLeaseEdits(){
+   $("#mdl_edit_lease").modal('hide');
+   var bills = $("#tbl_other_bills").tableToJSON({
+		columns: new Array(0, 1),
+	});
+   $("#unit_fixed_bills").val(JSON.stringify(bills));
+   var form_data = $("#frm_edit_lease").serialize();
+   $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/manage/leases/edit",
+        data: form_data,        
+        success: function(data) {         
+          if (data.Status == 200) {
+             showAppNotification("success", data.Message);
+             $("#tbl_leases").DataTable().ajax.reload();            
+          } else {
+            $("#mdl_edit_lease").modal('show');
+            showAppNotification('warning', data.Message);          
+          }
+        },
+        error: function(err) {       
+         $("#mdl_edit_lease").modal('show'); 
+          showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+        }
+      });
+   }
+  
 
 function rowDeleted(columnsEd) {
 	var ind = columnsEd[0]._DT_RowIndex;
@@ -325,7 +361,7 @@ function terminateTenancy(id){
                resp +=deps_str;
             resp +='</tbody> </table></div> </div>';
             $("#mdl_terminate_tenancy .modal-body").html(resp);
-            var now = moment().format();
+            var now = new Date();
             var day = ("0" + parseInt(data.bills_payment_date-1).toString()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
             var td = now.getFullYear()+"-"+(month)+"-"+(day);

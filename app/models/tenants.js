@@ -296,6 +296,11 @@ class Payment extends DB{
         return res;
     } 
 
+    async add_file(location, ext){
+        let res = await sql.update_db('tbl_tenant_bills_payments', {file_location:location, file_extension:ext}, {payment_id: this.payment_id});
+        return res;
+    }
+
     async cancel(info){       
         let trans = [];  
         let c = {

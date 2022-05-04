@@ -143,35 +143,63 @@ router.post("/profile", async function(req, res) {
 			}
 			break;
 		case 'password':
-			if (req.body.old_password && req.body.new_password && req.body.confirm_password) {
-				bcrypt.compare(req.body.old_password, req.user_profile.password).then((compare_result) => {
-					if (compare_result == true) {
-						bcrypt.genSalt(1, (err, salt) => {
-							bcrypt.hash(req.body.new_password, salt, async (err, hash) => {
-								if (err) {
-									res.errorEnd("Unable to reset password. Please try again");
-								} else {								
-                                    let profile = await new user(req.session.user_code);
-                                    profile.password = hash;
-                                    let updated = await profile.update();
-									if (updated) {
-                                        res.successEnd("You password has been changed");
-                                        //send sms if verified
-                                        //add notification
-                                    } else {
-                                        res.errorEnd("Unable to change password. Please try again!");
-                                    }
-								}
+			if(req.user_profile.password_set){
+				if (req.body.old_password && req.body.new_password && req.body.confirm_password) {
+					bcrypt.compare(req.body.old_password, req.user_profile.password).then((compare_result) => {
+						if (compare_result == true) {
+							bcrypt.genSalt(1, (err, salt) => {
+								bcrypt.hash(req.body.new_password, salt, async (err, hash) => {
+									if (err) {
+										res.errorEnd("Unable to reset password. Please try again");
+									} else {								
+										let profile = await new user(req.session.user_code);
+										profile.password = hash;
+										let updated = await profile.update();
+										if (updated) {
+											res.successEnd("You password has been changed");
+											//send sms if verified
+											//add notification
+										} else {
+											res.errorEnd("Unable to change password. Please try again!");
+										}
+									}
+								});
 							});
+						} else {
+							res.errorEnd("Wrong current password provided");
+						}
+					});
+	
+				} else {
+					res.errorEnd("Please provide your old password, new password and repeat");
+				}
+			}else{
+				if (req.body.new_password && req.body.confirm_password) {
+					bcrypt.genSalt(1, (err, salt) => {
+						bcrypt.hash(req.body.new_password, salt, async (err, hash) => {
+							if (err) {
+								res.errorEnd("Unable to reset password. Please try again");
+							} else {								
+								let profile = await new user(req.session.user_code);
+								profile.password = hash;
+								profile.password_set=1;
+								let updated = await profile.update();
+								if (updated) {
+									res.successEnd("You password has been set");
+									//send sms if verified
+									//add notification
+								} else {
+									res.errorEnd("Unable to set the new password. Please try again!");
+								}
+							}
 						});
-					} else {
-						res.errorEnd("Wrong current password provided");
-					}
-				});
-
-			} else {
-				res.errorEnd("Please provide your old password, new password and repeat");
+					});
+	
+				} else {
+					res.errorEnd("Please provide your new password and repeat");
+				}
 			}
+			
 			break;
 		case 'update-phone':
 			if (req.body.phone_number.length > 1) {

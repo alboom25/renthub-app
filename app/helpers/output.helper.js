@@ -10,6 +10,7 @@ const WIDTH = 200;
 const HEIGHT = 200;
 
 let errorEnd = function(message) {   
+    if(this.headersSent)return;
     var result = {
         Status: 201,
         Message: message,
@@ -18,6 +19,7 @@ let errorEnd = function(message) {
 }
 
 let successEnd = function(message) {   
+    if(this.headersSent)return;
     var result = {
         Status: 200,
         Message: message,
@@ -26,6 +28,7 @@ let successEnd = function(message) {
 }
 
 let successEndData = function(data) {
+    if(this.headersSent)return;
     var obj = {
         data: data,
         recordsTotal: data.length,
@@ -46,7 +49,8 @@ function fileContent(file_path){
     });
 }
 
-let endImage = async function(file_path =null, initials = null, color=null) {      
+let endImage = async function(file_path =null, initials = null, color=null) {  
+    if(this.headersSent)return;    
     this.set('Cache-Control', 'no-store');
     this.writeHead(200, { "Content-Type": "image/jpeg" });
     if(file_path){
@@ -99,6 +103,8 @@ let endImage = async function(file_path =null, initials = null, color=null) {
 }
 
 let renderEjs = async function(req, file_path, options={}){
+    if(this.headersSent)return;
+
     let p = Properties;
     let pc = await p.Available(req.session.user_code);
     let property_name='';
@@ -121,7 +127,8 @@ let renderEjs = async function(req, file_path, options={}){
     this.render(file_path, options);
 }
 
-let  downloadPDF = async function(html, filename) {    
+let  downloadPDF = async function(html, filename) {  
+    if(this.headersSent)return;  
     try {
         const page = await getPage.getPage();
         await page.setContent(html, {
@@ -144,6 +151,7 @@ let  downloadPDF = async function(html, filename) {
 }
 
 let serveFile = function(filepath){
+    if(this.headersSent)return;
     if (fs.existsSync(filepath)) {
         this.download(filepath);      
     }else{

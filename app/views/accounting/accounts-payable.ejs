@@ -135,7 +135,7 @@
 
   <!-- add payment modal -->
 <div id="mdl_add_payment" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
        <!-- Modal content-->
        <div class="modal-content">
           <div class="modal-header">
@@ -146,55 +146,63 @@
           </div>
           <form id="frm_add_payment" method='post' action ='#'>
              <div class="modal-body">
-                <input type="hidden" name="expense_id" id = "expense_id"/>
-                <div class="form-group row mb-4">
-                   <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
-                   <div class="col-sm-9">             
-                      <input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control" required/>					
-                   </div>
-                </div>
-                <div class="form-group row mb-4">
-                   <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
-                   <div class="col-sm-9">
-                      <select name="payment_method" class="form-control selectpicker-select" id ="payment_payment_method">
-                         <option value="Cash">Cash</option>
-                         <option value="M-PESA">M-PESA</option>
-                         <option value="Card Swipe">Card Swipe</option>
-                         <option value="Bank Deposit">Bank Deposit</option>
-                         <option value="Bank Transfer">Bank Transfer</option>
-                         <option value="Cheque">Cheque</option>
-                         <option value="Other">Other</option>
-                      </select>
-                   </div>
-                </div>
-                <div class="form-group row mb-4">
-                    <label for="payment_payment_method" class="col-sm-3 col-form-label">Source<span class="text-danger">*</span></label>
-                    <div class="col-sm-9">
-                        <select name='source_account' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null" required >
-                            <% for (var i = 0; i < property.accounts_list.length ; i++) { %>
-                                <option value="<%= property.accounts_list[i].account_id %>" ><%= property.accounts_list[i].account_name %> (<%= property.accounts_list[i].account_no %>)</option>
-                            <%}%>
-                        </select>
+                <div class="row">
+                    <div class="col col-md-7">
+                        <input type="hidden" name="expense_id" id = "expense_id"/>
+                        <div class="form-group row mb-4">
+                           <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
+                           <div class="col-sm-9">             
+                              <input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control" required/>					
+                           </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                           <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
+                           <div class="col-sm-9">
+                              <select name="payment_method" class="form-control selectpicker-select" id ="payment_payment_method">
+                                 <option value="Cash">Cash</option>
+                                 <option value="M-PESA">M-PESA</option>
+                                 <option value="Card Swipe">Card Swipe</option>
+                                 <option value="Bank Deposit">Bank Deposit</option>
+                                 <option value="Bank Transfer">Bank Transfer</option>
+                                 <option value="Cheque">Cheque</option>
+                                 <option value="Other">Other</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label for="payment_payment_method" class="col-sm-3 col-form-label">Source<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select name='source_account' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="null" required >
+                                    <% for (var i = 0; i < property.accounts_list.length ; i++) { %>
+                                        <option value="<%= property.accounts_list[i].account_id %>" ><%= property.accounts_list[i].account_name %> (<%= property.accounts_list[i].account_no %>)</option>
+                                    <%}%>
+                                </select>
+                            </div>
+                         </div>
+                        <div class="form-group row mb-4">
+                           <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
+                           <div class="col-sm-9">             
+                              <input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
+                           </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label for="transaction_charge" class="col-sm-3 col-form-label">TRX Charge</label>
+                            <div class="col-sm-9">             
+                               <input value='0.00' id='transaction_charge' type="number" name="transaction_charge" class="form-control"/>          
+                            </div>
+                         </div>
+                        <div class="form-group row">
+                           <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
+                           <div class="col-sm-9">             
+                              <input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
+                           </div>
+                        </div>       
                     </div>
-                 </div>
-                <div class="form-group row mb-4">
-                   <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
-                   <div class="col-sm-9">             
-                      <input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
-                   </div>
-                </div>
-                <div class="form-group row mb-4">
-                    <label for="transaction_charge" class="col-sm-3 col-form-label">TRX Charge</label>
-                    <div class="col-sm-9">             
-                       <input value='0.00' id='transaction_charge' type="number" name="transaction_charge" class="form-control"/>          
+
+                    <div class="col col-md-5">
+
                     </div>
-                 </div>
-                <div class="form-group row mb-4">
-                   <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
-                   <div class="col-sm-9">             
-                      <input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
-                   </div>
-                </div>                
+                </div>
              </div>
              <div class="modal-footer">    
                 <button id='btn_add_payment' type="submit" class="btn btn-success">Add Payment</button>       

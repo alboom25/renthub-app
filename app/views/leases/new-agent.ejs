@@ -1,0 +1,629 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+	<div class="container-fluid">
+		<%- include('../shared/page-title') %>
+
+
+		<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+	<!--begin::Container-->
+	<div class="container">
+	   <div class="card">
+		  
+		  <div class="card-body">
+			
+
+			<div class="border-bottom p-2">
+				<h5 class="modal-title">Add New Lease, <%=property.property_name %></h5>
+			 </div>
+			 <form id='frm_new_lease' method='post' action='#' enctype="multipart/form-data">			
+				<div class="p-2">
+				<h6 class='text-dark font-weight-bold'>a). Basics</h6>
+				<div class='row ml-2'>
+				   <div class="form-group col-md-12 col-lg-4">
+					  <label>Unit/Room/House/Stall <span class="text-danger">*</span></label>
+					  <select name='unit_code' id='unit_code' onchange="loadUnitDetails(this.value)" class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0"> </select> <span class="form-text text-muted">Only vacant units will be shown</span> 
+				   </div>
+				   <div class="form-group col-md-12 col-lg-4">
+					  <label>Tenant <span class="text-danger">*</span></label>
+					  <select name='tenant_id' id='tenant_id' class="form-control selectpicker-select" data-size="5" data-live-search="true" tabindex="0"></select> <span class="form-text text-muted">A single tenant can be assigned more than one units</span> 
+				   </div>
+				   <div class="form-group col-md-12 col-lg-4">
+					  <label>Lease Date <span class="text-danger">*</span></label>					  
+						<input id='lease_date' type="date"   name="lease_date" class="form-control"/>
+						<span class="form-text text-muted">Click to select date</span> 
+				   </div>
+				   
+				   
+
+				</div>
+				<hr class="dashed mx-0 mb-3 mt-0">
+				<h6 class='text-dark font-weight-bold'>b). Bills/Payments</h6>
+				<div class='row ml-2'>
+				   <div class="form-group col-sm-12 col-lg-4">
+					  <label>Monthly Rent <span class="text-danger">*</span></label>
+					  <input name='monthly_rent' id='monthly_rent' type="number" class="form-control"> 
+				   </div>
+				   <div class="form-group col-sm-12 col-lg-4">
+					  <label>Payment Deadline Date <span class="text-danger">*</span></label>
+					  <select name='payment_date' id='payment_date' class="form-control custom-select"> </select>
+				   </div>
+				</div>
+				<div class="row ml-2 mb-10">
+				   <div class='col'>
+					  <p class='text-dark font-weight-bold'>Deposits</p>
+					  <table id='tbl_deposists' class="table table-bordered table-hover">
+						 <thead>
+							<tr>
+							   <th>Deposit Name</th>
+							   <th>Amount</th>
+							</tr>
+						 </thead>
+						 <tbody> </tbody>
+					  </table>
+					  <input type='hidden' name='unit_deposits' id='unit_deposits'>
+					  <button type="button" id='add_deposit' class="btn btn-light mt-0">Add New Row</button>
+				   </div>
+				</div>
+				<div class="row ml-2 mt-2">
+				   <div class='col'>
+					  <p class='text-dark font-weight-bold'>Other Fixed Monthly Bills (Recurring)</p>
+					  <table id='tbl_other_bills' class="table table-bordered table-hover">
+						 <thead>
+							<tr>
+							   <th>Bill Name</th>
+							   <th>Amount</th>
+							</tr>
+						 </thead>
+						 <tbody> </tbody>
+					  </table>
+					  <input type='hidden' name='unit_fixed_bills' id='unit_fixed_bills'>
+					  <button type="button" id='add_other_bill' class="btn btn-light">Add New Row</button> <span class="form-text text-muted">Click on add new row to add other monthly bills ie, security, garbage, etc</span> 
+				   </div>
+				</div>
+				<hr class="dashed">
+				<h6 class='text-dark font-weight-bold'>d). Billing</h6>
+				<div class='row m-2'>
+				   <div class="form-group col">
+					  <label>This month bill</label>
+					  <div class="form-inline">
+						<div class="custom-control custom-radio mb-1 mr-3 d-inline">
+							<input id="rd_full_bill"  onchange='computeBill(this.value)' value='1' type="radio" checked='checked' name="this_month_bill" class="custom-control-input">
+							<label class="custom-control-label" for="rd_full_bill">Full Bill</label>
+						</div>
+
+						<div class="custom-control custom-radio mb-1 mr-3 d-inline">
+							<input id="rd_rem_Days" onchange='computeBill(this.value)' value='0' type="radio" name="this_month_bill" class="custom-control-input">
+							<label class="custom-control-label" for="rd_rem_Days">Compute Remaining Days</label>
+						</div>
+						<div class="custom-control custom-radio mb-1 mr-3 d-inline">
+							<input id="rd_deps" onchange='computeBill(this.value)' value='2' type="radio" name="this_month_bill" class="custom-control-input">
+							<label class="custom-control-label" for="rd_deps">Deposits Only</label>
+						</div>						 
+					  </div>
+					  <span class="form-text text-muted">Select 'Compute Remaining Days' to calculate payable bill for the remaining days of this month, otherwise select 'Full Bill' to create a normal bill.</span> 
+				   </div>
+				   <div class='col-12'>
+					   <div class='border'>
+						<h5 class='card-label mx-3 mt-3 my-10 text-center'>Total Payable as per Today (For this month) </h5>
+						<table id='tbl_payable_bills' class="table table-bordered no-footer dtr-inline collapsed">
+							<thead>
+							   <tr>
+								  <th>Bill Name</th>
+								  <th class='text-right'>Amount</th>
+							   </tr>
+							</thead>
+							<tbody> </tbody>
+						 </table>
+						 <h5 class="text-right mr-3" id='bill_total'>Total: Kes 0.00</h5>
+					   </div>
+					  
+					  
+				   </div>
+				</div>
+				<hr class="dashed">
+				<h6 class='text-dark font-weight-bold'>e). Documents</h6>
+				<div class='row ml-2'>
+				   <div class="form-group col-sm-12 col-lg-12">
+					<label>Lease Agreement Document</label>
+					<p>
+					  <label for="lease_agreement" class="btn btn-light btn-sm"><i class="fa fa-paperclip fa-sm"></i> Attach File</label>
+					  <label  style='visibility: hidden;' id='btn_remove_file' class="btn btn-danger btn-sm" onclick="clearFile()"> Remove File </label>
+					  <input name="lease_agreement" id='lease_agreement' type="file" accept=".png, .jpg, .jpeg, .pdf" onchange="initializeFile(this)" hidden /> 
+				   </p>
+					</div>
+				   <div class='col-12'>
+					  <div id='file_display'> </div>
+					  <span class="text-muted">Make sure to choose the correct file. You may not be able to edit them later</span>
+				   </div>
+				</div>
+				
+					<hr class="dashed">
+					<h6 class='text-dark font-weight-bold'>f). Meter Readings</h6>
+					<div class="row ml-2">
+						<div class="col-12">
+							<table id='tbl_meter_readings' class="table table-bordered table-hover ">
+								<thead>
+								<tr>
+									<th>Meter Name</th>
+									<th>Current Reading</th>
+								</tr>
+								</thead>
+								<tbody> </tbody>
+							</table>
+						</div>
+					</div>
+					<input type='hidden' name='unit_meter_readings' id='unit_meter_readings'>
+					<input type='hidden' name='property' value="<%= property.property_code %>"/>
+				
+				
+			</div>
+			
+
+				
+			 </form>
+			 <div class="d-flex flex-row justify-content-end border-top pt-2 mx-6"> <a href="<%=base_url %>/agent/properties/<%= property.property_code%>?dest=leases" class="btn btn-danger dynamic-link mr-2">Cancel</a>
+				<button id='btn_save_lease' type="button" class="btn btn-success">Lease Now</button>
+			 </div>			
+		  </div>
+		 
+	   </div>
+	</div>
+	<!--end::Container-->
+ </div>
+								</div>
+								<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+ 
+		
+		
+		
+
+
+
+
+<script>
+	window.onload=function(){window.jQuery||window.location.reload()};
+
+$(document).ready(function(){
+    $('input[type="checkbox"]').on("change",function(){this.value=this.checked?1:0}).change();
+    
+	$("#tbl_deposists").SetEditable({
+					autoDelete: false,
+					columnsEd: "0, 1",
+					onEdit: function() {computeBill(checkedBill())}, 
+					onDelete: function() {computeBill(checkedBill())},
+					$addButton: $("#add_deposit"),
+				});
+
+				$("#tbl_other_bills").SetEditable({
+					autoDelete: false,
+					columnsEd: "0, 1",
+					onEdit: function() {computeBill(checkedBill())}, 
+					onDelete: function() {computeBill(checkedBill())},
+					$addButton: $("#add_other_bill"),
+				});
+
+				$("#tbl_meter_readings").SetEditable({
+					autoDelete: false,
+					columnsEd: "1",					
+				});
+	
+				$('.selectpicker-select').selectpicker();
+		getVacantUnits();
+    
+	getAllTenants();
+
+		
+
+	setTodayDate();
+
+	
+	
+	
+		$("#frm_new_lease").validate({
+		rules: {
+			unit_code: {
+				required: true				
+			},
+			tenant_id: {
+				required: true
+			},			
+			payment_date: {
+                required: true,
+                number: true
+			},
+			monthly_rent: {
+				required: true,
+                number: true,
+                min:0
+            },
+            lease_date:{
+                required: true,
+                date: true
+            }			
+		},
+		messages: {
+			unit_code: {
+				required: "Please select a unit from the list."				
+			},
+			tenant_id: {
+				required: "Please select the tenant from the list"
+			},			
+			payment_date: {
+                required: "Select the bills payment date from the list",
+                number: "Select the bills payment date from the list"
+			},
+			monthly_rent: {
+				required: "Enter the monthly rent amount",
+                number: "Enter the monthly rent amount",
+                min:"Rent amount cannot be a negative number",
+            },
+            lease_date:{
+                required: "Please select the lease date",
+                date: "Please enter correct lease date"
+            }			
+		},
+	});
+    
+
+	
+	
+	$.getScriptCached("https://mozilla.github.io/pdf.js/build/pdf.js", function(){
+		var pdfjsLib = window["pdfjs-dist/build/pdf"];
+		pdfjsLib.GlobalWorkerOptions.workerSrc = "https://mozilla.github.io/pdf.js/build/pdf.worker.js";
+	});
+	
+	$("#frm_new_lease").on("submit", function(e) {
+	e.preventDefault();
+	var isvalid = $("#frm_new_lease").valid();
+	if(isvalid) {
+		$("#btn_save_lease").html("Please wait..");
+        $("#btn_save_lease").attr("disabled", true);
+        var data = new FormData(this);	
+		console.log(data)
+		$.ajax({
+			type: "POST",			
+			processData: false,
+			contentType: false,
+			credentials: 'same-origin',
+			headers: {'CSRF-Token': csrf_token},
+			url: "<%= base_url %>/agent/properties/leases/new",
+			data: data,
+			success: function(data) {
+				$("#btn_save_lease").html("Lease Now");
+				$("#btn_save_lease").attr("disabled", false);
+				if(data.Status == 200) {
+					showAppNotification("success", data.Message);
+					loadPage("<%=base_url %>/agent/properties/<%= property.property_code%>?dest=leases", true)
+				} else {
+					showAppNotification("warning", data.Message);
+				}
+			},
+			error: function(err) {
+				$("#btn_save_lease").html("Lease Now");
+				$("#btn_save_lease").attr("disabled", false);
+				showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+            }
+		});
+	}
+});
+
+$("#btn_save_lease").click(function() {
+	var deps = $("#tbl_deposists").tableToJSON({
+		columns: new Array(0, 1),
+	});
+    $("#unit_deposits").val(JSON.stringify(deps));
+    
+	var bills = $("#tbl_other_bills").tableToJSON({
+		columns: new Array(0, 1),
+	});
+	$("#unit_fixed_bills").val(JSON.stringify(bills));
+
+	var s_readings = $("#tbl_meter_readings").tableToJSON({
+		columns: new Array(0, 1),
+	});
+
+	$("#unit_meter_readings").val(JSON.stringify(s_readings));
+
+	$("#frm_new_lease").submit();
+});
+
+$("#lease_date").change(function(){	
+	computeBill(checkedBill());
+});
+
+});
+
+function setTodayDate(){
+	var today = todaysDate();   
+    $('#lease_date').val(today);
+}
+
+	  function checkedBill(){
+		var radios = document.getElementsByName('this_month_bill');
+
+for (var i = 0, length = radios.length; i < length; i++) {
+  if (radios[i].checked) {   
+    return radios[i].value;  
+    break;
+  }
+}
+	  }
+
+
+
+function getVacantUnits() {
+	$.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/agent/properties/units/vacant?property=<%= property.property_code %>",
+		data: "",
+		success: function(data) {			
+			if(data.data.length > 0) {
+				var units = data.data;
+				var y = units.length;
+				var x = 0;
+				var options = [];
+				while(x < y) {
+					var val = '<option value="' + units[x].unit_code + '">' + units[x].unit_name + " - " + floorToLabel(units[x].floor) + "</option>";
+					if(units[x].unit_code == "<%= unit_code %>") {
+						var val = '<option selected="seleted" value="' + units[x].unit_code + '">' + units[x].unit_name + " - " + floorToLabel(units[x].floor) + "</option>";
+					}
+					options.push(val);
+					x++;
+				}
+				$("#unit_code").html(options.join(""));
+				loadUnitDetails($("#unit_code").val());
+				$(".selectpicker-select").selectpicker("refresh");
+			}
+		},
+		error: function(err) {
+			showAppNotification("danger", "An error has occured. Unable to list vacant units");
+		},
+	});
+}
+
+function getAllTenants() {
+	$.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/agent/properties/tenants/brief?property=<%= property.property_code %>",
+		data: "",
+		success: function(data) {
+			if(data.data.length > 0) {
+				var tenants = data.data;
+				var y = tenants.length;
+				var x = 0;
+				var options = [];
+				while(x < y) {
+					var val = '<option value="' + tenants[x].tenant_id + '">' + tenants[x].tenant_name + "</option>";
+					if(tenants[x].tenant_id == "<%= tenant_id %>") {
+						var val = '<option selected="seleted" value="' + tenants[x].tenant_id + '">' + tenants[x].tenant_name + "</option>";
+					}
+					options.push(val);
+					x++;
+				}			
+				$("#tenant_id").html(options.join(""));				
+				$(".selectpicker-select").selectpicker("refresh");				
+			}
+		},
+		error: function(err) {
+			showAppNotification("danger", "An error has occured. Unable to list tenants");
+		},
+	});
+}
+
+function loadUnitDetails(unit_code) {
+	$.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/agent/properties/units/details?property=<%= property.property_code %>",
+		data: "unit_code=" + unit_code,
+		success: function(data) {			
+			if(data.data) {			
+				var unit_info = data.data;
+				var options = [];
+				var deposits = JSON.parse(unit_info.unit_deposits);
+				var rows = "";
+				$("#monthly_rent").val(unit_info.rent_amount);
+                initDates(unit_info.payment_day);
+                $("#tbl_deposists tbody").html('');
+				for(var i = 0; i < deposits.length; i++) {
+					var row = "<tr><td> " + deposits[i]["Deposit Name"] + "</td><td class='text-right'>" + deposits[i]["Amount"] + "</td>" + colEdicHtml +"</tr>";
+					$("#tbl_deposists tbody").append(row);
+                }	
+
+                $("#tbl_other_bills tbody").html('');
+				var bills = JSON.parse(unit_info.unit_fixed_bills);
+				for(var i = 0; i < bills.length; i++) {
+					var row = "<tr><td>" + bills[i]["Bill Name"] + "</td><td class='text-right'>" + bills[i]["Amount"] + "</td>" + colEdicHtml +"</tr>";
+					$("#tbl_other_bills tbody").append(row);
+				}
+				
+				computeBill(1);
+				//$('.selectpicker').selectpicker('refresh');
+			}
+		},
+		error: function(err) {
+			showAppNotification("danger", "An error has occured. Unable to get unit details");
+		},
+	});
+	getMeterReadings(unit_code);
+}
+
+function getMeterReadings(unit_code){
+	$.ajax({
+		type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+		url: "<%= base_url %>/agent/properties/readings/unit-readings",
+		data: {unit_code:unit_code,property:'<%= property.property_code %>'},
+		success: function(data) {	
+			$("#tbl_meter_readings tbody").html('');			
+			if(data.Status==200) {			
+				var readings = data.Message;
+				for(var i = 0; i < readings.length; i++) {
+					if(readings[i]["reading_type"] !==null){
+						var row = "<tr><td> " + readings[i]["reading_type"] + "</td><td class='text-right'>" + readings[i]["read_value"] + "</td>"+ colEdicHtml + "</tr>";
+						$("#tbl_meter_readings tbody").append(row);
+					}					
+                }				
+			}
+		},
+		error: function(err) {
+			showAppNotification("danger", "An error has occured. Unable to get meter readings");
+		},
+	});
+}
+
+function initDates(current_date) {
+	var y = 31;
+	var x = 0;
+	var options = [];
+	while(x < y) {
+		x++;
+		var val = '<option value="' + x + '">' + x + "</option>";
+		if(x == current_date) {
+			var val = '<option  selected="selected" value="' + x + '">' + x + "</option>";
+		}
+		options.push(val);
+	}
+	$("#payment_date").html(options.join(""));
+}
+
+function clearFile() {
+	$("#lease_agreement").val("");
+	initializeFile($("#lease_agreement"));
+}
+
+function initializeFile(target) {
+	if(target.files == null) {
+		$("#btn_remove_file").css("display", "none");
+		$("#file_display").html("");
+		return;
+	} else if(target.files.length == 0) {
+		$("#file_display").html("");
+		$("#btn_remove_file").css("visibility", "hidden");
+		return;
+	} else {
+		$("#btn_remove_file").css("visibility", "visible");
+	}
+	var file = target.files[0];
+	if(file.type == "application/pdf") {
+		var fileReader = new FileReader();
+		fileReader.onload = function() {
+			var pdfData = new Uint8Array(this.result);
+			// Using DocumentInitParameters object to load binary data.
+			var loadingTask = pdfjsLib.getDocument({
+				data: pdfData,
+			});
+			loadingTask.promise.then(function(pdf) {
+				// Fetch the first page
+				var pageNumber = 1;
+				pdf.getPage(pageNumber).then(function(page) {
+					var scale = 1.5;
+					var viewport = page.getViewport({
+						scale: scale,
+					});
+					// Prepare canvas using PDF page dimensions
+					$("#file_display").html("<canvas class='lease-document border shadow custom-image-2' id='pdfViewer'></canvas>");
+					var canvas = $("#pdfViewer")[0];
+					var context = canvas.getContext("2d");
+					canvas.height = viewport.height;
+					canvas.width = viewport.width;
+					// Render PDF page into canvas context
+					var renderContext = {
+						canvasContext: context,
+						viewport: viewport,
+					};
+					var renderTask = page.render(renderContext);
+					renderTask.promise.then(function() {});
+				});
+			}, function(reason) {
+				// PDF loading error
+			});
+		};
+		fileReader.readAsArrayBuffer(file);
+	} else if(file.type == "image/png" || file.type == "image/jpg" || file.type == "image/jpeg") {
+		// alert(target.value)
+		$("#file_display").html("<img class='lease-document border shadow custom-image-2' id='imgViewer'/>");
+		document.getElementById("imgViewer").src = window.URL.createObjectURL(file);
+	}
+}
+
+function computeBill(bill_this) {
+	$("#tbl_payable_bills tbody").html("");
+	var deps = $("#tbl_deposists").tableToJSON({
+		columns: new Array(0, 1),
+	});
+	var bills = $("#tbl_other_bills").tableToJSON({
+		columns: new Array(0, 1),
+	});
+	var total = 0;
+	
+	var rent = parseInt($("#monthly_rent").val());
+	const d = new Date($('#lease_date').val());
+	var curr_month_name = monthNames[d.getMonth()];
+	if(bill_this == 1) {
+		total += rent;
+		var row = "<tr><td> " + curr_month_name + " Rent</td><td class='text-right'>" + formatMoney(rent) + "</td></tr>";
+		$("#tbl_payable_bills tbody").append(row);
+		for(var i = 0; i < deps.length; i++) {
+			var row = "<tr><td> " + (deps[i]["Deposit Name"].replace("deposit", "") + ' Deposit') + "</td><td class='text-right'>" + formatMoney(deps[i]["Amount"]) + "</td></tr>";
+			var t = parseInt(deps[i]["Amount"]) || 0;
+			total +=t;
+			$("#tbl_payable_bills tbody").append(row);
+		}
+		for(var i = 0; i < bills.length; i++) {
+			var row = "<tr><td>" + bills[i]["Bill Name"] + " - " + curr_month_name + "</td><td class='text-right'>" + formatMoney(bills[i]["Amount"]) + "</td></tr>";
+			var t = parseInt(bills[i]["Amount"]) || 0;
+			total +=t;
+			$("#tbl_payable_bills tbody").append(row);
+		}
+		$("#bill_total").html("Total: " + formatMoney(total));
+	} else if(bill_this == 0) {
+		var days = getMonthDaysLeft();
+		rent = remAmount(days, rent);
+		total += rent;
+		var row = "<tr><td> " + curr_month_name + " Rent</td><td class='text-right'>" + rent + "</td></tr>";
+		$("#tbl_payable_bills tbody").append(row);
+		for(var i = 0; i < deps.length; i++) {
+			var t = parseInt(deps[i]["Amount"]) || 0;
+			var row = "<tr><td> " + deps[i]["Deposit Name"] + "</td><td class='text-right'>" + t + "</td></tr>";
+			total += t;
+			$("#tbl_payable_bills tbody").append(row);
+		}
+		for(var i = 0; i < bills.length; i++) {
+			var t = remAmount(days, parseInt(bills[i]["Amount"])) || 0;
+			var row = "<tr><td>" + bills[i]["Bill Name"] + " - " + curr_month_name + "</td><td class='text-right'>" + t + "</td></tr>";
+			total += t;
+			$("#tbl_payable_bills tbody").append(row);
+		}
+        $("#bill_total").html("Total " + formatMoney(total));
+    } else if(bill_this == 2) {
+        for(var i = 0; i < deps.length; i++) {
+			var t = parseInt(deps[i]["Amount"]);
+			var row = "<tr><td> " + deps[i]["Deposit Name"] + "</td><td class='text-right'>" + t + "</td></tr>";
+			total += t;
+			$("#tbl_payable_bills tbody").append(row);
+        }
+        $("#bill_total").html("Total: " + formatMoney(total));
+
+	}else{
+        $("#bill_total").html("Total: Kes 0.00");
+    }
+}
+
+function remAmount(amt, days) {
+	return parseInt((days * amt) / 30);
+}
+
+function getMonthDaysLeft() {
+	var date = new Date($('#lease_date').val());
+	return(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate() - date.getDate());
+}
+    
+</script>
+<% if(!load_chunk){%> </body></html> <%}%>

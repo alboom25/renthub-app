@@ -23,7 +23,7 @@ globals.basedir = __dirname;
 globals.views_dir = path.join(__dirname, "app", "views");
 globals.private_dir = path.join(__dirname, "private-files");
 const custom_env = require("./app/libs/application.enviroment");
-var env = new custom_env("production").ENV();
+var env = new custom_env("staging").ENV();
 globals.env = env;
 const logger = require("./app/libs/logger");
 
@@ -122,12 +122,13 @@ app.use(fileUpload({
 
 app.use("/public", require("./app/routes/public"));
 
-app.use(csrf({
-	cookie: true,
-	httpOnly:true,
-	secure:true,
-	sameSite: true
-}));
+
+app.use(csrf())
+app.use(function (req, res, next) {
+  res.cookie('XSRF-TOKEN', req.csrfToken());
+  res.locals.csrftoken = req.csrfToken();
+  next();
+});
 
 app.use("/", require("./app/routes/app"));
 
@@ -195,24 +196,22 @@ app.use(function(err, req, res, next) {
 });
 
 process.on('unhandledRejection', (reason, p) => {	
-	logger.promise(reason);	
-	if(!my_res.headersSent){
-		if(my_req.method == "GET") {
-			if(my_req.xhr) {
-				my_res.renderEjs(my_req, "errors/error-ajax");
-			} else {
-				my_res.status(500);
-				my_res.render("errors/error", {
-					message: 'A technical error has occurred',
-					load_chunk: my_req.xhr,
-					base_url: my_req.__base_url,
-					user_profile: my_req.user_profile,
-					error: {}
-				});
-			}
+	logger.promise(reason);		
+	if(my_req.method == "GET") {
+		if(my_req.xhr) {
+			my_res.renderEjs(my_req, "errors/error-ajax");
 		} else {
-			my_res.errorEnd("An error occured while processing your request.");
+			my_res.status(500);
+			my_res.render("errors/error", {
+				message: 'A technical error has occurred',
+				load_chunk: my_req.xhr,
+				base_url: my_req.__base_url,
+				user_profile: my_req.user_profile,
+				error: {}
+			});
 		}
+	} else {
+		my_res.errorEnd("An error occured while processing your request.");
 	}
 	
 });

@@ -5,9 +5,13 @@ const Bills = require("../models/tenants").Bills;
 const Payment = require("../models/tenants").Payment;
 const Payments = require("../models/tenants").Payments;
 const helpers = require("../helpers/assorted.helpers");
+const file_helpers = require("../helpers/file.helpers");
+
+const globals = require("../helpers/global.params");
 const sms = require("../libs/sms.sender");
 const moment = require("moment");
 const uuid = require("uuid");
+const path = require("path");
 
 module.exports.preparePayment = async function (body, user_property, req, res) {   
     var validate = validator.Validate(body, validation_helper.newTenantPayment());
@@ -41,6 +45,21 @@ module.exports.preparePayment = async function (body, user_property, req, res) {
                 let payment_added = await p.save(excess, invoice_info.tenant_id);           
                 if (payment_added) {
                     res.successEnd("Payment has been added successfully");
+                    if (req.files) {
+                        if (Object.keys(req.files).length === 1) {
+                            var f = req.files.payment_receipt.name.split(".");
+                            var ext = f[f.length - 1];
+                            var file_name = req.user_property.property_code + p.payment_id + "." + ext;
+    
+                            let receipt_file = req.files.payment_receipt;
+                            var fl = path.join(globals.private_dir, "receipts", file_name);
+                            let file_saved = await file_helpers.upload_file(receipt_file, fl);
+                            if (file_saved) {
+                                p.add_file(file_name,ext);
+                            }
+                        }
+                    }
+                    
 
                     setTimeout(
                         async function() {

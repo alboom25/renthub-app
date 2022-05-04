@@ -21,7 +21,7 @@
 						</div>
 						<div class='col-lg-5 text-right' style="margin:auto;">
 						   <button  class="btn btn-warning small-block px-4 mt-0 mb-3 mr-2 " data-toggle="modal" data-target="#mdl_send_sms" >SMS Broadcast</button>								  
-						   <a href="<%= base_url %>/agent/properties/new-tenant?property=<%=property.property_code %>" class="btn btn-info small-block px-4 mt-0 mb-3 mr-2  dynamic-link"  >+ Add New Tenant</a>
+						   <a href="<%= base_url %>/agent/properties/tenants/new?property=<%=property.property_code %>" class="btn btn-info small-block px-4 mt-0 mb-3 mr-2  dynamic-link"  >+ Add New Tenant</a>
 						</div>
 					 </div>
 					 <div class="row">
@@ -171,7 +171,7 @@ window.onload=function(){window.jQuery||window.location.reload()};
 			  data: null,
 			  render: function (data, type, row) {
 				var img =
-				  `<img onclick="intitImagePopup(this)" class="rounded-circle avatar-sm img img-popup" src="<%=base_url%>/agent/properties/tenant-image/<%=property.property_code %>?tenant=${data.tenant_id}" title="${data.first_name} ${data.last_name}" /> `;
+				  `<img onclick="intitImagePopup(this)" class="rounded-circle avatar-sm img img-popup" src="<%=base_url%>/agent/properties/tenants/image/<%=property.property_code %>?tenant=${data.tenant_id}" title="${data.first_name} ${data.last_name}" /> `;
 				return ' <div class="symbol symbol-50 symbol-sm flex-shrink-0">' + img +' </div>';
 			  },
 			},
@@ -194,7 +194,7 @@ window.onload=function(){window.jQuery||window.location.reload()};
 			  data: null,
 			  render: function (data, type, row) {         
 				var btn =
-							   '<a class="btn btn-success btn-sm mb-2 mr-2 ml-2 dynamic-link" href="<%= base_url %>/agent/properties/leases/new?tenant_id=' +
+							   '<a class="btn btn-success btn-sm mb-2 mr-2 ml-2 dynamic-link" href="<%= base_url %>/agent/properties/leases/new?property=<%= property.property_code %>&tenant_id=' +
 							   data.tenant_id.toString() +
 							   '">Add Lease</a>';
 				if (data.units) {
@@ -260,8 +260,8 @@ window.onload=function(){window.jQuery||window.location.reload()};
 	   });
 	   
 	   function actionData(data) {
-	   var btns = `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/edit-tenant/${data.tenant_id}?property=<%=property.property_code%>">Edit Tenant - ${data.first_name}</a>
-	   <a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/view-tenant/${data.tenant_id}?property=<%=property.property_code%>" >Detailed Information</a>`;
+	   var btns = `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/tenants/edit/${data.tenant_id}?property=<%=property.property_code%>">Edit Tenant - ${data.first_name}</a>
+	   <a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/tenants/view/${data.tenant_id}?property=<%=property.property_code%>" >Detailed Information</a>`;
 			
 		  
 			return row_begin + btns + edit_links + row_end;
@@ -275,7 +275,7 @@ window.onload=function(){window.jQuery||window.location.reload()};
 	   $.ajax({
 		   type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-		   url: "<%= base_url %>/agent/properties/delete-tenant",
+		   url: "<%= base_url %>/agent/properties/tenants/delete",
 		   data: dt,
 		   success: function(data) {
 			   $("#tbl_property_tenants").DataTable().ajax.reload();
@@ -309,7 +309,7 @@ window.onload=function(){window.jQuery||window.location.reload()};
 	   $.ajax({
 		   type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-		   url: "<%= base_url %>/agent/properties/update-quick-tenant",
+		   url: "<%= base_url %>/agent/properties/tenants/quick-update",
 		   data: dt,
 		   success: function(data) {
 			   if (data.Status != 200) {

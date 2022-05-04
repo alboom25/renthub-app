@@ -193,7 +193,7 @@ $(document).ready(function() {
 				if(data.occupied) {
 					return "<a class='dynamic-link text-info' href='<%= base_url %>/manage/tenants/view/"+ data.tenant_id +"'>"+ data.tenant_name +"</a>";					
 				} else {
-					let msg =  '<a class="btn btn-primary btn-sm dynamic-link mt-0" href="<%= base_url %>/manage/leases/new?unit_code=${data.unit_code}">Add Lease</a>';
+					let msg =  `<a class="btn btn-primary btn-sm dynamic-link mt-0" href="<%= base_url %>/manage/leases/new?unit_code=${data.unit_code}">Add Lease</a>`;
 
 					if(data.ad_id){
 						msg += `<button type='button' class="btn btn-info btn-sm ml-2 mt-0" onclick="previewAd('${data.ad_id}')">Preview Advert</button>`;

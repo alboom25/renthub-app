@@ -40,7 +40,7 @@
               <div class="row">
                  <div class="col-sm-4">
                     <div class="avatar-md profile-user-wid mb-4">                     
-                        <img src="<%=base_url%>/agent/properties/tenant-image/<%=tenant_info.tenant_id%>?property=<%=property.property_code%>" alt="" class="img-thumbnail rounded-circle" onclick="intitImagePopup(this)" title="Profile Image"/> 
+                        <img src="<%=base_url%>/agent/properties/tenants/image/<%=tenant_info.tenant_id%>?property=<%=property.property_code%>" alt="" class="img-thumbnail rounded-circle" onclick="intitImagePopup(this)" title="Profile Image"/> 
 
                       
                     </div>
@@ -65,7 +65,7 @@
                        </div>
                        <div class="mt-2">
                           <button type="button" class="btn btn-info  btn-sm mt-1" data-toggle="modal" data-target="#mdl_send_sms" >Send SMS Message</button>
-                          <a href="<%= base_url %>/agent/properties/edit-tenant/<%=tenant_info.tenant_id%>?property=<%=property.property_code%>" class="btn btn-warning  btn-sm mt-1 dynamic-link"><i class='bx bxs-edit'></i> Edit Tenant</a>
+                          <a href="<%= base_url %>/agent/properties/tenants/edit/<%=tenant_info.tenant_id%>?property=<%=property.property_code%>" class="btn btn-warning  btn-sm mt-1 dynamic-link"><i class='bx bxs-edit'></i> Edit Tenant</a>
                        </div>
                     </div>
                  </div>
@@ -185,12 +185,12 @@
             <div class="row">
                <div class='col-md-6'>
                   <label>Id Back</label>                     
-                     <img  onclick="intitImagePopup(this)" class="rounded mb-4" alt="" width="100%" src="<%=base_url%>/agent/properties/tenant-id-front/<%=tenant_info.tenant_id%>?property=<%=property.property_code%>" title="ID Front" />
+                     <img  onclick="intitImagePopup(this)" class="rounded mb-4" alt="" width="100%" src="<%=base_url%>/agent/properties/tenants/front-id/<%=tenant_info.tenant_id%>?property=<%=property.property_code%>" title="ID Front" />
                </div>
 
                <div class='col-md-6'>
                   <label>Id Front</label> 
-                  <img class="rounded" onclick="intitImagePopup(this)" title="ID Back" alt="" width="100%" src="<%=base_url%>/agent/properties/tenant-id-back/<%=tenant_info.tenant_id%>?property=<%=property.property_code%>"/>
+                  <img class="rounded" onclick="intitImagePopup(this)" title="ID Back" alt="" width="100%" src="<%=base_url%>/agent/properties/tenants/back-id/<%=tenant_info.tenant_id%>?property=<%=property.property_code%>"/>
                </div>
             </div>
                
@@ -553,7 +553,7 @@ loadBalances();
         $.ajax({
             type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-            url: "<%= base_url %>/agent/properties/tenant-send-sms",
+            url: "<%= base_url %>/agent/properties/tenants/send-sms",
             data: data,
             success: function(data) {
                 $('#btn_send_sms').html('Send SMS');

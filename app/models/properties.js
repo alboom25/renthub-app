@@ -173,12 +173,31 @@ class Properties extends Table{
 
 class AgentProperties extends Table{
     static async list(manager_id){
-        let res = await db.query('SELECT vw_properties_all.*,tbl_property_users_assigned.manage_units, tbl_property_users_assigned.manage_expenses, tbl_property_users_assigned.manage_images, tbl_property_users_assigned.manage_leases, tbl_property_users_assigned.manage_payments, tbl_property_users_assigned.manage_tenants,tbl_property_users_assigned.meter_readings FROM vw_properties_all LEFT JOIN tbl_property_users_assigned ON tbl_property_users_assigned.property_code = vw_properties_all.property_code AND tbl_property_users_assigned.manager_id = ? WHERE vw_properties_all.property_code IN ( SELECT property_code FROM tbl_property_users_assigned WHERE manager_id = ? ) AND ( SELECT expiry_date FROM tbl_subscriptions WHERE user_code = vw_properties_all.user_code ORDER BY expiry_date DESC LIMIT 1 ) >= DATE( NOW( ) );', [manager_id, manager_id]);
+        var ids = (manager_id.split(','));
+        var id_string="";
+
+        for(var i = 0; i < ids.length; i++){
+            id_string  +=`'${ids[i]}',`;
+        }
+
+        id_string = id_string.slice(0, -1);
+
+        let res = await db.query(`SELECT vw_properties_all.*,tbl_property_users_assigned.manage_units, tbl_property_users_assigned.manage_expenses, tbl_property_users_assigned.manage_images, tbl_property_users_assigned.manage_leases, tbl_property_users_assigned.manage_payments, tbl_property_users_assigned.manage_tenants,tbl_property_users_assigned.meter_readings FROM vw_properties_all LEFT JOIN tbl_property_users_assigned ON tbl_property_users_assigned.property_code = vw_properties_all.property_code AND tbl_property_users_assigned.manager_id in(${id_string}) WHERE vw_properties_all.property_code IN ( SELECT property_code FROM tbl_property_users_assigned WHERE manager_id in (${id_string}) ) AND ( SELECT expiry_date FROM tbl_subscriptions WHERE user_code = vw_properties_all.user_code ORDER BY expiry_date DESC LIMIT 1 ) >= DATE( NOW( ) );` );
         return res;
     }
 
     static async info(property_code, manager_id){
-        let res = await db.query('SELECT vw_properties_all.*,tbl_property_users_assigned.manage_units,tbl_property_users_assigned.manage_expenses, tbl_property_users_assigned.manage_images, tbl_property_users_assigned.manage_leases, tbl_property_users_assigned.manage_payments, tbl_property_users_assigned.manage_tenants, tbl_property_users_assigned.meter_readings FROM vw_properties_all LEFT JOIN tbl_property_users_assigned ON tbl_property_users_assigned.property_code = vw_properties_all.property_code AND tbl_property_users_assigned.manager_id = ? WHERE vw_properties_all.property_code IN ( SELECT property_code FROM tbl_property_users_assigned WHERE manager_id = ? ) AND ( SELECT expiry_date FROM tbl_subscriptions WHERE user_code = vw_properties_all.user_code ORDER BY expiry_date DESC LIMIT 1 ) >= DATE( NOW( ) ) AND vw_properties_all.property_code = ?;', [manager_id, manager_id, property_code]);
+        var ids = (manager_id.split(','));
+        var id_string="";
+
+        for(var i = 0; i < ids.length; i++){
+            id_string  +=`'${ids[i]}',`;
+        }
+
+        id_string = id_string.slice(0, -1);
+       
+
+        let res = await db.query(`SELECT vw_properties_all.*,tbl_property_users_assigned.manage_units,tbl_property_users_assigned.manage_expenses, tbl_property_users_assigned.manage_images, tbl_property_users_assigned.manage_leases, tbl_property_users_assigned.manage_payments, tbl_property_users_assigned.manage_tenants, tbl_property_users_assigned.meter_readings FROM vw_properties_all LEFT JOIN tbl_property_users_assigned ON tbl_property_users_assigned.property_code = vw_properties_all.property_code AND tbl_property_users_assigned.manager_id in(${id_string}) WHERE vw_properties_all.property_code IN ( SELECT property_code FROM tbl_property_users_assigned WHERE manager_id in (${id_string})) AND ( SELECT expiry_date FROM tbl_subscriptions WHERE user_code = vw_properties_all.user_code ORDER BY expiry_date DESC LIMIT 1 ) >= DATE( NOW( ) ) AND vw_properties_all.property_code = ?;`, [property_code]);      
         return res.length ==1? res[0]: null;
     }
 

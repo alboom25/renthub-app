@@ -133,7 +133,7 @@ router.post("/:id", async function (req, res) {
                     }else{
                         let utilized = await MpesaPayments.utilize(req.body.mpesa_confirmation, req.params.id, req.session.user_code);
                         if(utilized){
-                            res.errorEnd("Your payment has been successfully confirmed!");
+                            res.successEnd("Your payment has been successfully confirmed!");
                         }else{
                             res.errorEnd("Unable to confirm the transaction. Please try again after few minutes!");
                         }

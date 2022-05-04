@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const dashboard = require("../../models/dashboard").Admin;
+const app_helper = require("../../helpers/app.helpers");
+
+router.use("*", app_helper.checkProperty);
 
 router.get('/', async function(req, res){
     let [numbers_data, best_units, revenues, units_info] = await Promise.all([

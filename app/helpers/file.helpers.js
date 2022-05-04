@@ -3,8 +3,7 @@ class fileHelpers {
     static upload_file(raw_file, file_name) {
         return new Promise((resolve, reject) => {
             raw_file.mv(file_name, function (err) {
-                if (err) {
-                    console.log(err);
+                if (err) {                   
                     resolve(false);
                 } else {
                     resolve(true);

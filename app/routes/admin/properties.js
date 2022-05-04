@@ -122,7 +122,7 @@ router.post("/new", async function(req, res) {
 					longitude: req.body.longitude,
 					latitude: req.body.latitude,
 					property_accounts: req.body.property_accounts,
-					property_value: parseFloat(req.body.property_value),
+					property_value: parseFloat(req.body.property_value) || 0,
 				};
 				let prop = await new property(req.session.user_code);
 				Object.assign(prop, obj);
@@ -215,7 +215,7 @@ router.post('/:id/settings', async function(req, res) {
 			address: req.body.address,		
 			readable_meters: req.body.readable_meters,
 			property_accounts: req.body.property_accounts,
-			property_value: parseFloat(req.body.property_value)
+			property_value: parseFloat(req.body.property_value)|| 0
 		};                 
 
 		let updated = await user_property.update(obj);

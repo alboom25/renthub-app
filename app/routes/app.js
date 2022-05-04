@@ -25,9 +25,16 @@ fs.readdirSync(path.join(globals.basedir, 'app','routes')).forEach(function (rou
 router.get("/", authenticate, function(req, res){    
     if(req.user_profile.is_landlord){
         res.redirect('/admin/dashboard');
-    }else{
+    }else if(req.user_profile.is_tenant){
         res.redirect('/tenant/dashboard');
-    } 
+    }else if(req.user_profile.is_agent){
+        res.redirect('/agent/properties');
+    }else{
+        res.renderEjs(req, "home", {
+            page_title: "Welcome",
+            sub_header: "Welcome",
+        });
+    }
 });
 
 async function authenticate(req, res, next) {  	

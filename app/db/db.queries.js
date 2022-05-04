@@ -113,7 +113,7 @@ exports.transaction = async (queries) => {
             }
 
         }
-        let cc = await trans.commit();      
+        await trans.commit();      
         return 1;
     } catch (e) {
         errors.log(e);

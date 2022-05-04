@@ -155,7 +155,7 @@ function myFormData(form) {
 					'CSRF-Token': csrf_token
 				},
 				url: "<%= base_url %>/auth/google-login",
-				data: {token:scope.credential, dest:dest},
+				data: {token:scope.credential, dest:dest, referal_code:'<%= referal_code %>'},
 				success: function(e) {
 					if(200 == e.Status) {
 						$("#login-button").removeClass("btn-info");

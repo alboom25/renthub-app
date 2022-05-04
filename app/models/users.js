@@ -95,6 +95,8 @@ class User extends DB{
         delete data['user_code'];
         delete data['is_agent'];
         delete data['manager_id'];
+        delete data['is_tenant'];
+        
         let res =  await this.update_db('tbl_users', data, {user_code: this.user_code});
         return res;
     }
@@ -218,8 +220,13 @@ class Users extends Table {
     }
 
     static async isAgent(email_address){
-        let res = await sql.query('SELECT count(1)=1 as is_agent FROM tbl_property_users WHERE email_address = ? AND account_active = 1 AND ( SELECT count( 1 ) AS props FROM vw_properties_all WHERE property_code IN ( SELECT property_code FROM tbl_property_users_assigned WHERE manager_id = tbl_property_users.manager_id ) AND ( SELECT expiry_date FROM tbl_subscriptions WHERE user_code = vw_properties_all.user_code ORDER BY expiry_date DESC LIMIT 1 ) >= DATE( NOW( ) ) ) >0', [email_address]);      
+        let res = await sql.query('SELECT count(1)>0 as is_agent FROM tbl_property_users WHERE email_address = ? AND account_active = 1 AND ( SELECT count( 1 ) AS props FROM vw_properties_all WHERE property_code IN ( SELECT property_code FROM tbl_property_users_assigned WHERE manager_id = tbl_property_users.manager_id ) AND ( SELECT expiry_date FROM tbl_subscriptions WHERE user_code = vw_properties_all.user_code ORDER BY expiry_date DESC LIMIT 1 ) >= DATE( NOW( ) ) ) >0', [email_address]);      
         return res[0].is_agent;
+    }
+
+    static async isTenant(email_address){
+        let res = await sql.query(`select count(1) as leases from vw_leases_full where status !='Expired' and email_address =?`,[email_address]);
+        return res.length==1? res[0].leases>0: 0;        
     }
 }
 

@@ -337,6 +337,10 @@
                         reset_confirm_submit_button();
                         if (data.Status == 200) {                        
                             showAppNotification('success', data.Message);
+							setTimeout(
+								loadPage('<%= base_url %>/system/subscriptions'),
+								5000
+							);
                         } else {
                             showAppNotification('warning', data.Message);
                         }
@@ -362,7 +366,7 @@
                  var data = new myFormData($(this));
                 $.ajax({
                     type: "POST",
-        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        			async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
                     url:  "<%=base_url %>/system/invoices/<%= invoice_data.invoice_id%>?action=request-payment",
                     data: data,
                     success: function(data) {

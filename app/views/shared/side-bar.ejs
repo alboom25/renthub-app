@@ -115,33 +115,35 @@
 						<a href="<%= base_url %>/agent/properties" class="menu-link dynamic-link"> <i class='bx bx-building'></i> <span class="menu-text">Properties</span> </a>
 					</li>					
 				<%}%>
-								
-				<li class="menu-title">Tenancy</li>
-				<li>
-					<a href="javascript: void(0);" class="has-arrow ">
-						<i class='bx bx-home-smile'></i>
-						 <span class="menu-text">Tenant</span> </a>
-					<ul class="sub-menu" aria-expanded="false">
-						<li class="menu-item" aria-haspopup="true">
-							<a href="<%= base_url %>/tenant/dashboard" class="menu-link dynamic-link"> <span class="menu-text">Dashboard</span> </a>
-						</li>
-						<li class="menu-item" aria-haspopup="true">
-							<a href="<%= base_url %>/tenant/leases" class="menu-link dynamic-link"> <span class="menu-text">Rented Units/Houses</span> </a>
-						</li>
-						<li class="menu-item" aria-haspopup="true">
-							<a href="<%= base_url %>/tenant/favourites" class="menu-link dynamic-link"> <span class="menu-text">My Favourites</span> </a>
-						</li>
-						<li class="menu-item" aria-haspopup="true">
-							<a href="<%= base_url %>/tenant/listings" class="menu-link dynamic-link"> <span class="menu-text">Listings</span> </a>
-						</li>
-						<li class="menu-item" aria-haspopup="true">
-							<a href="<%= base_url %>/tenant/work-orders" class="menu-link dynamic-link"> <span class="menu-text">Work Orders</span> </a>
-						</li>
-						<li class="menu-item" aria-haspopup="true">
-							<a href="<%= base_url %>/tenant/vacating-notices" class="menu-link dynamic-link"> <span class="menu-text">Vacating Notices</span> </a>
-						</li>
-					</ul>
-				</li>
+
+				<% if(user_profile.is_tenant){%>					
+					<li class="menu-title">Tenancy</li>
+					<li>
+						<a href="javascript: void(0);" class="has-arrow ">
+							<i class='bx bx-home-smile'></i>
+							 <span class="menu-text">Tenant</span> </a>
+						<ul class="sub-menu" aria-expanded="false">
+							<li class="menu-item" aria-haspopup="true">
+								<a href="<%= base_url %>/tenant/dashboard" class="menu-link dynamic-link"> <span class="menu-text">Dashboard</span> </a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="<%= base_url %>/tenant/leases" class="menu-link dynamic-link"> <span class="menu-text">Rented Units/Houses</span> </a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="<%= base_url %>/tenant/favourites" class="menu-link dynamic-link"> <span class="menu-text">My Favourites</span> </a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="<%= base_url %>/tenant/listings" class="menu-link dynamic-link"> <span class="menu-text">Listings</span> </a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="<%= base_url %>/tenant/work-orders" class="menu-link dynamic-link"> <span class="menu-text">Work Orders</span> </a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="<%= base_url %>/tenant/vacating-notices" class="menu-link dynamic-link"> <span class="menu-text">Vacating Notices</span> </a>
+							</li>
+						</ul>
+					</li>			
+				<%}%>
 
 				<li class="menu-title">Support</li>
 				<li>

@@ -492,7 +492,7 @@
         $.ajax({
             type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-            url: "<%=base_url%>/agent/properties/new-tenant",
+            url: "<%=base_url%>/agent/properties/tenants/new",
             data: data,
             success: function(data) {
                 makeBusy('#frm_new_tenant', 0);

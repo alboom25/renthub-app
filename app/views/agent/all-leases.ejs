@@ -20,14 +20,14 @@
 													<p class="card-title-desc">Manage property leases</p>
 												</div>
 												<div class="col-lg-5 text-right" style="margin: auto;">														
-													<a href="<%= base_url %>/agent/properties/new-lease" class="btn btn-info small-block px-4 mt-2 mb-2 dynamic-link">+ Add New Lease</a> 
+													<a href="<%= base_url %>/agent/properties/leases/new?property=<%= property.property_code %>" class="btn btn-info small-block px-4 mt-2 mb-2 dynamic-link">+ Add New Lease</a> 
 												</div>
 											</div>
 											<div class="row">
 												<div class='col-12'>
 													<hr>
 													<div class="table-responsive">
-														<table id='tbl_units' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+														<table id='tbl_leases' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
 															<thead>
 																<tr>		
 																	<th>Unit</th>															
@@ -157,7 +157,13 @@
 
 
 $(document).ready(function() {
-	$("#tbl_units").SetEditable({
+	$("#tbl_other_bills").SetEditable({
+		autoDelete: false,
+		columnsEd: "0, 1",	
+		$addButton: $("#add_other_bill"),
+	});
+
+	$("#tbl_leases").SetEditable({
 		columnsEd: "1",
 		onEdit: function(columnsEd) {
 			rowEdited(columnsEd);
@@ -167,7 +173,7 @@ $(document).ready(function() {
 		},
 	});
 
-	$("#tbl_units").DataTable({
+	$("#tbl_leases").DataTable({
 		responsive: !0,
 		searchDelay: 500,
 		processing: !0,
@@ -230,6 +236,8 @@ $(document).ready(function() {
 	
 });
 
+
+
 function actionData(data) {
 	var btns = '<a class="dropdown-item" href="javascript:void(0)" onclick=\'previewTenancy("' + data.lease_id + '")\'>Preview Tenancy</a>';
    if(data.is_active){
@@ -242,7 +250,7 @@ function actionData(data) {
 function rowDeleted(columnsEd) {
 	var ind = columnsEd[0]._DT_RowIndex;
 	var unit_label = columnsEd[0].childNodes[1].innerHTML;
-	var data = $("#tbl_units").DataTable().row(ind).data();
+	var data = $("#tbl_leases").DataTable().row(ind).data();
 	var dt = {unit_code: data.unit_code};
 	$.ajax({
 		type: "POST",
@@ -251,10 +259,10 @@ function rowDeleted(columnsEd) {
 		headers: {
 			'CSRF-Token': csrf_token
 		},
-		url: "<%= base_url %>/manage/units/delete",
+		url: "<%= base_url %>/agent/properties/units/delete",
 		data: dt,
 		success: function(data) {
-			$("#tbl_units").DataTable().ajax.reload();
+			$("#tbl_leases").DataTable().ajax.reload();
 			if(data.Status == 200) {
 				showAppNotification("success", data.Message);
 			} else {
@@ -263,7 +271,7 @@ function rowDeleted(columnsEd) {
 		},
 		error: function(err) {
 			showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
-			$("#tbl_units").DataTable().ajax.reload();
+			$("#tbl_leases").DataTable().ajax.reload();
 		},
 	});
 
@@ -272,7 +280,7 @@ function rowDeleted(columnsEd) {
 function rowEdited(columnsEd) {
 	var ind = columnsEd[0]._DT_RowIndex;
 	var unit_label = columnsEd[0].childNodes[1].innerHTML;
-	var data = $("#tbl_units").DataTable().row(ind).data();	
+	var data = $("#tbl_leases").DataTable().row(ind).data();	
 	$.ajax({
 		type: "POST",
         async: true, 
@@ -280,17 +288,17 @@ function rowEdited(columnsEd) {
 		headers: {
 			'CSRF-Token': csrf_token
 		},
-		url: "<%= base_url %>/manage/units/update-label",
+		url: "<%= base_url %>/agent/properties/units/update-label",
 		data: {unit_code: data.unit_code, unit_label:unit_label},
 		success: function(data) {
 			if(data.Status != 200) {
 				showAppNotification("warning", data.Message);
-				$("#tbl_units").DataTable().ajax.reload();
+				$("#tbl_leases").DataTable().ajax.reload();
 			}
 		},
 		error: function(err) {
 			showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
-			$("#tbl_units").DataTable().ajax.reload();
+			$("#tbl_leases").DataTable().ajax.reload();
 		},
 	});
 }
@@ -303,8 +311,8 @@ function terminateTenancy(id){
       $.ajax({
         type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-        url: "<%= base_url %>/manage/leases/get-single",
-        data: {id:id},        
+        url: "<%= base_url %>/agent/properties/leases/get-single?property=<%= property.property_code %>",
+        data: {id:id, property:'<%= property.property_code%>'},        
         success: function(data) {         
           if (data.Status == 200) {			
              var data = data.Message;
@@ -345,18 +353,18 @@ function terminateTenancy(id){
       });
    }
 
-   function proceedTermination(){
+function proceedTermination(){
       var form_data = $('#frm_terminate_tenancy').serialize(); 
       $("#mdl_terminate_tenancy").modal('hide');
       $.ajax({
         type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-        url: "<%= base_url %>/manage/leases/terminate",
+        url: "<%= base_url %>/agent/properties/leases/terminate?property=<%= property.property_code %>",
         data: form_data,        
         success: function(data) {         
           if (data.Status == 200) {
              showAppNotification("success", data.Message);
-             $("#tbl_units").DataTable().ajax.reload();
+             $("#tbl_leases").DataTable().ajax.reload();
              getPendingTerminations();
           } else {
             $("#mdl_terminate_tenancy").modal('show');
@@ -370,14 +378,14 @@ function terminateTenancy(id){
       });
    }
 	
-   function previewTenancy(id){
+function previewTenancy(id){
       $("#preview_tenancy_body").html(loading_div);
       $("#mdl_preview_tenancy").modal("show");
       $.ajax({
         type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-        url: "<%= base_url %>/manage/leases/get-single",
-        data: {id:id},        
+        url: "<%= base_url %>/agent/properties/leases/get-single",
+        data: {id:id, property:'<%= property.property_code%>'},        
         success: function(data) {         
           if (data.Status == 200) {
              var resp = leaseData(data.Message);
@@ -394,14 +402,14 @@ function terminateTenancy(id){
       });
    }
 
-   function leaseData(data){    
+function leaseData(data){    
       var str= '<div class="row"> <div class="col-12"> <div class="table-responsive"> <table class="table table-hover border mb-0"> <tbody> <tr> <th scope="row">Unit/Room:</th> <td>'+ data.unit_name +', '+ floorToLabel(data.floor) +'</td> </tr> <tr> <th scope="row">Lease Date:</th> <td>'+ data.lease_date +'</td> </tr><tr> <th scope="row">Expiry Date:</th> <td>';
          if(data.expiry_date ==null){
             str+="<span class='badge badge-success'>Active</span>";
          }else{
             str +=data.expiry_date;
          }
-         str +='</td> </tr> <tr> <th scope="row">Tenant Name:</th> <td><a class="dynamic-link text-info" href="<%= base_url %>/manage/tenants/view/'+ data.tenant_id+'">'+ data.tenant_name +'</a></td> </tr> <tr> <th scope="row">Leased By:</th> <td>'+ data.leased_by +'</td> </tr> <tr> <th scope="row">Monthly Rent:</th> <td>'+ formatMoney(data.monthly_rent) +'</td> </tr> <tr> <th scope="row">Deposits</th> <td> <table class="table table-sm table-borderless mb-0"> <tbody>';
+         str +='</td> </tr> <tr> <th scope="row">Tenant Name:</th> <td><a class="dynamic-link text-info" href="<%= base_url %>/agent/properties/tenants/view/'+ data.tenant_id+'?property=<%= property.property_code%>">'+ data.tenant_name +'</a></td> </tr> <tr> <th scope="row">Leased By:</th> <td>'+ data.leased_by +'</td> </tr> <tr> <th scope="row">Monthly Rent:</th> <td>'+ formatMoney(data.monthly_rent) +'</td> </tr> <tr> <th scope="row">Deposits</th> <td> <table class="table table-sm table-borderless mb-0"> <tbody>';
       var deps = JSON.parse(data.deposists);
       var deps_str ='';
       for(var i = 0; i < deps.length; i++) {
@@ -432,9 +440,9 @@ function terminateTenancy(id){
       return str;
    }
 
-   function downloadLeaseFile(filename){     
+function downloadLeaseFile(filename){     
     showAppNotification("info", "Your request has been generated. This can take few seconds.");
-    fetch("<%= base_url %>/manage/leases/lease-file/"+filename)
+    fetch("<%= base_url %>/agent/properties/leases/lease-file/"+filename)
          .then(resp => resp.blob())
          .then(blob => { 
             if(blob.type=="text/html; charset=utf-8" || blob.type=="text/html" || blob.type==""){
@@ -456,12 +464,13 @@ function terminateTenancy(id){
             showAppNotification("warning", "Unable to generate file. Please try again!");
         });
    }
-   function editTenancy(id){
+   
+function editTenancy(id){
       $.ajax({
         type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-        url: "<%= base_url %>/manage/leases/get-single",
-        data: {id:id},        
+        url: "<%= base_url %>/agent/properties/leases/get-single",
+        data: {id:id,property:'<%= property.property_code%>'},        
         success: function(data) {         
           if (data.Status == 200) {
            var data = data.Message;
@@ -496,7 +505,7 @@ function terminateTenancy(id){
       });
    }
 
-   function initDates(current_date) {
+function initDates(current_date) {
 	var y = 31;
 	var x = 0;
 	var options = [];
@@ -511,7 +520,34 @@ function terminateTenancy(id){
 	$("#payment_date").html(options.join(""));
 }
 
-			
+function saveLeaseEdits(){
+   $("#mdl_edit_lease").modal('hide');
+   var bills = $("#tbl_other_bills").tableToJSON({
+		columns: new Array(0, 1),
+	});
+   $("#unit_fixed_bills").val(JSON.stringify(bills));
+   var form_data = $("#frm_edit_lease").serialize();
+   $.ajax({
+        type: "POST",
+        async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+        url: "<%= base_url %>/agent/properties/leases/edit",
+        data: form_data,        
+        success: function(data) {         
+          if (data.Status == 200) {
+             showAppNotification("success", data.Message);
+             $("#tbl_leases").DataTable().ajax.reload();            
+          } else {
+            $("#mdl_edit_lease").modal('show');
+            showAppNotification('warning', data.Message);          
+          }
+        },
+        error: function(err) {       
+         $("#mdl_edit_lease").modal('show'); 
+          showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+        }
+      });
+   }
+    			
 				
 				</script>
 	<% if(!load_chunk){%> </body></html> <%}%>

@@ -126,9 +126,10 @@
                   <a class="dropdown-item" id='user-chats-link' href="javascript:void(0)"><i class="bx bx-chat font-size-16 align-middle mr-1"></i> <span >Chats</span></a>
 
                   <a class="dropdown-item" id='user-profile-link' href="javascript:void(0)"><i class="bx bx-user font-size-16 align-middle mr-1"></i> <span >My Profile</span></a>
+                  <% if(user_profile.password_set){%>
+                     <button type="button" class="dropdown-item" onclick="lockUserSession()" ><i class="bx bx-lock-alt font-size-16 align-middle mr-1"></i> <span >Lock Screen</span></button>	
+                  <%}%> 
                   
-                  <button type="button" class="dropdown-item" onclick="lockUserSession()" ><i class="bx bx-lock-alt font-size-16 align-middle mr-1"></i> <span >Lock Screen</span></button>	
-
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item text-danger" href="<%= base_url %>/auth/logout"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span>Logout</span></a>
                </div>

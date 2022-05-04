@@ -67,7 +67,7 @@ module.exports.checkProperty = async function(req, res, next) {
 }
 
 module.exports.checkAgency = async function(req, res, next) {  
-    let is_agent = await Users.isAgent(req.user_profile.email_address);
+    let is_agent = await Users.isAgent(req.user_profile.email_address);    
     if(is_agent){
         next();
     }else{
@@ -78,6 +78,22 @@ module.exports.checkAgency = async function(req, res, next) {
             });
         }else{
             res.errorEnd("No property found. You are not assigned any property currently!");
+        }
+    }  
+}
+
+module.exports.checkTenancy = async function(req, res, next) { 
+    let is_tenant = await Users.isTenant(req.user_profile.email_address);    
+    if(is_tenant){
+        next();
+    }else{
+        if(req.method =='GET'){
+            res.renderEjs(req, "tenant-account/no-tenancy", {
+                page_title: "No Tenancy",   
+                sub_header: "No active tenancy assigned to your account",              
+            });
+        }else{
+            res.errorEnd("No tenancy found. You account is not associated with any tenancy currently!");
         }
     }  
 }

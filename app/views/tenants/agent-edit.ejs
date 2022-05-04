@@ -222,7 +222,7 @@
         $.ajax({
             type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-            url: "<%= base_url %>/agent/properties/update-tenant",
+            url: "<%= base_url %>/agent/properties/tenants/update",
             data: data,
             success: function(data) {
                 $('#btn_save_tenant').html('Update Changes');

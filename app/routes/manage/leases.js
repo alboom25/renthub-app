@@ -251,7 +251,6 @@ router.post('/new', async function (req, res) {
     }
 });
 
-
 router.post('/terminate', async function (req, res) {
     if (req.body.lease_id && req.body.termination_date) {
 

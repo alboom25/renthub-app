@@ -20,7 +20,7 @@
 													<p class="card-title-desc">Manage units/houses/rooms associated with this property</p>
 												</div>
 												<div class="col-lg-5 text-right" style="margin: auto;">														
-													<a href="<%= base_url %>/agent/properties/new-unit?property=<%=property.property_code%>" class="btn btn-info small-block px-4 mt-2 mb-2 dynamic-link">+ Add New Unit</a> 
+													<a href="<%= base_url %>/agent/properties/units/new?property=<%=property.property_code%>" class="btn btn-info small-block px-4 mt-2 mb-2 dynamic-link">+ Add New Unit</a> 
 												</div>
 											</div>
 											<div class="row">
@@ -196,7 +196,7 @@ $(document).ready(function() {
 				if(data.occupied) {
 					
 					<% if (property.manage_tenants){ %>
-						return "<a class='dynamic-link text-info' href='<%= base_url %>/agent/tenants/view/"+ data.tenant_id +"'>"+ data.tenant_name +"</a>";	
+						return `<a class='dynamic-link text-info' href='<%= base_url %>/agent/properties/tenants/view/${data.tenant_id}?property=<%= property.property_code%>'>${data.tenant_name}</a>`;	
 					<% }else{ %>
 						return  data.tenant_name ;	
 					<% } %>
@@ -204,13 +204,13 @@ $(document).ready(function() {
 					let msg =  '';
 
 					<% if(property.manage_leases){ %>
-						msg +=`<a class="btn btn-primary btn-sm dynamic-link mt-0" href="<%= base_url %>/agent/properties/new-lease?unit_code=${data.unit_code}">Add Lease</a>`;
+						msg +=`<a class="btn btn-primary btn-sm dynamic-link mt-0" href="<%= base_url %>/agent/properties/leases/new?property=<%= property.property_code %>&unit_code=${data.unit_code}">Add Lease</a>`;
 					<% } %>
 
 					if(data.ad_id){
 						msg += `<button type='button' class="btn btn-info btn-sm ml-2 mt-0" onclick="previewAd('${data.ad_id}')">Preview Advert</button>`;
 					}else{
-						msg += `<a class="btn btn-warning btn-sm dynamic-link ml-2 mt-0" href="<%= base_url %>/agent/units/advertise/${data.unit_code}">Adversise</a>`;
+						msg += `<a class="btn btn-warning btn-sm dynamic-link ml-2 mt-0" href="<%= base_url %>/agent/properties/units/advertise/${data.unit_code}">Adversise</a>`;
 					}				
 						
 					return msg;				
@@ -255,12 +255,12 @@ function previewAd(id){
 	  $.ajax({
         type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-        url: "<%= base_url %>/agent/units/advert-info",
+        url: "<%= base_url %>/agent/properties/units/advert-info",
         data: {id:id},        
         success: function(data) {         
           if (data.Status == 200) {			
              var data = data.Message;
-            $("#mdl_preview_advert .modal-footer").html(`<a href="<%= public_url%>/vacant-houses/${data.ad_id}" target="_blank" class="btn btn-info" ">View as Public</a><a href="<%= base_url %>/agent/units/advertise/${data.unit_code}" class="btn btn-warning dynamic-link" ">Edit Advert</a><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>`);
+            $("#mdl_preview_advert .modal-footer").html(`<a href="<%= public_url%>/vacant-houses/${data.ad_id}" target="_blank" class="btn btn-info" ">View as Public</a><a href="<%= base_url %>/agent/properties/units/advertise/${data.unit_code}" class="btn btn-warning dynamic-link" ">Edit Advert</a><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>`);
 
             $("#mdl_preview_advert .modal-title").html(`Preview Advert ( ${data.unit_name} - ${floorToLabel(data.floor)})`);
           
@@ -295,15 +295,15 @@ function actionData(data) {
 
 	} else {		
 		<% if(property.manage_leases){ %>
-			add_lease = `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/leases/new?unit_code=${data.unit_code}">Add Lease</a>`;
+			add_lease = `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/leases/new?property=<%= property.property_code %>&unit_code=${data.unit_code}">Add Lease</a>`;
 		<% } %>
 		if(data.ad_id){
 			add_lease += `<button type='button' class="dropdown-item"onclick="previewAd('${data.ad_id}')">Preview Advert</button>`;			
 		}else{
-			add_lease += `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/units/advertise/${data.unit_code}">Advertise</a>`;
+			add_lease += `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/units/advertise/${data.unit_code}">Advertise</a>`;
 		}		
 	}
-	var btns = add_lease + `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/edit-unit/${data.unit_code}?property=<%=property.property_code%>">Edit Unit - ${data.unit_name}'</a><a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/unit-info/${data.unit_code}?property=<%=property.property_code%>" >Detailed Information</a><button class="border-top border-bottom dropdown-item text-primary" href="#" onclick="cloneUnit('${data.unit_code}', '${data.unit_name}')" >Clone Unit</button>`;
+	var btns = add_lease + `<a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/properties/units/edit/${data.unit_code}?property=<%=property.property_code%>">Edit Unit - ${data.unit_name}'</a><a class="dropdown-item dynamic-link" href="<%= base_url %>/agent/properties/units/info/${data.unit_code}?property=<%=property.property_code%>" >Detailed Information</a><button class="border-top border-bottom dropdown-item text-primary" href="#" onclick="cloneUnit('${data.unit_code}', '${data.unit_name}')" >Clone Unit</button>`;
 	return row_begin + btns + edit_links + row_end;
 }
 
@@ -319,7 +319,7 @@ function rowDeleted(columnsEd) {
 		headers: {
 			'CSRF-Token': csrf_token
 		},
-		url: "<%= base_url %>/agent/properties/delete-unit",
+		url: "<%= base_url %>/agent/properties/units/delete",
 		data: dt,
 		success: function(data) {
 			$("#tbl_units").DataTable().ajax.reload();
@@ -348,7 +348,7 @@ function rowEdited(columnsEd) {
 		headers: {
 			'CSRF-Token': csrf_token
 		},
-		url: "<%= base_url %>/agent/properties/update-unit-label",
+		url: "<%= base_url %>/agent/properties/units/update-label",
 		data: {unit_code: data.unit_code, unit_label:unit_label, property:'<%=property.property_code %>'},
 		success: function(data) {
 			if(data.Status != 200) {
@@ -371,7 +371,7 @@ function terminateTenancy(id){
       $.ajax({
         type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-        url: "<%= base_url %>/agent/leases/get-single",
+        url: "<%= base_url %>/agent/properties/leases/get-single",
         data: {id:id},        
         success: function(data) {         
           if (data.Status == 200) {			
@@ -419,7 +419,7 @@ function proceedTermination(){
       $.ajax({
         type: "POST",
         async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-        url: "<%= base_url %>/agent/leases/terminate",
+        url: "<%= base_url %>/agent/properties/leases/terminate",
         data: form_data,        
         success: function(data) {         
           if (data.Status == 200) {
@@ -454,7 +454,7 @@ function proceedTermination(){
                   type: "POST",
                   async: true,  
                   credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-                  url: "<%= base_url %>/agent/properties/clone-unit",
+                  url: "<%= base_url %>/agent/properties/units/clone",
                   data: data,
                   success: function(data) {  
 					makeBusy('#mdl_clone_unit .modal-dialog', 0);  

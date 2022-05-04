@@ -34,17 +34,17 @@
         loadAllNotifications();
 
         $("#layout-wrapper").scroll(function(e){           
-        if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-            if(is_loading){return;}
-           var last_note =  $("#all-notification-body").children().last().children().find("a").attr("note-id");
-           is_loading = true;
-           $("#loading-more-notis").css("display", "block"); 
-           setTimeout(function() {
-            loadAllMoreNotifications(last_note);
-           }, 1000);
-            
-        }
-    });
+            if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                if(is_loading){return;}
+                var last_note =  $("#all-notification-body").children().last().children().find("a").attr("note-id");
+                is_loading = true;
+                $("#loading-more-notis").css("display", "block"); 
+                setTimeout(function() {
+                    loadAllMoreNotifications(last_note);
+                }, 1000);
+                
+            }
+        });
 
     });
     function loadAllNotifications() {

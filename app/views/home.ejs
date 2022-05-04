@@ -1,0 +1,32 @@
+<% if(!load_chunk){%> 
+    <%- include('./shared/page-header') %>
+    <%- include('./shared/top-page') %>
+    <div class="page-content">
+  <%}%>
+  <div style="height:calc(100vh - 160px)">
+    <div class='d-flex align-items-center justify-content-center'>
+        <div class="error-template " style='position: absolute; top: 50%; transform: translate(0, -50%);'>
+            <h1>Welcome to Rent Hub</h1>
+             <h5 class=''>This is the hub that connects property owners, managers and tenants.</h5>
+             <p>If you are a tenant, your rented unit(s) will appear here once your manager/landlord links your account.</p>
+             <p>If you are a property manager/agent, your assigned properties will appear here once your landlord links them to your account.</p>
+            <div class="error-details">
+                Are you a property owner/landlord? Click the button below to get started as a property owner/landlord.
+            </div>
+            <div class="error-actions">             
+                <button onclick="landlordPrompt(1, 1)" type="button" class="btn btn-success  mt-2 dynamic-link"> I am a property owner/landlord </button>
+            </div>
+        </div>      
+    </div>
+ </div>
+     
+                        
+                         <% if(!load_chunk){%> </div> <%- include('./shared/page-footer') %> <%- include('./shared/admin-scripts') %> <%}%>
+     
+       <script>
+           window.onload=function(){window.jQuery||window.location.reload()};
+       </script>
+                         <% if(!load_chunk){%> </body></html> <%}%>
+ 
+ 
+                         

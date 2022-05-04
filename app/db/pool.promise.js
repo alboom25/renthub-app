@@ -78,21 +78,21 @@ class Transaction{
     }
 
     async replace(table_name, data){    
-        let [res] = await db.query("REPLACE INTO " + table_name + " SET ?;", data);
+        let [res] = await this.query("REPLACE INTO " + table_name + " SET ?;", data);
        return res;
     }
 
-    async update(table_name, data, where_data){    
-        let sql = "UPDATE " + table_name +" SET " + Object.keys(data).join(' = ?, ') + " = ? WHERE " + Object.keys(where_data).join(' = ?') + " = ?";           
-        let temp = Object.values(data).concat(Object.values(where_data));           
-        let [res] = await db.query(sql, temp);   
+    async update(table_name, data, where_data){
+        let sql = "UPDATE " + table_name +" SET " + Object.keys(data).join(' = ?, ') + " = ? WHERE " + Object.keys(where_data).join(' = ?') + " = ?";                  
+        let temp = Object.values(data).concat(Object.values(where_data));            
+        let [res] = await this.query(sql, temp);   
         return res;
     }
 
     async delete(table_name, where_data){    
         let sql = "DELETE FROM " + table_name +" WHERE " + Object.keys(where_data).join(' = ? AND') + " = ?";           
         let temp = Object.values(where_data).concat(Object.values(where_data));           
-        let [res] = await db.query(sql, temp);  
+        let [res] = await this.query(sql, temp);  
         return res;
     }
 

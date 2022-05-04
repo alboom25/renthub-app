@@ -30,6 +30,7 @@ router.get("/login", function (req, res) {
         page_title: "Login",
         g_login_id:g_login_id,
         dest: req.query.dest,
+        referal_code: req.query.ref
     });
 });
 
@@ -260,7 +261,8 @@ router.post('/google-login', async function(req, res) {
                 password: tk.jti,
                 email_verified: tk.email_verified,
                 avatar_path: tk.picture,
-                password_set: 0
+                password_set: 0,
+                referal_code: req.body.referal_code.toUpperCase(),
             };
 
             let nuser = await new User();

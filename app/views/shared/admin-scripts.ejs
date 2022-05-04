@@ -183,7 +183,7 @@
 </div>
 
 <script src="<%= base_url %>/assets/js/jquery.min.js?v=010101"></script>
-<script src="<%= base_url %>/assets/js/bundle.js?id=125014684" defer></script>
+<script src="<%= base_url %>/assets/js/bundle.js?id=125014685" defer></script>
 
 <!-- <script src="<%= base_url %>/assets/js/socket.io.min" defer></script> -->
 <script>
@@ -215,9 +215,13 @@ var onLocalStorageEvent = function(e){
 };
 window.addEventListener('storage', onLocalStorageEvent, false);
 var idle_time = 0;
-var sessionTimer = setInterval(() => {
+var sessionTimer;
+<% if(user_profile.password_set){%>
+    sessionTimer = setInterval(() => {
     checkActivity();
 }, 1000);
+<%}%>
+
 var logoutTimer;
 var remainingSeconds;
 var last_note = 0;
@@ -772,16 +776,16 @@ $(document).ready(function () {
     }, 10000);
 
    
-    const spusher = io();
-    spusher.on("<%- user_profile.user_code%>", function (data) {
-        var time_now = new Date();
-        var seconds = (time_now.getTime() - last_notification_fetch_time.getTime()) / 1000;
-        if (seconds > 30) {
-            getUnreadNotifications();
-            refreshNotifications();
-        }   
-        showAppNotification(data.class, data.message);
-    });
+    // const spusher = io();
+    // spusher.on("<%- user_profile.user_code%>", function (data) {
+    //     var time_now = new Date();
+    //     var seconds = (time_now.getTime() - last_notification_fetch_time.getTime()) / 1000;
+    //     if (seconds > 30) {
+    //         getUnreadNotifications();
+    //         refreshNotifications();
+    //     }   
+    //     showAppNotification(data.class, data.message);
+    // });
     
     loadBoxIcons();
     getPendingTerminations();
@@ -1448,6 +1452,68 @@ function formatMoney(number) {
     
 return Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
 }
+
+function clearPaymentFile(){
+    $("#payment_receipt").val("");
+	initializePaymentFile($("#payment_receipt"));
+}
+
+
+function initializePaymentFile(target) {
+	if(target.files == null) {
+		$("#btn_payment_remove_file").css("display", "none");
+		$("#payment_file_display").html("");
+		return;
+	} else if(target.files.length == 0) {
+		$("#payment_file_display").html("");
+		$("#btn_payment_remove_file").css("visibility", "hidden");
+		return;
+	} else {
+		$("#btn_payment_remove_file").css("visibility", "visible");
+	}
+	var file = target.files[0];
+	if(file.type == "application/pdf") {
+		var fileReader = new FileReader();
+		fileReader.onload = function() {
+			var pdfData = new Uint8Array(this.result);
+			// Using DocumentInitParameters object to load binary data.
+			var loadingTask = pdfjsLib.getDocument({
+				data: pdfData,
+			});
+			loadingTask.promise.then(function(pdf) {
+				// Fetch the first page
+				var pageNumber = 1;
+				pdf.getPage(pageNumber).then(function(page) {
+					var scale = 1.5;
+					var viewport = page.getViewport({
+						scale: scale,
+					});
+					// Prepare canvas using PDF page dimensions
+					$("#payment_file_display").html("<canvas class='lease-document border shadow custom-image-2' id='pdfViewer'></canvas>");
+					var canvas = $("#pdfViewer")[0];
+					var context = canvas.getContext("2d");
+					canvas.height = viewport.height;
+					canvas.width = viewport.width;
+					// Render PDF page into canvas context
+					var renderContext = {
+						canvasContext: context,
+						viewport: viewport,
+					};
+					var renderTask = page.render(renderContext);
+					renderTask.promise.then(function() {});
+				});
+			}, function(reason) {
+				// PDF loading error
+			});
+		};
+		fileReader.readAsArrayBuffer(file);
+	} else if(file.type == "image/png" || file.type == "image/jpg" || file.type == "image/jpeg") {
+	
+		$("#payment_file_display").html("<img class='lease-document border shadow custom-image-2' id='imgViewer'/>");
+		document.getElementById("imgViewer").src = window.URL.createObjectURL(file);
+	}
+}
+
 
 function timeDifference(previous) {
     var current = new Date();

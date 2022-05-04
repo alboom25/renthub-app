@@ -366,7 +366,7 @@
                 $.ajax({
                      type: "POST",
                      async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
-                     url: "<%= base_url %>/agent/properties/new-unit",
+                     url: "<%= base_url %>/agent/properties/units/new",
                      data: data,
                      success: function(data) { 
                        $('#btn_save_unit').html('Add New Unit');

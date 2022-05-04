@@ -2,6 +2,7 @@ const sql = require('../db/db.queries');
 const DB = require('../db/main');
 const Table = require('../db/table.data');
 const uuid = require("uuid");
+const moment = require('moment');
 
 
 class Payment extends DB{
@@ -52,19 +53,21 @@ class MpesaPayments extends Table {
     }  
 
     static async get(TransID){
-        let res = sql.get('tbl_mpesa_payments', null, {TransID:TransID});
+        let res = await sql.get('tbl_mpesa_payments', null, {TransID:TransID});        
         return res.length ==1? res[0]: null;
     }
 
     static async utilize(TransID, invoice_id, user_code){
-        let pmt = sql.get('tbl_mpesa_payments', null, {TransID:TransID});
+        let pmt = await sql.get('tbl_mpesa_payments', null, {TransID:TransID});        
         if(pmt.length !=1) return 0;
+      
         pmt = pmt[0];
         if(pmt.UtilizerInvoice) return 0;
-
-        let inv =  await sql.get('vw_invoices', null,{'invoice_id':id, user_code:user_code}); 
-        if(inv.length !=1) return 0;       
-
+       
+        let inv =  await sql.get('vw_invoices', null,{'invoice_id':invoice_id, user_code:user_code}); 
+        if(inv.length !=1) return 0;  
+        inv = inv[0];     
+       
         var payment_obj = {
             payment_id: uuid.v4(),
             paid_amount: parseFloat(pmt.TransAmount),
@@ -90,6 +93,7 @@ class MpesaPayments extends Table {
             where_data:{TransID: TransID},
         };
         trans.push(c); 
+      
         
         if(inv.paid_amount + parseFloat(pmt.TransAmount) >= inv.invoice_amount ){
             var due_date = new Date();              
@@ -120,9 +124,8 @@ class MpesaPayments extends Table {
                 method:'INSERT',
             };
             trans.push(c);
-        }
-
-        let res = await db.transaction(trans);
+        }       
+        let res = await sql.transaction(trans);
         return res;           
 
     }
