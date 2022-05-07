@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
 const user = require("../models/users").User;
-const props = require("../models/properties").Properties;
 const property = require("../models/properties").Property;
 const units = require("../models/units").Units;
-const unit = require("../models/units").Unit;
+var sanitizer = require('sanitizer');
 
 const globals = require("../helpers/global.params");
 const path = require("path");
@@ -93,7 +91,7 @@ router.post("/units/submit-review", async (req, res)=>{
             let data = {
                 unit_code: req.body.unit_code,
                 user_rating: req.body.user_rating,
-                user_comments:req.body.user_comments,
+                user_comments:sanitizer.escape(req.body.user_comments),
                 verified_tenant: req.body.vt||0,
                 user_code:user_code
             };

@@ -23,6 +23,4 @@ router.post('/total', async function(req, res){
     res.successEnd(total)
 });
 
-
-
 module.exports = router;

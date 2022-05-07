@@ -193,6 +193,8 @@ return {browser:browser + ", ver: "+ browserVersion, os:matches};
                 table +=  `<tr style='border-bottom: 1px solid #dddddd;'><td style='padding: 2px 4px;'>` +row.join(`</td><td style='padding: 4px;'>`)+`</td></tr>`;  
             }
             table += `</tbody>`;
+        }else{
+            table +=`<div class="alert alert-warning">No data found for the reuest report<div>`;
         }
         table += `</table>`;       
         return table;

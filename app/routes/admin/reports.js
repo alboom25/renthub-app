@@ -4,8 +4,10 @@ const helpers = require("../../helpers/assorted.helpers");
 const app_helper = require("../../helpers/app.helpers");
 const globals = require("../../helpers/global.params");
 const reports = require("../../models/reports").AdminReports;
+const Properties = require("../../models/properties").Properties;
 const fs = require("fs");
 const path = require("path");
+const moment = require("moment");
 
 router.all('*', app_helper.checkProperty, function (req, res, next) {
 	next();
@@ -128,40 +130,165 @@ router.get('/download', async function (req, res){
     });
 });
 
-router.post('/display', async function (req, res){     
+router.post('/load', async function (req, res){     
     var temp_path = path.join(globals.views_dir, "templates", "report.html");   
     fs.readFile(temp_path, "utf8", async function(err, fd) {
         if (err) {
             res.successEnd(`<div class="alert alert-warning">Cannot generate report view. Please try again later</div>`);
-        } else {
+        } else {            
             var report_template = fd.toString();   
-            let report_from = 'N/A'  
-            let report_to = 'N/A'       
-            var replacer = new RegExp( "<%report_from%>", "g");
+            let report_from = 'N/A';
+            let report_to = 'N/A' ;     
+            var prop_name = await Properties.name(req.session.property_code);
+          
+                    
+           
+            let report_table;
+            let report_name;
+
+            switch(req.body.report_id){
+                case '10':
+                    var tenants = await reports.tenants(req.session.property_code);            
+                    report_table = helpers.jsonToTable(tenants);      
+                    report_name = 'All Tenants' 
+                    break; 
+                case '11':         
+                    var tenants = await reports.active_tenants(req.session.property_code);            
+                    report_table = helpers.jsonToTable(tenants);      
+                    report_name = 'Active Tenants'  
+                break;
+                case '20':
+                    var all_units = await reports.all_units(req.session.property_code);            
+                    report_table = helpers.jsonToTable(all_units);      
+                    report_name = 'All Units'  
+                break;
+                case '21':
+                    var occupied_units = await reports.occupied_units(req.session.property_code);            
+                    report_table = helpers.jsonToTable(occupied_units);      
+                    report_name = 'Occupied Units'  
+                break;
+                case '22':
+                    var unoccupied_units = await reports.unoccupied_units(req.session.property_code);            
+                    report_table = helpers.jsonToTable(unoccupied_units);      
+                    report_name = 'Unoccupied Units' 
+                break;
+                case '30':
+                    var active_leases = await reports.active_leases(req.session.property_code);            
+                    report_table = helpers.jsonToTable(active_leases);      
+                    report_name = 'Active Leases' 
+                break;
+                case '31':                   
+                    var t_range = req.body.daterange.split('-');
+                    var date_from = moment(t_range[0], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    var date_to = moment(t_range[1], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    report_from = moment(t_range[0], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    report_to = moment(t_range[1], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    var expired_leases = await reports.expired_leases(req.session.property_code,date_from,date_to);            
+                    report_table = helpers.jsonToTable(expired_leases);      
+                    report_name = 'Expired Leases' 
+                break;
+                case '40':
+                    var meter_readings = await reports.meter_readings(req.session.property_code);            
+                    report_table = helpers.jsonToTable(meter_readings);      
+                    report_name = 'Meter Readings' 
+                break;
+                case '50':                   
+                    var t_range = req.body.daterange.split('-');
+                    var date_from = moment(t_range[0], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    var date_to = moment(t_range[1], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    report_from = moment(t_range[0], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    report_to = moment(t_range[1], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    var work_orders = await reports.work_orders(req.session.property_code,date_from,date_to);            
+                    report_table = helpers.jsonToTable(work_orders);      
+                    report_name = 'All Work Orders' 
+                break;
+                case '60':
+                    prop_name = 'ALL';
+                    var all_suppliers = await reports.all_suppliers(req.session.user_code);            
+                    report_table = helpers.jsonToTable(all_suppliers);      
+                    report_name = 'All Suppliers/Vendors' 
+                break;
+                case '70':
+                    prop_name = 'ALL';
+                    var accounts_list = await reports.accounts_list(req.session.user_code);            
+                    report_table = helpers.jsonToTable(accounts_list);      
+                    report_name = 'Accounts List' 
+                break;
+                case '71':       
+                    var t_range = req.body.daterange.split('-');
+                    var date_from = moment(t_range[0], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    var date_to = moment(t_range[1], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    report_from = moment(t_range[0], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    report_to = moment(t_range[1], 'MM/DD/YYYY').format('DD-MM-YYYY');            
+                    var expenses_list = await reports.expenses_list(req.session.property_code,date_from,date_to);            
+                    report_table = helpers.jsonToTable(expenses_list);      
+                    report_name = 'Expenses' 
+                break;
+                case '72':       
+                    var t_range = req.body.daterange.split('-');
+                    var date_from = moment(t_range[0], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    var date_to = moment(t_range[1], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    report_from = moment(t_range[0], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    report_to = moment(t_range[1], 'MM/DD/YYYY').format('DD-MM-YYYY');            
+                    var tenant_invoices = await reports.tenant_invoices(req.session.property_code,date_from,date_to);            
+                    report_table = helpers.jsonToTable(tenant_invoices);      
+                    report_name = 'Tenant Invoices' 
+                break;
+                    case '73':       
+                    var t_range = req.body.daterange.split('-');
+                    var date_from = moment(t_range[0], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    var date_to = moment(t_range[1], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    report_from = moment(t_range[0], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    report_to = moment(t_range[1], 'MM/DD/YYYY').format('DD-MM-YYYY');            
+                    var tenant_payments = await reports.tenant_payments(req.session.property_code,date_from,date_to);            
+                    report_table = helpers.jsonToTable(tenant_payments);      
+                    report_name = 'Tenant Payments' ;
+                break;               
+                case '74':       
+                    var t_range = req.body.daterange.split('-');
+                    var date_from = moment(t_range[0], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    var date_to = moment(t_range[1], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    report_from = moment(t_range[0], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    report_to = moment(t_range[1], 'MM/DD/YYYY').format('DD-MM-YYYY');            
+                    var supplier_invoices = await reports.supplier_invoices(req.session.property_code,date_from,date_to);            
+                    report_table = helpers.jsonToTable(supplier_invoices);      
+                    report_name = 'Supplier Invoices' ;
+                break;
+                case '75':       
+                    var t_range = req.body.daterange.split('-');
+                    var date_from = moment(t_range[0], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    var date_to = moment(t_range[1], 'MM/DD/YYYY').format('YYYY-MM-DD');
+                    report_from = moment(t_range[0], 'MM/DD/YYYY').format('DD-MM-YYYY');
+                    report_to = moment(t_range[1], 'MM/DD/YYYY').format('DD-MM-YYYY');            
+                    var supplier_payments = await reports.supplier_payments(req.session.property_code,date_from,date_to);            
+                    report_table = helpers.jsonToTable(supplier_payments);      
+                    report_name = 'Supplier Payments' ;
+                break;
+            }
+
+            var replacer = new RegExp("<%property_name%>", "g");
+            report_template = report_template.replace(replacer, prop_name);  
+
+            replacer = new RegExp( "<%report_from%>", "g");
             report_template = report_template.replace(replacer, report_from);
            
             replacer = new RegExp("<%report_to%>", "g");
             report_template = report_template.replace(replacer, report_to);
-          
-            replacer = new RegExp("<%property_name%>", "g");
-            report_template = report_template.replace(replacer, );            
-           
-            let report_table;
-            let report_name;
-            switch(req.body.report_id){
-                case '10':
-                    let tenants = await reports.tenants(req.session.property_code);            
-                    report_table = helpers.jsonToTable(tenants);      
-                    report_name = 'All Tenants'             
-                    
-            }
 
             replacer = new RegExp("<%report_name%>", "g");
             report_template = report_template.replace(replacer, report_name);
-
+           
             replacer = new RegExp("<%report_table%>", "g");
-            report_template = report_template.replace(replacer, report_table);
-            res.successEnd(report_template);
+            report_template = report_template.replace(replacer, report_table);           
+
+            let download = req.query.action || '';
+            if (download =='download') {                
+                let file_name = report_name;
+                file_name.replace(' ', '_');
+                res.downloadPDF(report_template, file_name);
+            }else {
+                res.successEnd(report_template);
+            }
         }
     });  
    

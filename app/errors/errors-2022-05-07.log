@@ -1,0 +1,38 @@
+07-05-2022 03:45:36 pm:
+ ForbiddenError: invalid csrf token
+    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:112:19)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+undefined
+====================================================
+07-05-2022 03:45:36 pm:
+ ForbiddenError: invalid csrf token
+    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:112:19)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+undefined
+====================================================
+07-05-2022 03:50:04 pm:
+ TypeError [ERR_INVALID_ARG_VALUE]: The argument 'path' must be a string or Uint8Array without null bytes. Received <Buffer 25 50 44 46 2d 31 2e 34 0a 25 d3 eb e9 e1 0a 31 20 30 20 6f 62 6a 0a 3c 3c 2f 43 72 65 61 74 6f 72 20 28 43 68 72 6f 6d ...
+    at Object.open (fs.js:443:10)
+    at _openWriteFs (internal/fs/streams.js:370:15)
+    at new WriteStream (internal/fs/streams.js:343:5)
+    at Object.createWriteStream (fs.js:2008:10)
+    at ServerResponse.downloadPDF (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\helpers\output.helper.js:146:12)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+undefined
+====================================================

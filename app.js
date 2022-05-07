@@ -118,8 +118,6 @@ app.use(fileUpload({
 
 //app.use("/8ckqrhxjopiy7z1w", require("./app/routes/pesa"));
 
-
-
 app.use("/public", require("./app/routes/public"));
 
 

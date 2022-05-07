@@ -2295,11 +2295,6 @@ input[switch="dark"]:checked + label {
   outline-offset: -2px;
   outline: 0;
 }
-.table-rep-plugin .checkbox-row input[type="checkbox"]:checked + label::after {
-  content: "\f00c";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-}
 .table-rep-plugin
   .checkbox-row
   input[type="checkbox"]:disabled
@@ -4186,4 +4181,82 @@ z-index: 100;
 .dataTables_processing{
 background-color: rgba(60, 60, 60, 0.7);
 color: #fff;
+}
+
+.fs-listings, .listings-container {
+  position: relative;
+  z-index: 9;
+}
+.list-layout .property-listing.property-1 .listing-detail-wrapper {
+  padding: 1rem 1rem 0.5rem;
+}
+.list-layout .property-listing.property-1{
+  display: flex;
+  margin: 0 0 30px 0;
+}
+.list-layout .price-features-wrapper {
+  padding: 0.1rem 1rem 0.6rem;
+}
+.prt-types{
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  margin-top: 5px;
+  border-radius: 50px;
+  background: #efefef;
+  display: inline-block;
+}
+.list-layout .listing-detail-btn .more-btn {
+  border-radius: 50px !important;
+  padding: 6px 17px !important;
+}
+.prt-types.sale {
+  background:rgba(247,68,0,0.1);
+color:#f74400;
+}
+.prt-types.rent {
+  background:rgba(136,102,218,0.1);
+color:#8866da;
+}
+.listing-locate {
+  flex: 1;
+}
+.list-layout .property-listing.property-1 .listing-img-wrapper{
+  height: 0;
+  min-height:210px;
+  flex: 2;
+  overflow: hidden;
+  border-radius: 3px 0 0 3px;
+}
+.list-layout .property-listing.property-1 .listing-img-wrapper a{
+  min-height:210px;
+}
+.list-layout .property-listing.property-1 .listing-name {
+  font-size: 16px;
+  margin-bottom: 0px;
+  line-height: 1.4;
+}
+.list-layout .property-listing.property-1 .listing-img-wrapper img {
+  height: 210px;
+  object-fit: cover;
+}
+.list-layout .property-listing.property-1 .listing-img-wrapper>a:before {
+  background:transparent;
+}
+.list-layout .property-listing.property-1 .listing-content{
+  flex: 3;
+position:relative;
+}
+.list-layout .property-listing.property-1 .listing-footer-wrapper {
+  padding: 0.9rem 1rem;
+  border-top: 1px solid #e5e9ec;
+  width: 100%;
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  right: 0;
+  left: 0;
 }

@@ -2,6 +2,7 @@
 	</head>
 
 	<body class="accounts-body">
+		<script src="https://accounts.google.com/gsi/client" async defer></script>
 		<div class="account-pages my-5 pt-sm-5">
 			<div class="container">
 				<div class="row justify-content-center">
@@ -64,9 +65,17 @@
 								</div>								
 								<div class="mt-3 text-center">
 									<div>
-										<p>Already have an account ? <a href="<%= base_url %>/auth/login" class="font-weight-medium text-info"> Go to Login</a> 
+										<p>Already have an account ? <a href="<%= base_url %>/auth/register" class="font-weight-medium text-info"> Go to register</a> 
 										</p>
 									</div>
+									<h6>-OR-</h6>
+									<div id="g_id_onload"
+										data-client_id="<%=g_login_id %>"
+										data-callback="googleSignIn"
+										data-auto_select="true">
+									</div>
+
+									<div class="g_id_signin " data-type="standard"></div>
 								</div>
 							</div>
 						</div>
@@ -165,7 +174,7 @@
 								   confirmButtonClass: 'btn btn-success btn-swal',
 								   
 							   },(passed)=>{
-								   window.location.replace('/auth/login');
+								   window.location.replace('/auth/register');
 							   });
 						   } else {
 							   showFailedMessage(data.Message);
@@ -176,7 +185,46 @@
 					   }
 				   });
 			   }
-	   $(document).ready(function() {
+	  
+			   let dest = getDestination();		
+
+		function googleSignIn(scope){
+			$.ajax({
+				type: "POST",
+        		async: true, 
+				credentials: 'same-origin',
+				headers: {
+					'CSRF-Token': csrf_token
+				},
+				url: "<%= base_url %>/auth/google-login",
+				data: {token:scope.credential, dest:dest, referal_code:'<%= referal_code %>'},
+				success: function(e) {
+					if(200 == e.Status) {
+						$("#register-button").removeClass("btn-info");
+						$("#register-button").addClass("btn-success");
+						$("#register-button").html("Redirecting..");
+						window.location.replace(e.Message)				
+					} else {
+						showFailedMessage(e.Message)
+					}
+				},
+				error: function(e) {
+					showFailedMessage("An error has occurred. Please try again later")
+				}
+			});
+		}
+
+		function getDestination() {
+			let name = 'r';
+			name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+			var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+			var results = regex.exec(location.search);
+			return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+		};
+				
+		
+		
+			   $(document).ready(function() {
 		   
 			$("#user-registration-form").validate({
 				   rules: {

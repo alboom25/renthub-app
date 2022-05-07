@@ -36,6 +36,8 @@ router.get("/login", function (req, res) {
 
 router.get("/register", function (req, res) {
     res.renderEjs(req, "auth/register", {        
+        g_login_id:g_login_id,
+        dest: req.query.dest,
         referal_code: req.query.ref,        
         page_title: "Register",
     });
@@ -425,13 +427,13 @@ function sendPasswordResetEmail(req, email_address, reset_key) {
     });
 }
 
-async function authenticate(req, res, next) {  	
-    if(req.session.logged_in) {      
+async function authenticate(req, res, next) { 
+    if(req.session.logged_in) {    
         if(req.method === "GET") {
             res.redirect("/");
         } else {
-            res.errorEnd("Action not allowed!");
-        }
+            res.errorEnd("Action not allowed. Already logged in");
+        }          
 	} else {         
         next();	
 	}

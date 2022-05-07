@@ -330,7 +330,7 @@
   </div>
   <!-- add payment modal -->
   <div id="mdl_add_payment" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
        <!-- Modal content-->
        <div class="modal-content">
           <div class="modal-header">
@@ -340,31 +340,31 @@
              </button>
           </div>
           <form id="frm_add_payment" method='post' action ='#'>
-             <div class="modal-body">
-               <div class="row">
-                 <div class="col-lg-7">
-                  <input type="hidden" name="bill_id" id = "payment_bill_id"/>
+            <div class="modal-body">
+              <input type="hidden" name="bill_id" id = "payment_bill_id"/>
+              <div class="row">
+                <div class="col-lg-7">
                   <div class="form-group row mb-4">
-                     <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
-                     <div class="col-sm-9">             
-                        <input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control" required/>					
-                     </div>
+                    <label for="payment_payment_date" class="col-sm-3 col-form-label">Pay Date <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">             
+                      <input id='payment_payment_date' type="datetime-local" name="payment_date" class="form-control"/>					
+                    </div>
                   </div>
                   <div class="form-group row mb-4">
-                     <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
-                     <div class="col-sm-9">
-                        <select name="payment_method" class="form-control custom-select" id ="payment_payment_method">
-                           <option value="Cash">Cash</option>
-                           <option value="M-PESA">M-PESA</option>
-                           <option value="Card Swipe">Card Swipe</option>
-                           <option value="Bank Deposit">Bank Deposit</option>
-                           <option value="Bank Transfer">Bank Transfer</option>
-                           <option value="Cheque">Cheque</option>
-                           <option value="Other">Other</option>
-                        </select>
-                     </div>
+                    <label for="payment_payment_method" class="col-sm-3 col-form-label">Method <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                      <select name="payment_method" class="form-control custom-select" id ="payment_payment_method">
+                        <option value="Cash">Cash</option>
+                        <option value="M-PESA">M-PESA</option>
+                        <option value="Card Swipe">Card Swipe</option>
+                        <option value="Bank Deposit">Bank Deposit</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cheque">Cheque</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
                   </div>
-  
+        
                   <div class="form-group row mb-4">
                     <label for="payment_payment_method" class="col-sm-3 col-form-label">Account<span class="text-danger">*</span></label>
                     <div class="col-sm-9">
@@ -374,29 +374,30 @@
                             <%}%>
                         </select>
                     </div>
-                 </div>
-                 
-                  <div class="form-group row mb-4">
-                     <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
-                     <div class="col-sm-9">             
-                        <input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
-                     </div>
                   </div>
+        
                   <div class="form-group row mb-4">
-                     <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
-                     <div class="col-sm-9">             
-                        <input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
-                     </div>
+                    <label for="payment_payment_amount" class="col-sm-3 col-form-label">Amount <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">             
+                      <input id='payment_payment_amount' type="number" name="payment_amount" class="form-control"/>          
+                    </div>
                   </div>
+        
+                  <div class="form-group row mb-4">
+                    <label for="payment_payment_ref" class="col-sm-3 col-form-label">Reference</label>
+                    <div class="col-sm-9">             
+                      <input id='payment_payment_ref' type="text" name="payment_ref" class="form-control" autocomplete="off"/>          
+                    </div>
+                  </div>
+        
                   <div class="form-group row">
-                     <label for="payment_payment_by" class="col-sm-3 col-form-label">Paid By</label>
-                     <div class="col-sm-9">             
-                        <input id='payment_payment_by' type="text" name="payment_by" class="form-control" autocomplete="off"/>          
-                     </div>
+                    <label for="payment_payment_by" class="col-sm-3 col-form-label">Paid By</label>
+                    <div class="col-sm-9">             
+                      <input id='payment_payment_by' type="text" name="payment_by" class="form-control" autocomplete="off"/>          
+                    </div>
                   </div>
-                 </div>
-
-                 <div class="col-lg-5">
+                </div>
+                <div class="col-lg-5">
                   <label>Attach Payment Receipt</label>
                   <p>
                     <label for="payment_receipt" class="btn btn-light btn-sm">Click to attach File</label>
@@ -405,9 +406,9 @@
                    </p>
                    <div class="h100 v-100" id='payment_file_display'> </div>
                 </div>
-               </div>
-                
-             </div>
+              </div>
+                     
+            </div>
              <div class="modal-footer">    
                 <button id='btn_add_payment' type="submit" class="btn btn-success">Add Payment</button>       
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>

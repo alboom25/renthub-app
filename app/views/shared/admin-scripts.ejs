@@ -183,12 +183,12 @@
 </div>
 
 <script src="<%= base_url %>/assets/js/jquery.min.js?v=010101"></script>
-<script src="<%= base_url %>/assets/js/bundle.js?id=125014685" defer></script>
+<script src="<%= base_url %>/assets/js/bundle.js?id=125014686" defer></script>
 
 <!-- <script src="<%= base_url %>/assets/js/socket.io.min" defer></script> -->
 <script>
 var loading_div = '<div class="row d-flex justify-content-center"> <div class="spinner-grow text-success m-1" role="status"> <span class="sr-only">Loading...</span> </div> </div>';
-var session_modal = '<div class="modal fade" id="session-timeout-dialog" data-backdrop="static" tabindex="-1" role="dialog"  aria-hidden="true"><div class="modal-dialog" role="modal"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Session Expiring</h5></div> <div class="modal-body"> <p>Due to inactivity, your session is about to expire. If you need more time, click on the \'Stay Connected\' button below.</p><p>You session will be locked in <span id="session-remaining-seconds" class="text-danger">30</span> seconds</p></div> <div class="modal-footer"> <button id="session-timeout-dialog-logout" onclick="window.location.href = \'<%=base_url %>/auth/logout\'" type="button" class="btn btn-danger">Logout</button><button id="session-timeout-dialog-keepalive" onclick="resetLogoutTimer()" type="button" class="btn btn-info" data-dismiss="modal">Stay Connected</button></div> </div> </div> </div>';
+var session_modal = '<div class="modal fade" id="session-timeout-dialog" data-backdrop="static" tabindex="-1" role="dialog"  aria-hidden="true"><div class="modal-dialog" role="modal"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Session Expiring</h5></div> <div class="modal-body"> <p>Due to inactivity, your session is about to expire. If you need more time, click on the \'Stay Connected\' button below.</p><p>You session will be locked in <span id="session-remaining-seconds" class="text-danger">30</span> seconds</p></div> <div class="modal-footer"> <button id="session-timeout-dialog-logout" onclick="window.location.href = \'<%=base_url %>/user/logout\'" type="button" class="btn btn-danger">Logout</button><button id="session-timeout-dialog-keepalive" onclick="resetLogoutTimer()" type="button" class="btn btn-info" data-dismiss="modal">Stay Connected</button></div> </div> </div> </div>';
 var csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 var base_url = "<%= base_url %>";
 var genders = ["Male", "Female", "Other"];
@@ -298,10 +298,9 @@ function landlordPrompt(val=0, l=0){
                 if(data.Status == 200){
                     showAppNotification( 'success', 'Thanks for showing interest to work with as a property owner. Your request has been received. We shall contact you shortly!'); 
                     if(l){
-                        setTimeout(
-                            function() {
-                            window.location.reload();
-                        }, 3000);
+                        setTimeout(function () {                        
+                            location.reload(true);
+                        }, 5000);
                     }
                 }else{
                     showAppNotification( 'warning', 'Thanks for showing interest to work with as a property owner. We regret that your request has not been completed.\n' + data.Message);
@@ -1159,6 +1158,8 @@ function loadPage(target, savePushState) {
             resetMenus();
         },
     });
+
+
 }
 
 function resetMenus() {

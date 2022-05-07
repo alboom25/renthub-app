@@ -1,0 +1,28 @@
+06-05-2022 08:32:15 am:
+ SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at module.exports.checkProperty (/home/hub-app/app/helpers/app.helpers.js:39:37)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+====================================================
+06-05-2022 08:32:21 am:
+ SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at module.exports.checkProperty (/home/hub-app/app/helpers/app.helpers.js:39:37)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+====================================================
+06-05-2022 08:32:32 am:
+ SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at module.exports.checkProperty (/home/hub-app/app/helpers/app.helpers.js:39:37)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+====================================================
+06-05-2022 08:32:34 am:
+ SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at module.exports.checkProperty (/home/hub-app/app/helpers/app.helpers.js:39:37)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+====================================================

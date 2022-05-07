@@ -122,7 +122,7 @@ router.post('/add-payment', async function(req, res) {
     if (validate.has_errors) {
        res.errorEnd(validate.validation_errors.join("<br>"));
     } else {
-        let expense_info = await new Expense(req.user_property.property_code, req.body.id);
+        let expense_info = await new Expense(req.user_property.property_code, req.body.expense_id);
 
         if(expense_info.created_by_id){
             var balance = expense_info.expense_amount - expense_info.paid_amount;
@@ -153,8 +153,5 @@ router.post('/add-payment', async function(req, res) {
         }                  
     }
 });
-
-
-
 
 module.exports = router;

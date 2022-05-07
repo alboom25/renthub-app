@@ -14,7 +14,7 @@
                                         <div class="col-md-6 col-lg-3 mb-0">
                                             <div class="form-group">    
                                                 <label>Report Type</label>                          
-                                                <select name='report_id' class="form-control " id="report_id" onchange='reportChanged(this.value)' value=required>
+                                                <select name='report_id' class="form-control " id="report_id" onchange='reportChanged()' value=required>
                                                     <optgroup label="Tenants">
                                                         <option value="10">All Tenants</option>
                                                         <option value="11">Active Tenants</option>                                                      
@@ -29,7 +29,7 @@
                                                         <option value="31">Expired Leases</option>        
                                                     </optgroup>
                                                     <optgroup label="Readings">
-                                                        <option value="40">All Readings</option>                                                            
+                                                        <option value="40">Meter Readings</option>                                                            
                                                     </optgroup>
                                                     <optgroup label="Work Orders">
                                                         <option value="50">All Work Orders</option>                                                            
@@ -42,13 +42,8 @@
                                                         <option value="71">Expenses</option>  
                                                         <option value="72">Tenant Invoices</option>   
                                                         <option value="73">Tenant Payments</option>   
-                                                        <option value="74">Supplier Invocies</option> 
-                                                        <option value="75">Supplier Payments</option>   
-                                                        <option value="76">Accounts Receivables</option>  
-                                                        <option value="77">Accounts Payables</option>  
-                                                        <option value="78">Balance Sheet</option> 
-                                                        <option value="79">Income Statement</option> 
-                                                        <option value="80">Cashflow Statement</option>                                               
+                                                        <option value="74">Supplier Invoices</option> 
+                                                        <option value="75">Supplier Payments</option> 
                                                     </optgroup>
                                                 </select>
                                             </div>
@@ -60,17 +55,17 @@
                                                 <input id="date_start" name="date_start" type="hidden"/>  
                                                 <input id="date_end" name="date_end" type="hidden"/> 
                                             </div>
-                                        </div> 
-                                        <div class="col-md-12 col-lg-3 mb-0">
-                                            <div class="form-group">
-                                                <label>Click to Display</label>
-                                               <button data-label='Display' type="submit" class="btn btn-success form-control report-action">Display</button>
-                                            </div>
                                         </div>
                                         <div class="col-md-12 col-lg-3 mb-0">
                                             <div class="form-group">
+                                                <label>Click to Refresh</label>
+                                               <button onclick="reportChanged()" data-label="Refresh Report" type="button" class="btn btn-info form-control report-action"> Refresh Report</button>
+                                            </div>
+                                        </div>    
+                                        <div class="col-md-12 col-lg-3 mb-0">
+                                            <div class="form-group">
                                                 <label>Click to Download</label>
-                                               <button data-label='Download' type="button" id class="btn btn-info form-control report-action"><i class='mdi mdi-download'></i> Download</button>
+                                               <button onclick="downloadReport()" data-label='Download Report' type="button"  class="btn btn-info form-control report-action">Download Report</button>
                                             </div>
                                         </div>                                                  
                                     </div>
@@ -79,7 +74,7 @@
                         </div>
 
                         <div class="panel border-lg shadow" style='overflow:auto'>
-                            <div id='generated_report' class="pb-0" style='min-height: 200px;' style=''>
+                            <div id='generated_report' class="pb-0" style='min-height: 200px;'>
                                
                             </div>
                         </div>
@@ -100,12 +95,15 @@
             opens: 'left'
         }, function(start, end, label) {
             $("#date_start").val(start);
-            $("#date_end").val(end);            
+            $("#date_end").val(end);   
+            reportChanged();         
         });
+
+        reportChanged();
     });  
 
-    function reportChanged(val){
-        
+    function reportChanged(){
+        $("#frm_report").trigger('submit');
     }
 
    $("#frm_report").on("submit", function(e) {
@@ -119,7 +117,7 @@
         type: "POST",
         credentials: 'same-origin',
         headers: {'CSRF-Token': csrf_token},
-        url: "<%= base_url %>/admin/reports/display",
+        url: "<%= base_url %>/admin/reports/load",
         data: data,
         success: function(data) {
             $(".report-action").each(function (e){               
@@ -141,6 +139,84 @@
     });
 
 });
+
+
+function downloadReport(){        
+           var isvalid = $("#frm_report").valid();
+           if(isvalid){    
+            $(".report-action").html("Please wait...");
+            $(".report-action").attr("disabled", true);       
+              makeBusy("#generated_report");
+              var data = new myFormData($("#frm_report"));              
+                $.ajax({
+                     type: "POST",
+                     async: true,  
+                     credentials: 'same-origin', headers: {'CSRF-Token': csrf_token},
+                     url: "<%= base_url %>/admin/reports/load?action=download",
+                     data: data,
+                     success: function(data,status, xhr) {                     
+                        $(".report-action").each(function (e){               
+                            $(this).html($(this).attr('data-label'));
+                            $(this).attr("disabled", false);
+                        });
+                        makeBusy("#generated_report",0);   
+                       
+                            var filename = "";
+                            var disposition = xhr.getResponseHeader('Content-Disposition');
+                            if (disposition && disposition.indexOf('attachment') !== -1) {
+                                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                                var matches = filenameRegex.exec(disposition);
+                                if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                            }
+
+       
+
+                            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                                // IE workaround for "HTML7007: One or more data URLs were revoked by closing the data for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                                window.navigator.msSaveBlob(data, filename);
+                            } else {
+                                var URL = window.URL || window.webkitURL;
+                                var binaryData = [];
+                                binaryData.push(data);
+                                var downloadUrl = window.URL.createObjectURL(new Blob(binaryData, {type: "application/pdf"}));
+                                console.log(downloadUrl)
+                                if (filename) {
+                                    // use HTML5 a[download] attribute to specify filename
+                                    var a = document.createElement("a");
+                                    a.style.display = "none";
+                                    // safari doesn't support this yet
+                                    if (typeof a.download === 'undefined') {
+                                        window.location.href = downloadUrl;
+                                    } else {
+                                    
+                                        a.href = downloadUrl;
+                                        a.download = filename;
+                                        document.body.appendChild(a);
+                                        a.click();                
+                                
+                                        //window.URL.revokeObjectURL(url);
+                                    }
+                                } else {
+                                    //window.location.href = downloadUrl;
+                                }
+
+                            URL.revokeObjectURL(downloadUrl);
+                        }
+                       
+                      
+                       
+                     },
+                     error: function(err) {
+                        makeBusy("#generated_report",0);
+                        $(".report-action").each(function (e){               
+                            $(this).html($(this).attr('data-label'));
+                            $(this).attr("disabled", false);
+                        });
+                        showAppNotification( 'danger', 'Unable to complete your request. Please try again later!');
+                     }
+                });
+           }         
+       }
 
 
    

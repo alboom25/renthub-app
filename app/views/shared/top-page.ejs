@@ -113,7 +113,7 @@
                <i class='bx bxs-chevron-down d-none d-xl-inline-block'></i>
                </button>
                <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" target="_blank" href="<%= base_url %>/admin-help"><i class='bx bx-help-circle font-size-16 align-middle mr-1' ></i> <span >Help &amp; Support</span></a>
+                  <a class="dropdown-item" target="_blank" href="https://support.renthub.co.ke"><i class='bx bx-help-circle font-size-16 align-middle mr-1' ></i> <span >Help &amp; Support</span></a>
                   <div class="dropdown-divider"></div>
                   <% if(user_profile.is_landlord){%>
                      <% if(!user_profile.has_properties){%>                        
@@ -131,7 +131,7 @@
                   <%}%> 
                   
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item text-danger" href="<%= base_url %>/auth/logout"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span>Logout</span></a>
+                  <a class="dropdown-item text-danger" href="<%= base_url %>/user/logout"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span>Logout</span></a>
                </div>
             </div>
             <div class="dropdown d-inline-block">

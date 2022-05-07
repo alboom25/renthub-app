@@ -14,7 +14,6 @@ fs.readdirSync(path.join(globals.basedir, 'app','routes')).forEach(function (rou
     var stats = fs.statSync(pt);
     if(stats.isFile()){
         route = route.split('.')[0];
-
         if (avoid.includes(route)) {
             return;
         }
@@ -37,9 +36,9 @@ router.get("/", authenticate, function(req, res){
     }
 });
 
-async function authenticate(req, res, next) {  	
+async function authenticate(req, res, next) { 
     if(req.session.logged_in) { 
-        if(req._parsedOriginalUrl.pathname.includes('/auth/logout')){
+        if(req._parsedOriginalUrl.path=='/user/logout'){          
             req.session.destroy();
             res.redirect("/auth/login");
         }else if(req._parsedOriginalUrl.pathname.includes('/auth/unlock-session')){
