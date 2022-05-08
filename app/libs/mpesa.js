@@ -1,4 +1,4 @@
-const request = require("request");
+const axios = require("axios");
 const moment = require("moment");
 
 const validation_key = "71a66279848887bbedebbb2626f85ebf07fc4104";
@@ -83,16 +83,16 @@ let generateAccessToken = function(credentials, is_production, access_token) {
             Authorization: "Basic " + credentials,
         },
     };    
-    request(options, function (err, res, body) {
-        if (err) {
+    axios(options)
+    .then(function (response) {               
+         var body = response.data;
+        if (body.includes("errorCode")) {
             access_token("");
-        } else {               
-            if (body.includes("errorCode")) {
-                access_token("");
-            } else {                   
-                access_token(JSON.parse(body).access_token ||"");                   
-            }
+        } else {                   
+            access_token(JSON.parse(body).access_token ||"");                   
         }
+    }).catch(function (error) {
+        access_token("");
     });
 }
 
@@ -107,17 +107,16 @@ let CustomerPayBillOnline = function(post_data, access_token, stk_url, feedback)
         },
         json: post_data,
     };
-    request(options, function (err, res, body) {          
-        if (err) {
-           //console.log(err)
-            feedback(true, "Unable to process the payment request! Pease try again later.", null);
-        } else {   
-            if (body.errorCode == null) {
-                feedback(true, body.CheckoutRequestID, body.MerchantRequestID);
-            } else {
-                feedback(false, body.errorMessage, null);
-            }
+    axios(options)
+    .then(function (response) {               
+        var  body = response.data;
+        if (body.errorCode == null) {
+            feedback(true, body.CheckoutRequestID, body.MerchantRequestID);
+        } else {
+            feedback(false, body.errorMessage, null);
         }
+    }).catch(function (error) {
+        feedback(true, "Unable to process the payment request! Pease try again later.", null);
     });
 }
 
@@ -132,17 +131,17 @@ let stk_push = function(post_data, access_token, stk_url, feedback) {
         },
         json: post_data,
     };
-    request(options, function (err, res, body) {          
-        if (err) {
-            feedback(true, "Unable to process the payment request!", null);
-        } else {  
-            if (body.errorCode == null) {
-                feedback(true, body.CheckoutRequestID, body.MerchantRequestID);
-            } else {
-                feedback(false, body.errorMessage, null);
-            }
+    axios(options)
+    .then(function (response) {               
+        var body = response.data;
+        if (body.errorCode == null) {
+            feedback(true, body.CheckoutRequestID, body.MerchantRequestID);
+        } else {
+            feedback(false, body.errorMessage, null);
         }
-    });
+    }).catch(function (error) {
+        feedback(true, "Unable to process the payment request!", null);
+    });   
 }
 
 let processPayment = function(payment_data){
@@ -248,12 +247,12 @@ let registerLinks = function(result){
             },
             json: post_data,
         };    
-        request(options, function (err, res, body) {
-            if (err) {
-               console.log("error occurred: ", err);
-            } else {               
-               console.log("success", body);
-            }
+        axios(options)
+        .then(function (response) {               
+            var body =response.data;
+            console.log("success", body);
+        }).catch(function (error) {
+            console.log("error occurred: ", error);
         });
     });
 } 

@@ -283,7 +283,7 @@ $(document).ready(function(){
 		$("#btn_save_lease").html("Please wait..");
         $("#btn_save_lease").attr("disabled", true);
         var data = new FormData(this);	
-		console.log(data)
+	
 		$.ajax({
 			type: "POST",			
 			processData: false,

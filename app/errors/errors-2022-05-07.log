@@ -36,3 +36,23 @@ undefined
     at processTicksAndRejections (internal/process/task_queues.js:93:5)
 undefined
 ====================================================
+07-05-2022 04:14:16 pm:
+ TypeError: (intermediate value) is not iterable
+    at Function.sendSms (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\libs\sms.sender.js:28:42)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+====================================================
+07-05-2022 04:14:21 pm:
+ ReferenceError: fs is not defined
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\helpers\assorted.helpers.js:194:34
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+====================================================
+07-05-2022 04:16:03 pm:
+ TypeError: (intermediate value) is not iterable
+    at Function.sendSms (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\libs\sms.sender.js:28:42)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+====================================================
+07-05-2022 04:26:28 pm:
+ TypeError: (intermediate value) is not iterable
+    at Function.sendSms (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\libs\sms.sender.js:28:42)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+====================================================

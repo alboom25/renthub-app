@@ -123,7 +123,7 @@ class Generator{
            
         }else{
             //send notification to owner
-            console.log('send note to owner')
+            //console.log('send note to owner')
         }
 
       

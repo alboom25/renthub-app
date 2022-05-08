@@ -1,0 +1,70 @@
+08-05-2022 12:49:12 pm:
+ Error: misconfigured csrf
+    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:71:19)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+undefined
+====================================================
+08-05-2022 12:49:32 pm:
+ Error: misconfigured csrf
+    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:71:19)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+undefined
+====================================================
+08-05-2022 12:50:01 pm:
+ ForbiddenError: invalid csrf token
+    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:112:19)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+undefined
+====================================================
+08-05-2022 12:50:14 pm:
+ ForbiddenError: invalid csrf token
+    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:112:19)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+undefined
+====================================================
+08-05-2022 12:58:26 pm:
+ ForbiddenError: invalid csrf token
+    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:112:19)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+undefined
+====================================================

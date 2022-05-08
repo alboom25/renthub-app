@@ -1,21 +1,16 @@
-const request = require("request");
 const users = require("../models/users").Users;
 const user = require("../models/users").User;
 const props = require("../models/properties").Properties;
 const notifications = require("../models/users").Notifications;
 const helpers = require('../helpers/assorted.helpers');
+const globals = require("../helpers/global.params");
 
 const moment = require("moment");
-
-const credentials = {
-    apiKey: "30d8673938199b78b4bd1242efa5d98734b113713c0b32a0869ec0f9de9e9ce9",
-    username: "renthub",
-};
 
 class SMS {
     static async sendSms(property_code, recepients, sms_message, other_info) {
         const options = {
-            url: "https://api.africastalking.com/restless/send?username=" + credentials.username + "&Apikey=" + credentials.apiKey + "&to=+" + recepients + "&message=" + sms_message,
+            url: "https://api.africastalking.com/restless/send?username=" + globals.env.SMS_API_USERNAME + "&Apikey=" + globals.env.SMS_API_KEY + "&to=+" + recepients + "&message=" + sms_message,
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -29,7 +24,7 @@ class SMS {
 
             if(property_owner.user_code){
                 if (property_owner.available_sms_units > 2) {
-                    let [passed, body] = await helpers.request(options);
+                    let [passed, body] = await helpers.axios_request(options);
                     if(passed){
                         if (body.toString().includes("requirement failed")) {
                             this.addFailedNotification(other_info);
@@ -106,7 +101,7 @@ class SMS {
                 this.addFailedNotification(other_info);
             }           
         } else {
-            let [passed, body] = await helpers.request(options);
+            let [passed, body] = await helpers.axios_request(options);
             if(passed){
                 if (body.toString().includes("requirement failed")) {
                     this.addFailedNotification(other_info);

@@ -14,7 +14,7 @@ $.fn.setDeletable = function (options) {
    $('#'+ $table_id +'_length').append('<button type="button" class="btn btn-danger btn-sm ml-2">Delete Checked</button>');  //encabezado vacío
     //this.find('tbody tr').append(colEdicHtml);
       //Read reference to the current table, to resolve "this" here.
-    console.log($current_table.attr("id")+"")
+  
     //Process "addButton" parameter
     if (params.$addButton != null) {
         //Se proporcionó parámetro

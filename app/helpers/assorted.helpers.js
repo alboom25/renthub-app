@@ -1,5 +1,4 @@
-const request = require("request");
-
+const axios = require('axios');
 
 class Assorted {
    
@@ -171,16 +170,15 @@ return {browser:browser + ", ver: "+ browserVersion, os:matches};
         return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     }
 
-    static request(options){
+    static async axios_request(options){
         return new Promise(function(resolve, reject){
-            request(options, function (err, res, body) {
-                if (err) {                  
-                    resolve([0, err]);
-                } else {                    
-                    resolve([1, body]);
-                }
+            axios(options)
+            .then(function (response) {               
+                resolve([1, response.data]);
+            }).catch(function (error) {
+                resolve([0, error]);
             });
-        });
+        });       
     }
 
     static jsonToTable(json_data) {       
