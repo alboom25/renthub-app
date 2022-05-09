@@ -1,70 +1,74 @@
-08-05-2022 12:49:12 pm:
- Error: misconfigured csrf
-    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:71:19)
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
-    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
-    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+08-05-2022 01:16:50 pm:
+ ReferenceError: C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\views\accounting\account-history.ejs:11
+    9| 						<!--begin::Container-->
+    10| 						<div class="container">
+ >> 11| 							<%- include('../shared/property-common') %>
+    12|                                 <div class="row">
+    13|                                 <div class="col-12">
+    14|                                   <div class="panel  panel-default">                                   
+
+C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\views\shared\property-common.ejs:4
+    2| 	<div class="card-body shadow">
+    3| 	   <div class=d-flex>
+ >> 4| 		  <div class="" style="margin-right: 7px"><img onclick=intitImagePopup(this) class="rounded avatar-lg" alt="<%= property.property_code %>" src="<%= base_url %>/public/properties/display-picture/<%= property.property_code %>"></div>
+    5| 		  <div class=flex-grow-1>
+    6| 			 <div class="d-flex align-items-center justify-content-between flex-wrap mt-0">
+    7| 				<div class="mr-3 small-block mb-0" style="flex: 1">
+
+property is not defined
+    at eval (eval at compile (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:12:26)
+    at property-common (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:703:17)
+    at include (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:701:39)
+    at eval (eval at compile (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:25:17)
+    at account-history (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:703:17)
+    at tryHandleCache (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:274:36)
+    at View.exports.renderFile [as engine] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\view.js:135:8)
+    at tryRender (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\application.js:640:10)
+    at Function.render (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\application.js:592:3)
 undefined
 ====================================================
-08-05-2022 12:49:32 pm:
- Error: misconfigured csrf
-    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:71:19)
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
-    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
-    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+08-05-2022 01:17:17 pm:
+ ReferenceError: C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\views\accounting\account-history.ejs:108
+    106|                                                         </thead>
+    107|                                                         <tbody>
+ >> 108|                                                             <% for (var i = 0; i < items.length; i++) { %>
+    109|                                                                 <tr>
+    110|                                                                     <td><%= i+1 %></td>
+    111|                                                                     <td><%= items[i].description %></td>
+
+items is not defined
+    at eval (eval at compile (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:61:28)
+    at account-history (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:703:17)
+    at tryHandleCache (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:274:36)
+    at View.exports.renderFile [as engine] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\view.js:135:8)
+    at tryRender (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\application.js:640:10)
+    at Function.render (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\response.js:1017:7)
+    at ServerResponse.renderEjs (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\helpers\output.helper.js:127:10)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
 undefined
 ====================================================
-08-05-2022 12:50:01 pm:
- ForbiddenError: invalid csrf token
-    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:112:19)
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
-    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
-    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
-undefined
-====================================================
-08-05-2022 12:50:14 pm:
- ForbiddenError: invalid csrf token
-    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:112:19)
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
-    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
-    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
-undefined
-====================================================
-08-05-2022 12:58:26 pm:
- ForbiddenError: invalid csrf token
-    at csrf (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\csurf\index.js:112:19)
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
-    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
-    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-fileupload\lib\index.js:35:14
-    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
-    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+08-05-2022 01:52:04 pm:
+ ReferenceError: C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\views\accounting\account-history.ejs:139
+    137|          "order": [],                
+    138|          ajax: {
+ >> 139|             url: "<%= base_url %>/admin/accounts/history?acc=<%= account.account_id%>",
+    140|             type: "POST",
+    141|             async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token}
+    142|          },
+
+account is not defined
+    at eval (eval at compile (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:63:26)
+    at account-history (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:703:17)
+    at tryHandleCache (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:274:36)
+    at View.exports.renderFile [as engine] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\view.js:135:8)
+    at tryRender (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\application.js:640:10)
+    at Function.render (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\response.js:1017:7)
+    at ServerResponse.renderEjs (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\app\helpers\output.helper.js:127:10)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
 undefined
 ====================================================

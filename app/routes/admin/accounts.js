@@ -3,6 +3,7 @@ const router = express.Router();
 const uuid = require('uuid');
 
 const AccountsList = require("../../models/properties").AccountsList;
+const Transactions = require("../../models/properties").AccountTransactions;
 
 router.get("/", async (req, res) => {  
   res.renderEjs(req, "accounting/list", {
@@ -12,10 +13,16 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/history/:id", async (req, res, next) => {
-  res.renderEjs(req, "accounting/account-history", {
-    page_title: "Account transactions history",
-    sub_header: "Account History"     
-  }); 
+  let info = await AccountsList.get(req.params.id);
+  if(info){
+    res.renderEjs(req, "accounting/account-history", {
+      page_title: "Account transactions history",
+      sub_header: "Account History" ,
+      account_info:info    
+    }); 
+  }else{
+    next();
+  } 
 });
 
 router.post("/", async (req, res) => {  
@@ -93,6 +100,17 @@ router.post("/change-status", async (req, res) => {
 router.post("/list", async (req, res) => { 
   let list = await AccountsList.list(req.session.user_code);
   res.successEnd(list);
+});
+
+router.post('/history', async function (req, res){
+  if(req.query.acc){
+    let loader = await new Transactions();
+    loader.where_data = 'target_account = "'+ req.query.acc +'"';
+    let data = await loader.all(req.body);
+    res.json(data);
+  }else{
+    next();
+  } 
 });
 
   module.exports = router;

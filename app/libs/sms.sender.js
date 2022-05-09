@@ -24,28 +24,17 @@ class SMS {
 
             if(property_owner.user_code){
                 if (property_owner.available_sms_units > 2) {
-                    let [passed, body] = await helpers.axios_request(options);
+                    let [passed, body] = await helpers.axios_request(options);                   
                     if(passed){
                         if (body.toString().includes("requirement failed")) {
                             this.addFailedNotification(other_info);
-                        } else {
-                            try{
-                                var bd = JSON.parse(body);
-                            }catch(e){                               
-                                bd= null;
+                        } else { 
+                            var status = body.SMSMessageData.Recipients[0].statusCode;                         
+                            if (status == 100 || status == 101 || status == 102) {
+                                var parts = body.SMSMessageData.Recipients[0].messageParts || 1;
+                                users.deductSmsUnits(property_owner.user_code, parts);
                             }
-                           
-                            if(bd){
-                                var status = bd.SMSMessageData.Recipients[0].statusCode;
-                                if (status == 100 || status == 101 || status == 102) {
-                                    var parts = bd.SMSMessageData.Recipients[0].messageParts || 1;
-                                    users.deductSmsUnits(property_owner.user_code, parts);
-                                }
-                                return (status == 100 || status == 101 || status == 102);
-                                
-                            }else{
-                                this.addFailedNotification(other_info);
-                            }
+                            return (status == 100 || status == 101 || status == 102);
                         }
                     }else{
                         this.addFailedNotification(other_info);
@@ -105,9 +94,8 @@ class SMS {
             if(passed){
                 if (body.toString().includes("requirement failed")) {
                     this.addFailedNotification(other_info);
-                } else {
-                    var bd = JSON.parse(body);
-                    var status = bd.SMSMessageData.Recipients[0].statusCode;
+                } else {                  
+                    var status = body.SMSMessageData.Recipients[0].statusCode;
                     return (status == 100 || status == 101 || status == 102, other_info);
                 }
             }else{

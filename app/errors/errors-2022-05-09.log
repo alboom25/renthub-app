@@ -1,0 +1,39 @@
+09-05-2022 11:32:17 am:
+ Error: The client is closed
+    at Commander._RedisClient_sendCommand (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\client\index.js:404:31)
+    at Commander.commandsExecutor (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\client\index.js:167:154)
+    at Commander.BaseClass.<computed> [as get] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\commander.js:8:29)
+    at RedisStore.get (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\connect-redis\lib\connect-redis.js:33:19)
+    at session (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-session\index.js:485:11)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+====================================================
+09-05-2022 11:32:24 am:
+ Error: The client is closed
+    at Commander._RedisClient_sendCommand (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\client\index.js:404:31)
+    at Commander.commandsExecutor (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\client\index.js:167:154)
+    at Commander.BaseClass.<computed> [as get] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\commander.js:8:29)
+    at RedisStore.get (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\connect-redis\lib\connect-redis.js:33:19)
+    at session (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-session\index.js:485:11)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+====================================================
+09-05-2022 11:33:01 am:
+ Error: The client is closed
+    at Commander._RedisClient_sendCommand (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\client\index.js:404:31)
+    at Commander.commandsExecutor (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\client\index.js:167:154)
+    at Commander.BaseClass.<computed> [as get] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\@redis\client\dist\lib\commander.js:8:29)
+    at RedisStore.get (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\connect-redis\lib\connect-redis.js:33:19)
+    at session (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express-session\index.js:485:11)
+    at Layer.handle [as handle_request] (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:323:13)
+    at C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:341:12)
+    at next (C:\Users\alboo\OneDrive\htdocs\Tenancy\hub-app\node_modules\express\lib\router\index.js:275:10)
+====================================================

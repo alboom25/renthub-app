@@ -1,0 +1,174 @@
+<% if(!load_chunk){%> 
+	<%- include('../shared/page-header') %>
+	<%- include('../shared/top-page') %>
+	<div class="page-content">
+  <%}%>
+			<div class="container-fluid">
+				<%- include('../shared/page-title') %>
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container">
+
+                                <div class="row">
+                                <div class="col-12">
+                                  <div class="panel  panel-default">                                   
+                                    <div class="panel-body">
+                                        <h4 class="card-title">Account Information</h4>
+                                        <div class="row">
+                                            <div class='col-12'>
+                                                <hr>
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Account No
+                                                            </th>
+                                                            <td>
+                                                                <%= account_info.account_no %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Account Name
+                                                            </th>
+                                                            <td>
+                                                                <%= account_info.account_name %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Added On
+                                                            </th>
+                                                            <td>
+                                                                <%= account_info.date_added %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Bank Name
+                                                            </th>
+                                                            <td>
+                                                                <%= account_info.bank_name %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Branch
+                                                            </th>
+                                                            <td>
+                                                                <%= account_info.branch_name %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="column">
+                                                                Opening Balance
+                                                            </th>
+                                                            <td>
+                                                                <%= account_info.opening_balance %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="col">
+                                                                Status
+                                                            </th>
+                                                            <td>
+                                                                <% if(account_info.is_active){ %>
+                                                                    <span class="badge badge-success">Active</span>
+                                                                <% } else { %>
+                                                                    <span class="badge badge-warning">Disabled</span>                                          
+                                                                <% } %>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="panel  panel-default">                                   
+                                    <div class="panel-body">
+                                        <h4 class="card-title">Transaction History</h4> 
+                                        <div class="row">
+                                            <div class='col-12'>                                              
+                                                <div class="table-responsive">
+                                                    <table id='tbl_transactions' class="table table-nowrap border dt-responsive table-hover" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date/Time</th>
+                                                                <th>Description</th>     
+                                                                <th>Transaction Method</th>
+                                                                <th  class="text-right">Credit</th>  
+                                                                <th  class="text-right">Debit</th>  
+                                                                <th>TRX REF</th>                     																	
+                                                            </tr>
+                                                        </thead>                                                       
+                                                    </table>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+						</div>
+						<!--end::Container-->
+					</div>
+			</div>
+			<!-- container-fluid -->
+           
+			<% if(!load_chunk){%> </div> <%- include('../shared/page-footer') %> <%- include('../shared/admin-scripts') %> <%}%>
+
+            
+
+				
+				
+				<script>
+
+window.onload=function(){window.jQuery||window.location.reload()};
+
+$(document).ready(function(){  
+
+    $("#tbl_transactions").DataTable({
+         responsive: !0,
+         searchDelay: 500,
+         processing: !0,
+         serverSide: true,        
+         "order": [],                
+         ajax: {
+            url: "<%= base_url %>/admin/accounts/history?acc=<%= account_info.account_id%>",
+            type: "POST",
+            async: true,  credentials: 'same-origin', headers: {'CSRF-Token': csrf_token}
+         },
+         columns: [
+         {
+             data: "payment_date"
+             
+         },{
+             data: "des"            
+         },
+             {
+             data: "payment_method"
+             
+         }, {
+             data: "credit",
+             className:'text-right',
+             render : function(data, type, row) {
+                 return formatMoney(row.credit);
+             }
+         }, {
+             data: "debit",
+             className:'text-right',
+             render : function(data, type, row) {
+                 return formatMoney(row.debit);
+             }
+         },{
+             data: "payment_ref"
+         }
+         ]
+     });
+
+});
+			
+				</script>
+	<% if(!load_chunk){%> </body></html> <%}%>

@@ -558,4 +558,12 @@ class LastReadings extends Table{
     }  
 }
 
-module.exports = {Property, Properties, Expense, Expenses, Managers, Works, Reading, Readings, LastReadings, Payables, AccountsList, AgentProperties};
+class AccountTransactions extends Table{
+    constructor(){
+        super();
+        this.columns = ['*'];
+        this.table_name = 'view_account_transactions';
+    }    
+}
+
+module.exports = {AccountTransactions,Property, Properties, Expense, Expenses, Managers, Works, Reading, Readings, LastReadings, Payables, AccountsList, AgentProperties};
