@@ -79,45 +79,45 @@
 		<script src="<%= base_url %>/assets/js/jquery.min.js?v=010101"></script>
 		<script>
 			function formDeserialize(form_id, data) {    
-    let keys = Object.keys(data);    
+				let keys = Object.keys(data);    
 
-    let inputs = [];
-    $("#" + form_id).each(function () {      
-        inputs = $(this).find(':input');
-    });
+				let inputs = [];
+				$("#" + form_id).each(function () {      
+					inputs = $(this).find(':input');
+				});
 
-    for (let i = 0; i < inputs.length; i++) {
-        let iname = inputs[i].name;
-        let $elem = inputs[i];
-        if (keys.includes(iname)) {
-            switch (inputs[i].type) {
-                case 'date':
-                    $elem.value = timestampToDate(new Date(data[iname]));
-                    break;
-                case 'checkbox':
-                    if (data[iname]) {
-                        $elem.checked = true;
-                        $elem.value=1;
-                    }else{
-                        $elem.checked = false;  
-                    }
-                    break;
-                case 'select-one':
-                    $elem.value = data[iname];
-                    if ($elem.className.includes('selectpicker-select')) {
-                        $(".selectpicker-select").selectpicker("refresh");
-                    }
-                    break;
-                case 'radio':                  
-                    $(`#${form_id} input[name="${$elem.name}"][value="${data[iname]}"]`).prop('checked', true);
-                    break;
-                default:
-                    $elem.value = data[iname];
-            }
+				for (let i = 0; i < inputs.length; i++) {
+					let iname = inputs[i].name;
+					let $elem = inputs[i];
+					if (keys.includes(iname)) {
+						switch (inputs[i].type) {
+							case 'date':
+								$elem.value = timestampToDate(new Date(data[iname]));
+								break;
+							case 'checkbox':
+								if (data[iname]) {
+									$elem.checked = true;
+									$elem.value=1;
+								}else{
+									$elem.checked = false;  
+								}
+								break;
+							case 'select-one':
+								$elem.value = data[iname];
+								if ($elem.className.includes('selectpicker-select')) {
+									$(".selectpicker-select").selectpicker("refresh");
+								}
+								break;
+							case 'radio':                  
+								$(`#${form_id} input[name="${$elem.name}"][value="${data[iname]}"]`).prop('checked', true);
+								break;
+							default:
+								$elem.value = data[iname];
+						}
 
-        }
-    }
-}
+					}
+				}
+			}
 
 function myFormData(form) {
     let data = {};
@@ -234,39 +234,39 @@ function myFormData(form) {
 		});
 		
 		$("#user-login-form").on("submit", function(e) {
-				e.preventDefault();
-				var s = $("#user-login-form").valid();
-				if(s) {
-					$("#login-button").html("Please wait.."), $("#login-button").attr("disabled", !0);
-					var data = new myFormData($(this));
-					data.dest = dest;
-					$.ajax({
-						type: "POST",
-        				async: true, 
-						credentials: 'same-origin',
-						headers: {
-							'CSRF-Token': csrf_token
-						},
-						url: "<%= base_url %>/auth/login",
-						data: data,
-						success: function(data) { 
-							if(data.Status == 200){
-								$("#login-button").removeClass("btn-info");
-								$("#login-button").addClass("btn-success");
-								$("#login-button").html("Redirecting..");
-								window.location.replace(data.Message)
-							}else{
-								showFailedMessage(data.Message)
-							}         
-                                
-                 },
-                 error: function(err) {                    
-					showFailedMessage("Please try again later");                    
-                 }
-						
-					});
+			e.preventDefault();
+			var s = $("#user-login-form").valid();
+			if(s) {
+				$("#login-button").html("Please wait.."), $("#login-button").attr("disabled", !0);
+				var data = new myFormData($(this));
+				data.dest = dest;
+				$.ajax({
+					type: "POST",
+					async: true, 
+					credentials: 'same-origin',
+					headers: {
+						'CSRF-Token': csrf_token
+					},
+					url: "<%= base_url %>/auth/login",
+					data: data,
+					success: function(data) { 
+						if(data.Status == 200){
+							$("#login-button").removeClass("btn-info");
+							$("#login-button").addClass("btn-success");
+							$("#login-button").html("Redirecting..");
+							window.location.replace(data.Message)
+						}else{
+							showFailedMessage(data.Message)
+						}         
+							
+				},
+				error: function(err) {                    
+				showFailedMessage("Please try again later");                    
 				}
-			});
+					
+				});
+			}
+		});
 		
 		</script>
 	</body>
