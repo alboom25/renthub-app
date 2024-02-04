@@ -1,0 +1,499 @@
+28-04-2023 04:07:41 pm:
+ Error: ER_BAD_DB_ERROR: Unknown database 'rent_hub4'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Handshake.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Handshake.js:123:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Protocol._enqueue (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at Protocol.handshake (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:51:23)
+    at PoolConnection.connect (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:116:18)
+    at Pool.getConnection (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:48:16)
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:202:8)
+    at MySQLStore.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-mysql-session\index.js:439:33)
+    at MySQLStore.set (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-mysql-session\index.js:240:8)
+    at Session.save (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-session\session\session.js:72:25)
+    at Session.save (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-session\index.js:406:15)
+    at ServerResponse.end (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-session\index.js:335:21)
+undefined
+====================================================
+28-04-2023 04:07:41 pm:
+ Error: ER_BAD_DB_ERROR: Unknown database 'rent_hub4'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Handshake.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Handshake.js:123:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Protocol._enqueue (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at Protocol.handshake (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:51:23)
+    at PoolConnection.connect (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:116:18)
+    at Pool.getConnection (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:48:16)
+    at Pool.releaseConnection (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:157:10)
+    at Pool._removeConnection (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:277:8)
+    at Pool._purgeConnection (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:258:8)
+    at Handshake.onConnect (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:57:14)
+    at Handshake.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:488:16)
+undefined
+====================================================
+28-04-2023 04:07:41 pm:
+ Error: ER_BAD_DB_ERROR: Unknown database 'rent_hub4'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Handshake.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Handshake.js:123:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Protocol._enqueue (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at Protocol.handshake (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:51:23)
+    at PoolConnection.connect (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:116:18)
+    at Pool.getConnection (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:48:16)
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:202:8)
+    at MySQLStore.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-mysql-session\index.js:439:33)
+    at MySQLStore.get (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-mysql-session\index.js:162:8)
+    at session (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-session\index.js:485:11)
+    at Layer.handle [as handle_request] (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express\lib\router\index.js:328:13)
+undefined
+====================================================
+28-04-2023 04:07:53 pm:
+ Error: ER_BAD_DB_ERROR: Unknown database 'rent_hub4'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Handshake.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Handshake.js:123:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Protocol._enqueue (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at Protocol.handshake (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:51:23)
+    at PoolConnection.connect (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:116:18)
+    at Pool.getConnection (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:48:16)
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:202:8)
+    at MySQLStore.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-mysql-session\index.js:439:33)
+    at MySQLStore.get (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-mysql-session\index.js:162:8)
+    at session (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-session\index.js:485:11)
+    at Layer.handle [as handle_request] (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express\lib\router\index.js:328:13)
+undefined
+====================================================
+28-04-2023 04:07:53 pm:
+ Error: ER_BAD_DB_ERROR: Unknown database 'rent_hub4'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Handshake.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Handshake.js:123:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Protocol._enqueue (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at Protocol.handshake (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:51:23)
+    at PoolConnection.connect (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:116:18)
+    at Pool.getConnection (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:48:16)
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:202:8)
+    at MySQLStore.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-mysql-session\index.js:439:33)
+    at MySQLStore.get (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-mysql-session\index.js:162:8)
+    at session (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express-session\index.js:485:11)
+    at Layer.handle [as handle_request] (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\express\lib\router\index.js:328:13)
+undefined
+====================================================
+28-04-2023 04:09:19 pm:
+ Error: ER_MIX_OF_GROUP_FUNC_AND_FIELDS: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cloud_tena.tbl_units_ratings.unit_code'; this is incompatible with sql_mode=only_full_group_by
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at async exports.get (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:35:21)
+    at async Properties.Available (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\properties.js:88:19)
+    at async ServerResponse.renderEjs (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\output.helper.js:109:14)
+SELECT count(property_code) as `p_count` FROM vw_properties_all WHERE user_code = NULL
+====================================================
+28-04-2023 04:09:33 pm:
+ Error: ER_NO_SUCH_TABLE: Table 'cloud_tena.tbl_property_users_assigned' doesn't exist
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.isAgent (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:223:19)
+    at async module.exports.checkAgency (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:70:20)
+SELECT count(1)>0 as is_agent FROM tbl_property_users WHERE email_address = 'alboomdj@gmail.com' AND account_active = 1 AND ( SELECT count( 1 ) AS props FROM vw_properties_all WHERE property_code IN ( SELECT property_code FROM tbl_property_users_assigned WHERE manager_id = tbl_property_users.manager_id ) AND ( SELECT expiry_date FROM tbl_subscriptions WHERE user_code = vw_properties_all.user_code ORDER BY expiry_date DESC LIMIT 1 ) >= DATE( NOW( ) ) ) >0
+====================================================
+28-04-2023 04:09:33 pm:
+ TypeError: Cannot read properties of null (reading '0')
+    at Users.isAgent (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:224:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkAgency (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:70:20)
+====================================================
+28-04-2023 04:09:37 pm:
+ Error: ER_NO_SUCH_TABLE: Table 'cloud_tena.tbl_property_users_assigned' doesn't exist
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.isAgent (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:223:19)
+    at async module.exports.checkAgency (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:70:20)
+SELECT count(1)>0 as is_agent FROM tbl_property_users WHERE email_address = 'alboomdj@gmail.com' AND account_active = 1 AND ( SELECT count( 1 ) AS props FROM vw_properties_all WHERE property_code IN ( SELECT property_code FROM tbl_property_users_assigned WHERE manager_id = tbl_property_users.manager_id ) AND ( SELECT expiry_date FROM tbl_subscriptions WHERE user_code = vw_properties_all.user_code ORDER BY expiry_date DESC LIMIT 1 ) >= DATE( NOW( ) ) ) >0
+====================================================
+28-04-2023 04:09:37 pm:
+ TypeError: Cannot read properties of null (reading '0')
+    at Users.isAgent (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:224:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkAgency (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:70:20)
+====================================================
+28-04-2023 04:11:01 pm:
+ Error: ER_MIX_OF_GROUP_FUNC_AND_FIELDS: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'rent_hub5.tbl_units_ratings.unit_code'; this is incompatible with sql_mode=only_full_group_by
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at async exports.get (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:35:21)
+    at async Properties.Available (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\properties.js:88:19)
+    at async ServerResponse.renderEjs (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\output.helper.js:109:14)
+SELECT count(property_code) as `p_count` FROM vw_properties_all WHERE user_code = NULL
+====================================================
+28-04-2023 04:11:10 pm:
+ Error: ER_MIX_OF_GROUP_FUNC_AND_FIELDS: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'rent_hub5.tbl_units_ratings.unit_code'; this is incompatible with sql_mode=only_full_group_by
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.get (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:35:21)
+    at async Properties.Available (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\properties.js:88:19)
+    at async ServerResponse.renderEjs (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\output.helper.js:109:14)
+SELECT count(property_code) as `p_count` FROM vw_properties_all WHERE user_code = 'b416a80e-46f3-4af7-99d5-7ceaa1b956d8'
+====================================================
+28-04-2023 04:13:11 pm:
+ Error: ER_BAD_FIELD_ERROR: Unknown column 'tbl_subscriptions.payment_plan' in 'field list'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:144:19)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+SELECT tbl_subscriptions.subscription_id, tbl_subscriptions.payment_plan, tbl_subscriptions.package_id,subscription_date, expiry_date, tbl_packages.package_name, tbl_packages.maximum_properties, tbl_packages.maximum_units, tbl_packages.free_sms_units, tbl_packages.package_rate FROM tbl_subscriptions LEFT JOIN tbl_packages ON tbl_subscriptions.package_id = tbl_packages.package_id WHERE user_code='b416a80e-46f3-4af7-99d5-7ceaa1b956d8' ORDER BY tbl_subscriptions.expiry_date DESC LIMIT 1;
+====================================================
+28-04-2023 04:13:11 pm:
+ TypeError: Cannot read properties of null (reading 'length')
+    at Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:145:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+====================================================
+28-04-2023 04:13:11 pm:
+ Error: ER_MIX_OF_GROUP_FUNC_AND_FIELDS: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'rent_hub5.tbl_units_ratings.unit_code'; this is incompatible with sql_mode=only_full_group_by
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.get (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:35:21)
+    at async Properties.Available (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\properties.js:88:19)
+    at async ServerResponse.renderEjs (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\output.helper.js:109:14)
+SELECT count(property_code) as `p_count` FROM vw_properties_all WHERE user_code = 'b416a80e-46f3-4af7-99d5-7ceaa1b956d8'
+====================================================
+28-04-2023 04:13:17 pm:
+ Error: ER_BAD_FIELD_ERROR: Unknown column 'tbl_subscriptions.payment_plan' in 'field list'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:144:19)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+SELECT tbl_subscriptions.subscription_id, tbl_subscriptions.payment_plan, tbl_subscriptions.package_id,subscription_date, expiry_date, tbl_packages.package_name, tbl_packages.maximum_properties, tbl_packages.maximum_units, tbl_packages.free_sms_units, tbl_packages.package_rate FROM tbl_subscriptions LEFT JOIN tbl_packages ON tbl_subscriptions.package_id = tbl_packages.package_id WHERE user_code='b416a80e-46f3-4af7-99d5-7ceaa1b956d8' ORDER BY tbl_subscriptions.expiry_date DESC LIMIT 1;
+====================================================
+28-04-2023 04:13:17 pm:
+ TypeError: Cannot read properties of null (reading 'length')
+    at Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:145:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+====================================================
+28-04-2023 04:13:20 pm:
+ Error: ER_BAD_FIELD_ERROR: Unknown column 'tbl_subscriptions.payment_plan' in 'field list'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:144:19)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+SELECT tbl_subscriptions.subscription_id, tbl_subscriptions.payment_plan, tbl_subscriptions.package_id,subscription_date, expiry_date, tbl_packages.package_name, tbl_packages.maximum_properties, tbl_packages.maximum_units, tbl_packages.free_sms_units, tbl_packages.package_rate FROM tbl_subscriptions LEFT JOIN tbl_packages ON tbl_subscriptions.package_id = tbl_packages.package_id WHERE user_code='b416a80e-46f3-4af7-99d5-7ceaa1b956d8' ORDER BY tbl_subscriptions.expiry_date DESC LIMIT 1;
+====================================================
+28-04-2023 04:13:20 pm:
+ TypeError: Cannot read properties of null (reading 'length')
+    at Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:145:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+====================================================
+28-04-2023 04:19:48 pm:
+ Error: ER_BAD_FIELD_ERROR: Unknown column 'tbl_subscriptions.payment_plan' in 'field list'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:144:19)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+SELECT tbl_subscriptions.subscription_id, tbl_subscriptions.payment_plan, tbl_subscriptions.package_id,subscription_date, expiry_date, tbl_packages.package_name, tbl_packages.maximum_properties, tbl_packages.maximum_units, tbl_packages.free_sms_units, tbl_packages.package_rate FROM tbl_subscriptions LEFT JOIN tbl_packages ON tbl_subscriptions.package_id = tbl_packages.package_id WHERE user_code='b416a80e-46f3-4af7-99d5-7ceaa1b956d8' ORDER BY tbl_subscriptions.expiry_date DESC LIMIT 1;
+====================================================
+28-04-2023 04:19:48 pm:
+ TypeError: Cannot read properties of null (reading 'length')
+    at Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:145:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+====================================================
+28-04-2023 04:23:33 pm:
+ Error: ER_BAD_FIELD_ERROR: Unknown column 'tbl_subscriptions.payment_plan' in 'field list'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:144:19)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+SELECT tbl_subscriptions.subscription_id, tbl_subscriptions.payment_plan, tbl_subscriptions.package_id,subscription_date, expiry_date, tbl_packages.package_name, tbl_packages.maximum_properties, tbl_packages.maximum_units, tbl_packages.free_sms_units, tbl_packages.package_rate FROM tbl_subscriptions LEFT JOIN tbl_packages ON tbl_subscriptions.package_id = tbl_packages.package_id WHERE user_code='b416a80e-46f3-4af7-99d5-7ceaa1b956d8' ORDER BY tbl_subscriptions.expiry_date DESC LIMIT 1;
+====================================================
+28-04-2023 04:23:33 pm:
+ TypeError: Cannot read properties of null (reading 'length')
+    at Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:145:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+====================================================
+28-04-2023 04:23:39 pm:
+ Error: ER_MIX_OF_GROUP_FUNC_AND_FIELDS: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'rent_hub5.tbl_units_ratings.unit_code'; this is incompatible with sql_mode=only_full_group_by
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.get (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:35:21)
+    at async Properties.Available (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\properties.js:88:19)
+    at async ServerResponse.renderEjs (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\output.helper.js:109:14)
+SELECT count(property_code) as `p_count` FROM vw_properties_all WHERE user_code = 'b416a80e-46f3-4af7-99d5-7ceaa1b956d8'
+====================================================
+28-04-2023 04:24:24 pm:
+ Error: ER_BAD_FIELD_ERROR: Unknown column 'tbl_subscriptions.payment_plan' in 'field list'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:144:19)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+SELECT tbl_subscriptions.subscription_id, tbl_subscriptions.payment_plan, tbl_subscriptions.package_id,subscription_date, expiry_date, tbl_packages.package_name, tbl_packages.maximum_properties, tbl_packages.maximum_units, tbl_packages.free_sms_units, tbl_packages.package_rate FROM tbl_subscriptions LEFT JOIN tbl_packages ON tbl_subscriptions.package_id = tbl_packages.package_id WHERE user_code='b416a80e-46f3-4af7-99d5-7ceaa1b956d8' ORDER BY tbl_subscriptions.expiry_date DESC LIMIT 1;
+====================================================
+28-04-2023 04:24:24 pm:
+ TypeError: Cannot read properties of null (reading 'length')
+    at Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:145:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+====================================================
+28-04-2023 04:28:32 pm:
+ Error: ER_BAD_FIELD_ERROR: Unknown column 'tbl_subscriptions.payment_plan' in 'field list'
+    at Sequence._packetToError (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    --------------------
+    at Pool.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\node_modules\mysql\lib\Pool.js:199:23)
+    at C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:27:24
+    at new Promise (<anonymous>)
+    at Object.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\pool.promise.js:26:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.query (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\db\db.queries.js:6:21)
+    at async Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:144:19)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+SELECT tbl_subscriptions.subscription_id, tbl_subscriptions.payment_plan, tbl_subscriptions.package_id,subscription_date, expiry_date, tbl_packages.package_name, tbl_packages.maximum_properties, tbl_packages.maximum_units, tbl_packages.free_sms_units, tbl_packages.package_rate FROM tbl_subscriptions LEFT JOIN tbl_packages ON tbl_subscriptions.package_id = tbl_packages.package_id WHERE user_code='b416a80e-46f3-4af7-99d5-7ceaa1b956d8' ORDER BY tbl_subscriptions.expiry_date DESC LIMIT 1;
+====================================================
+28-04-2023 04:28:32 pm:
+ TypeError: Cannot read properties of null (reading 'length')
+    at Users.userSubscription (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\models\users.js:145:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async module.exports.checkSubscriptions (C:\Users\PC\OneDrive\PROJECTS\Web\Tenancy\hub-app\app\helpers\app.helpers.js:8:28)
+====================================================

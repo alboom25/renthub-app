@@ -5,7 +5,7 @@ const globals = require("../helpers/global.params");
 const Properties = require("../models/properties").Properties;
 const errors = require('../libs/logger');
 
-const { createCanvas } = require("canvas");
+const  createCanvas  = null;//require("canvas");
 const WIDTH = 200;
 const HEIGHT = 200;
 
